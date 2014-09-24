@@ -9,6 +9,8 @@ package projetsessioninf2015;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
@@ -24,13 +26,17 @@ public class ProjetSessionINF2015 {
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
+     * @throws java.text.ParseException
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
         
         String fichierEntre = args[0];
         String fichierSortie = args[1];
         JSONArray erreurs = new JSONArray();
         boolean complet = true;
+        
+        Date dateMax = new Date(2014,4,1);
+        Date dateMin = new Date(2012,4,1);
         
         // Lecture du fichier JSON envoyé en entrée dans un string
         String jsonDeclaration = FileReader.loadFileIntoString("json/" + fichierEntre, "UTF-8");
@@ -65,16 +71,24 @@ public class ProjetSessionINF2015 {
         int nbActivites = activites.size();
         
         JSONObject activite;
+        String categorie;
+        int heures;
+        Date date;
         
         for(int i=0; i < nbActivites; i++){
             
             activite = activites.getJSONObject(i);
-            String categorie = activite.getString("categorie");
-            int heures = activite.getInt("heures");
-            //Date date = activite.getString("date");
+            categorie = activite.getString("categorie");
+            heures = activite.getInt("heures");
+            date = ISO8601DateParser.parse(activite.getString("date"));
             
             if (listeCategories.contains(categorie)){
-                nbrheuresTotal += heures;
+                if(validerDate(date,dateMin,dateMax)){
+                    nbrheuresTotal += heures;
+                }
+                else{
+                    erreurs.add("L'activité" + categorie + "n'a pas été complété dans l'échéance requise");
+                }
             }
             else{
                 erreurs.add("L'activité " + categorie + " est dans une catégorie non reconnue. Elle a été ignorée.");
@@ -108,6 +122,11 @@ public class ProjetSessionINF2015 {
         FileWriter ecrire = new FileWriter("json/resultat.json");
         ecrire.write(obt.toString(2));
         ecrire.close();
+    }
+    
+    private static boolean validerDate(Date date, Date dateMax, Date dateMin){
+        
+        return date.after(dateMin) && date.before(dateMax);
     }
     
 }

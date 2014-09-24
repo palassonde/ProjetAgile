@@ -1,4 +1,11 @@
 {
-  "complet": true,
-  "erreurs": ["L'activité voyage est dans une catégorie non reconnue. Elle a été ignorée."]
+  "complet": false,
+  "erreurs":   [
+    "L'activitécoursn'a pas été complété dans l'échéance requise",
+    "L'activitéséminairen'a pas été complété dans l'échéance requise",
+    "L'activitérédaction professionnellen'a pas été complété dans l'échéance requise",
+    "L'activitégroupe de discussionn'a pas été complété dans l'échéance requise",
+    "L'activité voyage est dans une catégorie non reconnue. Elle a été ignorée.",
+    "Le nombre minimal d'heures à atteindre est de 40"
+  ]
 }
