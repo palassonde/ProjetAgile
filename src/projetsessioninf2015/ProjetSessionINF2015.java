@@ -16,11 +16,14 @@ import net.sf.json.JSONSerializer;
 /**
  *
  * @author achille
+ * @author Pierre-Alexandre
+ * @author Gires
  */
 public class ProjetSessionINF2015 {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         
@@ -102,8 +105,9 @@ public class ProjetSessionINF2015 {
     }
     
     private static void ecriture(JSONObject obt) throws IOException{
-        FileWriter ecrire=new FileWriter("json/resultat.json");
+        FileWriter ecrire = new FileWriter("json/resultat.json");
         ecrire.write(obt.toString(2));
+        ecrire.close();
     }
     
 }
