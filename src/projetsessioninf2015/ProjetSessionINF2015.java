@@ -35,8 +35,8 @@ public class ProjetSessionINF2015 {
         JSONArray erreurs = new JSONArray();
         boolean complet = true;
         
-        Date dateMax = new Date(2014,4,1);
-        Date dateMin = new Date(2012,4,1);
+        Date dateMax = new Date(114,4,1);
+        Date dateMin = new Date(112,4,1);
         
         // Lecture du fichier JSON envoyé en entrée dans un string
         String jsonDeclaration = FileReader.loadFileIntoString("json/" + fichierEntre, "UTF-8");
@@ -75,6 +75,7 @@ public class ProjetSessionINF2015 {
         int heures;
         Date date;
         
+        // Regarde chaque catégorie et traite les données correspondants
         for(int i=0; i < nbActivites; i++){
             
             activite = activites.getJSONObject(i);
@@ -83,11 +84,11 @@ public class ProjetSessionINF2015 {
             date = ISO8601DateParser.parse(activite.getString("date"));
             
             if (listeCategories.contains(categorie)){
-                if(validerDate(date,dateMin,dateMax)){
+                if(validerDate(date,dateMax,dateMin)){
                     nbrheuresTotal += heures;
                 }
                 else{
-                    erreurs.add("L'activité" + categorie + "n'a pas été complété dans l'échéance requise");
+                    erreurs.add("L'activité " + categorie + " n'a pas été complété dans l'échéance requise");
                 }
             }
             else{
@@ -125,6 +126,12 @@ public class ProjetSessionINF2015 {
     }
     
     private static boolean validerDate(Date date, Date dateMax, Date dateMin){
+        
+        
+        System.out.println(date);
+        System.out.println(dateMin);
+        System.out.println(date.after(dateMin));
+        
         
         return date.after(dateMin) && date.before(dateMax);
     }
