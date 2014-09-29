@@ -118,7 +118,7 @@ public class ProjetSessionINF2015 {
             }
         }
         
-        // Vérification critère de minimum
+        // Vérification critère de minimum aa
         if(heureGroupeMinimum17 < 17){
             complet = false;
             erreurs.add("vous avez fait moins de "+ Integer.toString(17)+ " dans les activités: cours,"
