@@ -1,11 +1,8 @@
 {
   "complet": false,
   "erreurs":   [
-    "L'activitécoursn'a pas été complété dans l'échéance requise",
-    "L'activitéséminairen'a pas été complété dans l'échéance requise",
-    "L'activitérédaction professionnellen'a pas été complété dans l'échéance requise",
-    "L'activitégroupe de discussionn'a pas été complété dans l'échéance requise",
-    "L'activité voyage est dans une catégorie non reconnue. Elle a été ignorée.",
-    "Le nombre minimal d'heures à atteindre est de 40"
+    "Aucun autre cycle que 2012-2014 n'est supporté",
+    "vous avez fait moins de 17 heures dans les activités: cours,atélier,colloque,séminaire,conférence et lecture dirigée",
+    "Il vous manque 27 heures de formation pour compléter la formation"
   ]
 }
