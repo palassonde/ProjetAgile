@@ -47,6 +47,10 @@ public class ProjetSessionINF2015 {
         int nbrheuresTotal = 0;
         int heureGroupeMinimum17 = 0;
         int heureCatePresentation = 0;
+        int heureGroupeDiscussion=0;
+        int heureProjetRecherche=0;
+        int heureRedaction=0;
+        
         // Lecture du fichier JSON envoyé en entrée dans un string
 
         JSONObject declaration = obtenirJsonObject(emplacement1, laNorme);
@@ -107,6 +111,18 @@ public class ProjetSessionINF2015 {
                         if (validationDeCatePresentation(categorie)) {
                             heureCatePresentation += heures;
                         }
+                        
+                        if (validationDeCateDiscussion(categorie)) {
+                            heureGroupeDiscussion+=heures;
+                        }
+                        
+                        if (cateProjetDeRecherche(categorie))  {
+                            heureProjetRecherche+=heures;
+                        }
+                        
+                        if (cateRedaction(categorie)) {
+                            heureRedaction+=heures;
+                        }
 
                         nbrheuresTotal += heures;
                     } else {
@@ -129,6 +145,21 @@ public class ProjetSessionINF2015 {
         if (heureCatePresentation > 23) {
 
             nbrheuresTotal -= heureCatePresentation - 23;
+        }
+        
+        if (heureGroupeDiscussion>=17) {
+            heureGroupeDiscussion=17;
+            nbrheuresTotal-=heureGroupeDiscussion-17;
+        }
+        
+        if (heureProjetRecherche>=23) {
+            heureProjetRecherche=23;
+            nbrheuresTotal-=heureProjetRecherche-17;
+        }
+        
+        if (heureRedaction>=17) {
+            heureRedaction=17;
+            nbrheuresTotal-=heureRedaction-17;
         }
 
         if (nbrheuresTotal < 40) {
@@ -189,6 +220,8 @@ public class ProjetSessionINF2015 {
         }
         return valide;
     }
+    
+    
 
     private static boolean validationDeCatePresentation(String cat) {
         boolean valide = false;
@@ -197,9 +230,35 @@ public class ProjetSessionINF2015 {
         }
         return valide;
     }
-
+    
+    public static boolean validationDeCateDiscussion(String cate){
+        boolean discussion=false;
+        if(cate.equals("groupe de discussion")){
+            
+             discussion=true;
+        }
+        return discussion;
+     }
     private static boolean validerDate(Date date, Date dateMax, Date dateMin) {
 
         return date.after(dateMin) && date.before(dateMax);
     }
+    
+    public static boolean cateProjetDeRecherche(String cate){
+         boolean projetDeRecherche=false;
+         if(cate.equals("projet de recherche")){
+             projetDeRecherche=true;
+         }
+         return projetDeRecherche;
+     }
+     public static boolean cateRedaction(String cate){
+         boolean redaction=false;
+         if(cate.equals("redaction professionnelle")){
+             redaction=true;
+         }
+     return redaction;
+     }
+
+
+    
 }
