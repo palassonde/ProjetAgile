@@ -57,6 +57,13 @@ public class ProjetSessionINF2015 {
 
         // Lecture de la liste des catégories acceptés
         JSONArray listeCategories = obtenirJsonArray(emplacement2, laNorme);
+        
+        JSONArray listeSousCategories = new JSONArray();
+        
+        for (int i = 0; i < 6; i++){
+            listeSousCategories.add(listeCategories.element(i));
+        }
+        
 
         JSONArray activites = declaration.getJSONArray("activites");
 
@@ -104,63 +111,51 @@ public class ProjetSessionINF2015 {
                     // Vérifie si lactivité est effectué a la bonne echeance
                     if (validerDate(date, dateMax, dateMin)) {
 
-                        if (validationGroupeMinimum17Heures(categorie)) {
+                        if (listeSousCategories.contains(categorie))
                             heureGroupeMinimum17 += heures;
-                        }
-
-                        if (validationDeCatePresentation(categorie)) {
-                            heureCatePresentation += heures;
-                        }
                         
-                        if (validationDeCateDiscussion(categorie)) {
-                            heureGroupeDiscussion+=heures;
-                        }
-                        
-                        if (cateProjetDeRecherche(categorie))  {
-                            heureProjetRecherche+=heures;
-                        }
-                        
-                        if (cateRedaction(categorie)) {
-                            heureRedaction+=heures;
-                        }
-
-                        nbrheuresTotal += heures;
-                    } else {
-                        erreurs.add("L'activité " + categorie + " n'a pas été complété dans l'échéance requise");
+                            switch (categorie){
+                                case "presentation":
+                                    heureCatePresentation += heures;
+                                    break;
+                                case "groupe de discussion":
+                                    heureGroupeDiscussion+=heures;
+                                    break;
+                                case "projet de recherche":
+                                    heureProjetRecherche+=heures;
+                                    break;
+                                case "redaction professionnelle":
+                                    heureRedaction+=heures;
+                                    break;
+                            }
                     }
+                    else
+                        erreurs.add("L'activité " + categorie + " n'a pas été complété dans l'échéance requise");
                 } 
-            } else {
+            } 
+            else
                 erreurs.add("L'activité " + categorie + " est dans une catégorie non reconnue. Elle a été ignorée.");
-            }
         }
 
         // Vérification critère de minimum aa
         if (heureGroupeMinimum17 < 17) {
             complet = false;
-            erreurs.add("vous avez fait moins de " + Integer.toString(17) + " heures dans les activités: cours,"
+            erreurs.add("vous avez fait moins de " + 17 + " heures dans les activités: cours,"
                     + "atélier,colloque,séminaire,conférence et lecture dirigée");
         }
 
         // retranche les heures comptabiliser en trop dans la categorie presentation
-        if (heureCatePresentation > 23) {
-
-            nbrheuresTotal -= heureCatePresentation - 23;
-        }
+        if (heureCatePresentation > 23)
+            nbrheuresTotal -= (heureCatePresentation - 23);
         
-        if (heureGroupeDiscussion>=17) {
-            heureGroupeDiscussion=17;
-            nbrheuresTotal-=heureGroupeDiscussion-17;
-        }
+        if (heureGroupeDiscussion>=17)
+            nbrheuresTotal -= (heureGroupeDiscussion - 17);
         
-        if (heureProjetRecherche>=23) {
-            heureProjetRecherche=23;
-            nbrheuresTotal-=heureProjetRecherche-17;
-        }
+        if (heureProjetRecherche >= 23)
+            nbrheuresTotal -= (heureProjetRecherche - 17);
         
-        if (heureRedaction>=17) {
-            heureRedaction=17;
-            nbrheuresTotal-=heureRedaction-17;
-        }
+        if (heureRedaction >= 17)
+            nbrheuresTotal -= (heureRedaction - 17);
 
         if (nbrheuresTotal < 40) {
             complet = false;
@@ -194,71 +189,9 @@ public class ProjetSessionINF2015 {
         ecrire.write(obt.toString(2));
         ecrire.close();
     }
-
-    private static boolean validationGroupeMinimum17Heures(String cat) {
-        boolean valide = false;
-
-        switch (cat) {
-            case "cours":
-                valide = true;
-                break;
-            case "atelier":
-                valide = true;
-                break;
-            case "séminaire":
-                valide = true;
-                break;
-            case "colloque":
-                valide = true;
-                break;
-            case "conférence":
-                valide = true;
-                break;
-            case "lecture dirigée":
-                valide = true;
-                break;
-        }
-        return valide;
-    }
     
-    
-
-    private static boolean validationDeCatePresentation(String cat) {
-        boolean valide = false;
-        if (cat.equals("présentation")) {
-            valide = true;
-        }
-        return valide;
-    }
-    
-    public static boolean validationDeCateDiscussion(String cate){
-        boolean discussion=false;
-        if(cate.equals("groupe de discussion")){
-            
-             discussion=true;
-        }
-        return discussion;
-     }
     private static boolean validerDate(Date date, Date dateMax, Date dateMin) {
 
         return date.after(dateMin) && date.before(dateMax);
     }
-    
-    public static boolean cateProjetDeRecherche(String cate){
-         boolean projetDeRecherche=false;
-         if(cate.equals("projet de recherche")){
-             projetDeRecherche=true;
-         }
-         return projetDeRecherche;
-     }
-     public static boolean cateRedaction(String cate){
-         boolean redaction=false;
-         if(cate.equals("redaction professionnelle")){
-             redaction=true;
-         }
-     return redaction;
-     }
-
-//test
-    
 }
