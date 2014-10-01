@@ -259,6 +259,6 @@ public class ProjetSessionINF2015 {
      return redaction;
      }
 
-
+//test
     
 }
