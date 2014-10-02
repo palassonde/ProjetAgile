@@ -164,7 +164,7 @@ public class ProjetSessionINF2015 {
         if (nbrheuresTotal < 40) {
             complet = false;
             int difference = 40 - nbrheuresTotal;
-            erreurs.add("Il vous manque " + Integer.toString(difference) + " heures de formation pour compléter la formation");
+            erreurs.add("Il vous manque " + difference + " heures de formation pour compléter la formation");
         }
 
         //Traitement du resultat et ecriture dans un fichier json
