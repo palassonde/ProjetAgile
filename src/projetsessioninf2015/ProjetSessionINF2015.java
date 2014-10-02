@@ -150,8 +150,7 @@ public class ProjetSessionINF2015 {
                     + "atélier,colloque,séminaire,conférence et lecture dirigée");
         }
 
-        System.out.println(nbrheuresTotal);
-        System.out.println(heureRedaction);
+       
         // retranche les heures comptabiliser en trop dans la categorie presentation
         if (heureCatePresentation > 23)
             nbrheuresTotal -= (heureCatePresentation - 23);
