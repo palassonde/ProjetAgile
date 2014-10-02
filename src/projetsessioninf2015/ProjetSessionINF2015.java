@@ -47,7 +47,7 @@ public class ProjetSessionINF2015 {
 
         int nbrheuresTotal = 0;
         int heureGroupeMinimum17 = 0;
-        int heureCatePresentation = 0;
+        int heurePresentation = 0;
         int heureGroupeDiscussion=0;
         int heureProjetRecherche=0;
         int heureRedaction=0;
@@ -121,7 +121,7 @@ public class ProjetSessionINF2015 {
                         
                             switch (categorie){
                                 case "présentation":
-                                    heureCatePresentation += heures;
+                                    heurePresentation += heures;
                                     break;
                                 case "groupe de discussion":
                                     heureGroupeDiscussion+=heures;
@@ -152,8 +152,8 @@ public class ProjetSessionINF2015 {
 
        
         // retranche les heures comptabiliser en trop dans la categorie presentation
-        if (heureCatePresentation > 23)
-            nbrheuresTotal -= (heureCatePresentation - 23);
+        if (heurePresentation > 23)
+            nbrheuresTotal -= (heurePresentation - 23);
         
         if (heureGroupeDiscussion > 17)
             nbrheuresTotal -= (heureGroupeDiscussion - 17);
@@ -167,7 +167,7 @@ public class ProjetSessionINF2015 {
         if (nbrheuresTotal < 40) {
             complet = false;
             int difference = 40 - nbrheuresTotal;
-            erreurs.add("Il vous manque " + difference + " heures de formation pour compléter la formation");
+            erreurs.add("Il manque " + difference + " heures de formation pour completer le cycle");
         }
 
         //Traitement du resultat et ecriture dans un fichier json
