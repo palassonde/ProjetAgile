@@ -41,8 +41,8 @@ public class ProjetSessionINF2015 {
         JSONArray erreurs = new JSONArray();
         boolean complet = true;
 
-        Date dateMax = new Date(114, 4, 1);
-        Date dateMin = new Date(112, 4, 1);
+        Date dateMax = new Date(114, 3, 1);
+        Date dateMin = new Date(112, 3, 1);
 
         int nbrheuresTotal = 0;
         int heureGroupeMinimum17 = 0;
@@ -81,6 +81,9 @@ public class ProjetSessionINF2015 {
         if (heuresCumulees > 7) {
             heuresCumulees = 7;
             erreurs.add("Le nombre d'heures cumulees ne peut dépasser 7");
+        } else if (heuresCumulees<0) {
+        
+            heuresCumulees=0;
         }
 
         // Prend en compte les heures transférés
@@ -126,8 +129,9 @@ public class ProjetSessionINF2015 {
                                     break;
                                 case "redaction professionnelle":
                                     heureRedaction+=heures;
-                                    break;
+                                    break;                                
                             }
+                            nbrheuresTotal += heures;
                     }
                     else
                         erreurs.add("L'activité " + categorie + " n'a pas été complété dans l'échéance requise");
@@ -191,7 +195,7 @@ public class ProjetSessionINF2015 {
     }
     
     private static boolean validerDate(Date date, Date dateMax, Date dateMin) {
-
+        
         return date.after(dateMin) && date.before(dateMax);
     }
 }
