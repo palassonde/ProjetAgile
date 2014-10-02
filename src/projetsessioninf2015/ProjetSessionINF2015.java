@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -58,11 +59,12 @@ public class ProjetSessionINF2015 {
         // Lecture de la liste des catégories acceptés
         JSONArray listeCategories = obtenirJsonArray(emplacement2, laNorme);
         
-        JSONArray listeSousCategories = new JSONArray();
+        ArrayList<String> listeSousCategories = new ArrayList<>();
         
         for (int i = 0; i < 6; i++){
-            listeSousCategories.add(listeCategories.element(i));
+            listeSousCategories.add(listeCategories.getString(i));
         }
+ 
         
 
         JSONArray activites = declaration.getJSONArray("activites");
