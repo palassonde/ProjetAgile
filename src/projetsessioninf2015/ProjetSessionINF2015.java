@@ -83,7 +83,7 @@ public class ProjetSessionINF2015 {
         if (heuresCumulees > 7) {
             heuresCumulees = 7;
             erreurs.add("Le nombre d'heures cumulees ne peut dépasser 7");
-        } else if (heuresCumulees<0) {
+        } else if (heuresCumulees < 0) {
         
             heuresCumulees=0;
         }
@@ -120,7 +120,7 @@ public class ProjetSessionINF2015 {
                             heureGroupeMinimum17 += heures;
                         
                             switch (categorie){
-                                case "presentation":
+                                case "présentation":
                                     heureCatePresentation += heures;
                                     break;
                                 case "groupe de discussion":
@@ -129,7 +129,7 @@ public class ProjetSessionINF2015 {
                                 case "projet de recherche":
                                     heureProjetRecherche+=heures;
                                     break;
-                                case "redaction professionnelle":
+                                case "rédaction professionnelle":
                                     heureRedaction+=heures;
                                     break;                                
                             }
@@ -150,17 +150,19 @@ public class ProjetSessionINF2015 {
                     + "atélier,colloque,séminaire,conférence et lecture dirigée");
         }
 
+        System.out.println(nbrheuresTotal);
+        System.out.println(heureRedaction);
         // retranche les heures comptabiliser en trop dans la categorie presentation
         if (heureCatePresentation > 23)
             nbrheuresTotal -= (heureCatePresentation - 23);
         
-        if (heureGroupeDiscussion>=17)
+        if (heureGroupeDiscussion > 17)
             nbrheuresTotal -= (heureGroupeDiscussion - 17);
         
-        if (heureProjetRecherche >= 23)
-            nbrheuresTotal -= (heureProjetRecherche - 17);
+        if (heureProjetRecherche > 23)
+            nbrheuresTotal -= (heureProjetRecherche - 23);
         
-        if (heureRedaction >= 17)
+        if (heureRedaction > 17)
             nbrheuresTotal -= (heureRedaction - 17);
 
         if (nbrheuresTotal < 40) {

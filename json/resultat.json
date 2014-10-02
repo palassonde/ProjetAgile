@@ -1,4 +1,7 @@
 {
-  "complet": true,
-  "erreurs": []
+  "complet": false,
+  "erreurs":   [
+    "vous avez fait moins de 17 heures dans les activités: cours,atélier,colloque,séminaire,conférence et lecture dirigée",
+    "Il vous manque 23 heures de formation pour compléter la formation"
+  ]
 }
