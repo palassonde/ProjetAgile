@@ -201,4 +201,41 @@ public class ProjetSessionINF2015 {
         
         return date.after(dateMin) && date.before(dateMax);
     }
+    
+    private static boolean validationNumeroPermis (String chaine) {
+        boolean laSelection1=false;
+        boolean laSelection2=false;
+        boolean ok=true;
+        if (chaine.length()==5) {
+            char leChar=chaine.charAt(0);
+        
+            switch(leChar){
+               case 'A':
+                   laSelection1=true; 
+                   break;
+                case 'R':
+                   laSelection1=true; 
+                   break;
+                case 'S':
+                    laSelection1=true; 
+                    break;
+                case 'Z':
+                    laSelection1=true; 
+                    break;
+            }
+            for (int i=1;i<chaine.length();i++) {
+                
+                if (i>='0'&&i<='9') {
+                   laSelection2=true; 
+                }else{
+                    ok=false;
+                }
+                    
+            }
+            laSelection2=laSelection2&&ok;
+        }
+        
+        return laSelection1&&laSelection2;
+        
+    }
 }
