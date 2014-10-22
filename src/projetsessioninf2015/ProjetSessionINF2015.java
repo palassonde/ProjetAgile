@@ -119,7 +119,8 @@ public class ProjetSessionINF2015 {
                         if (listeSousCategories.contains(categorie))
                             heureGroupeMinimum17 += heures;
                         
-                            switch (categorie){
+                            switch (categorie) {
+                                
                                 case "présentation":
                                     heurePresentation += heures;
                                     break;
@@ -238,4 +239,5 @@ public class ProjetSessionINF2015 {
         return laSelection1&&laSelection2;
         
     }
+    
 }
