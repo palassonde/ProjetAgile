@@ -39,7 +39,7 @@ class Declaration {
         this.numeroPermis = declaration.getString("numero_de_permis");
         this.activites = obtenirActivites(declaration);
         this.cyclesSupportes = obtenirCyclesSupportes(declaration);
-        this.listeCategories = obtenirJsonArray("json/listecategories.json");
+        this.listeCategories = obtenirJsonArray("json/exigences/listecategories.json");
     }
     
     public JSONObject valider() throws IOException, ParseException {
@@ -50,6 +50,8 @@ class Declaration {
         traitement();
         
         JSONObject resultatFinal = new JSONObject();
+        resultatFinal.accumulate("complet", resultat.complet);
+        resultatFinal.accumulate("erreurs", resultat.erreurs);
         return resultatFinal;
     }
     
