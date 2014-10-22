@@ -3,6 +3,6 @@
   "erreurs":   [
     "L'activité voyage est dans une catégorie non reconnue. Elle a été ignorée.",
     "vous avez fait moins de 17 heures dans les activités: cours,atélier,colloque,séminaire,conférence et lecture dirigée",
-    "Il vous manque 40 heures de formation pour compléter la formation"
+    "Il manque 40 heures de formation pour completer le cycle"
   ]
 }

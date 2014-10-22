@@ -1,12 +1,53 @@
-[
-    "cours",
-    "atelier",
-    "séminaire",
-    "colloque",
-    "conférence",
-    "lecture dirigée",
-    "présentation",
-    "groupe de discussion",
-    "projet de recherche",
-    "rédaction professionnelle"
-]
+{
+    
+    "geologue" :[
+        "cours",
+        "atelier",
+        "séminaire",
+        "colloque",
+        "conférence",
+        "lecture dirigée",
+        "présentation",
+        "groupe de discussion",
+        "projet de recherche",
+        "rédaction professionnelle",
+        "formation continue"
+    ],
+    
+    "architecte":[
+        "cours",
+        "atelier",
+        "séminaire",
+        "colloque",
+        "conférence",
+        "lecture dirigée",
+        "présentation",
+        "groupe de discussion",
+        "projet de recherche",
+        "rédaction professionnelle"
+    ],
+    
+    "psychologue":[
+        "cours",
+        "atelier",
+        "séminaire",
+        "colloque",
+        "conférence",
+        "lecture dirigée",
+        "présentation",
+        "groupe de discussion",
+        "projet de recherche",
+        "rédaction professionnelle",
+        "formation continue"
+    ],
+    
+    "sous-categories":[
+        "cours",
+        "atelier",
+        "séminaire",
+        "colloque",
+        "conférence",
+        "lecture dirigée"
+    ]
+    
+}
