@@ -202,11 +202,11 @@ public class ProjetSessionINF2015 {
         return date.after(dateMin) && date.before(dateMax);
     }
     
-    private static boolean validationNumeroPermis (String chaine) {
+    private static boolean validationNumeroPermis ( String chaine ) {
         boolean laSelection1=false;
         boolean laSelection2=false;
         boolean ok=true;
-        if (chaine.length()==5) {
+        if ( chaine.length()==5 ) {
             char leChar=chaine.charAt(0);
         
             switch(leChar){
@@ -223,9 +223,9 @@ public class ProjetSessionINF2015 {
                     laSelection1=true; 
                     break;
             }
-            for (int i=1;i<chaine.length();i++) {
+            for ( int i=1;i<chaine.length();i++ ) {
                 
-                if (i>='0'&&i<='9') {
+                if ( chaine.charAt(i)>='0'&&i<='9' ) {
                    laSelection2=true; 
                 }else{
                     ok=false;
