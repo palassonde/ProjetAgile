@@ -14,7 +14,8 @@ import org.apache.commons.io.IOUtils;
  * @author achille
  */
 class FileReader {
-    public static String loadFileIntoString(String filePath, String fileEncoding) throws FileNotFoundException, IOException {
+    
+    public static String loadFileIntoString (String filePath, String fileEncoding) throws FileNotFoundException, IOException {
         return IOUtils.toString(new FileInputStream(filePath), fileEncoding);
     }
 }

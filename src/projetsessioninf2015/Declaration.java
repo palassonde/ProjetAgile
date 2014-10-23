@@ -31,7 +31,7 @@ class Declaration {
     private final JSONArray cyclesSupportes;
     private final JSONArray listeCategories;
 
-    Declaration(JSONObject declaration) throws IOException, ParseException {
+    public Declaration (JSONObject declaration) throws IOException, ParseException {
         
         this.resultat = new Resultat();
         this.cycle = declaration.getString("cycle");
@@ -43,11 +43,11 @@ class Declaration {
         this.listeCategories = obtenirListeCategories("json/exigences/listecategories.json");
     }
     
-    public JSONObject valider() throws IOException, ParseException {
+    public JSONObject valider () throws IOException, ParseException {
            
         JSONObject resultatFinal = new JSONObject();
         
-        if (validerNumeroPermis()){
+        if (validerNumeroPermis()) {
             
             validerCycle();
             creerCategories();
@@ -66,14 +66,14 @@ class Declaration {
     
     
     
-    void creerCategories(){
+    void creerCategories () {
         
-        for(int i = 0; i < listeCategories.size(); i++){
+        for (int i = 0; i < listeCategories.size(); i++) {
             categories.put(listeCategories.getString(i), 0);
         }
     }
 
-    void accumulerHeures(Activite activite) {
+    void accumulerHeures (Activite activite) {
         
         int heures;
         heures = categories.get(activite.getCategorie());
@@ -81,15 +81,15 @@ class Declaration {
         categories.put(activite.getCategorie(), heures);
     }
    
-    boolean validerNumeroPermis() {
+    boolean validerNumeroPermis () {
         
         boolean laSelection1=false;
         boolean laSelection2=false;
         boolean ok=true;
-        if ( numeroPermis.length()==5 ) {
+        if (numeroPermis.length()==5) {
             char leChar=numeroPermis.charAt(0);
         
-            switch(leChar){
+            switch (leChar) {
                case 'A':
                    laSelection1=true; 
                    break;
@@ -103,7 +103,7 @@ class Declaration {
                     laSelection1=true; 
                     break;
             }
-            for ( int i=1;i<numeroPermis.length();i++ ) {
+            for (int i=1;i<numeroPermis.length();i++) {
                 
                 if (numeroPermis.charAt(i) >= '0'&& numeroPermis.charAt(i) <='9' ) {
                    laSelection2=true; 
@@ -118,7 +118,7 @@ class Declaration {
         return laSelection1&&laSelection2;
     }
     
-    void traitementArchitecte(){
+    void traitementArchitecte () {
        
         int heureGroupeMinimum17 = 0;
         int heurePresentation = 0;
@@ -132,17 +132,19 @@ class Declaration {
         
         
         
-    }
-    
-    void traitementPsychologue(){
         
-    }
-    void traitementGeologue(){
         
     }
     
+    void traitementPsychologue () {
+        
+    }
+    void traitementGeologue () {
+        
+    }
     
-    private void traitement() throws ParseException{
+    
+    private void traitement () throws ParseException{
         
         if (heuresCyclePrecedent > 7) {
 
@@ -156,15 +158,15 @@ class Declaration {
         
         nbrHeuresTotal += heuresCyclePrecedent;
         
-        for (Activite activite : activites){
+        for (Activite activite : activites) {
            
-            if (activite.validerDate(cyclesSupportes)){
+            if (activite.validerDate(cyclesSupportes)) {
                
                accumulerHeures(activite);
             }
         }
 
-        switch(this.ordre){
+        switch (this.ordre) {
             case "architecte":
                 traitementArchitecte();
                 break;
@@ -177,12 +179,12 @@ class Declaration {
         }
     }
     
-    private ArrayList<Activite> obtenirActivites(JSONObject declaration) throws ParseException {
+    private ArrayList<Activite> obtenirActivites (JSONObject declaration) throws ParseException {
         
         JSONArray listeActivites = declaration.getJSONArray("activites");
         ArrayList<Activite> activites = new ArrayList<>();
         
-        for(int i = 0; i < listeActivites.size(); i++){
+        for (int i = 0; i < listeActivites.size(); i++) {
             
             Activite activite = new Activite(listeActivites.getJSONObject(i));
         
@@ -192,7 +194,7 @@ class Declaration {
         return activites;
     }
 
-    private JSONArray obtenirCyclesSupportes(JSONObject declaration) throws IOException {
+    private JSONArray obtenirCyclesSupportes (JSONObject declaration) throws IOException {
         
         JSONObject listeCyclesSupportes = obtenirJsonObject("json/exigences/listeCycles.json");
         JSONArray cyclesSupportes = listeCyclesSupportes.getJSONArray(declaration.getString("ordre"));
@@ -200,7 +202,7 @@ class Declaration {
         return cyclesSupportes;
     }
     
-     private static JSONArray obtenirJsonArray(String emplacement) throws IOException {
+     private static JSONArray obtenirJsonArray (String emplacement) throws IOException {
 
         String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
         return JSONArray.fromObject(lecteur);
@@ -212,25 +214,25 @@ class Declaration {
         return (JSONObject) JSONSerializer.toJSON(lecteur);
     }
 
-    private void validerCycle() {
+    private void validerCycle () {
         
         boolean cycleExisteDansListe = false;
         
-        for(int i = 0; i < cyclesSupportes.size(); i++){
+        for (int i = 0; i < cyclesSupportes.size(); i++) {
             
-            if (cycle.equals(cyclesSupportes.getJSONObject(i).getString("cycle"))){
+            if (cycle.equals(cyclesSupportes.getJSONObject(i).getString("cycle"))) {
                 cycleExisteDansListe = true;
             }
         }
         
-        if (!cycleExisteDansListe){
+        if (!cycleExisteDansListe) {
             resultat.complet = false;
             resultat.erreurs.add("Le cycle ne correspond à aucun des cycles supportés");
         }
                 
     }
 
-    private JSONArray obtenirListeCategories(String emplacement) throws IOException {
+    private JSONArray obtenirListeCategories (String emplacement) throws IOException {
         
         String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
         JSONArray listeCategories = new JSONArray();

@@ -21,25 +21,25 @@ class Activite {
     private int heures;
     private final Date date;
                      
-    public Activite(JSONObject activite) throws ParseException {
+    public Activite (JSONObject activite) throws ParseException {
         
         date = ISO8601DateParser.parse(activite.getString("date"));
         categorie = activite.getString("categorie");
         heures = activite.getInt("heures");
     }
     
-    public boolean validerDate(JSONArray cyclesSupportes) throws ParseException {
+    public boolean validerDate (JSONArray cyclesSupportes) throws ParseException {
         
         boolean valide = true;
         Date dateMin;
         Date dateMax;
         
-        for(int i = 0; i < cyclesSupportes.size(); i++){
+        for (int i = 0; i < cyclesSupportes.size(); i++) {
             
             dateMin = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMin"));
             dateMax = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMax"));
           
-            if (!(date.after(dateMin) && date.before(dateMax))){
+            if (!(date.after(dateMin) && date.before(dateMax))) {
                 valide = false;
             }
         }
@@ -47,10 +47,10 @@ class Activite {
         return valide;
     }
     
-    public int getHeures(){
+    public int getHeures (){
         return heures;
     }
-    public String getCategorie(){
+    public String getCategorie (){
         return categorie;
     }
     

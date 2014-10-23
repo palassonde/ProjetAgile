@@ -27,7 +27,7 @@ public class ProjetSessionINF2015 {
      * @throws java.io.FileNotFoundException
      * @throws java.text.ParseException
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
+    public static void main (String[] args) throws FileNotFoundException, IOException, ParseException {
 
         // Declaration des variables locales
         String fichierEntre = args[0];
@@ -40,18 +40,18 @@ public class ProjetSessionINF2015 {
         JSONObject resultat = declaration.valider();
         
         ecritureDeSortie(resultat, emplacementSortie);
-        if(!declaration.validerNumeroPermis()){
+        if (!declaration.validerNumeroPermis()) {
             System.out.println("erreur");
         }
     }
 
-    private static JSONObject obtenirJsonObject(String emplacement) throws IOException {
+    private static JSONObject obtenirJsonObject (String emplacement) throws IOException {
 
         String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
         return (JSONObject) JSONSerializer.toJSON(lecteur);
     }
 
-    private static void ecritureDeSortie(JSONObject resultat, String emplacement) throws IOException {
+    private static void ecritureDeSortie (JSONObject resultat, String emplacement) throws IOException {
         
         FileWriter ecrire = new FileWriter(emplacement);
         ecrire.write(resultat.toString(2));
