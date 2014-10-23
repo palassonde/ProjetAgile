@@ -8,7 +8,6 @@ package projetsessioninf2015;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import net.sf.json.JSONArray;
@@ -28,32 +27,44 @@ class Declaration {
     String ordre;
     private final String numeroPermis;
     Resultat resultat;
-    private ArrayList<Activite> activites;
+    private final ArrayList<Activite> activites;
     private final JSONArray cyclesSupportes;
     private final JSONArray listeCategories;
 
     Declaration(JSONObject declaration) throws IOException, ParseException {
         
+        this.resultat = new Resultat();
+        this.cycle = declaration.getString("cycle");
         this.ordre = declaration.getString("ordre");
         this.heuresCyclePrecedent = declaration.getInt("heures_transferees_du_cycle_precedent");
         this.numeroPermis = declaration.getString("numero_de_permis");
         this.activites = obtenirActivites(declaration);
         this.cyclesSupportes = obtenirCyclesSupportes(declaration);
-        this.listeCategories = obtenirJsonArray("json/exigences/listecategories.json");
+        this.listeCategories = obtenirListeCategories("json/exigences/listecategories.json");
     }
     
     public JSONObject valider() throws IOException, ParseException {
-        
-        validerCycle();
-        validerNumeroPermis();
-        creerCategories();
-        traitement();
-        
+           
         JSONObject resultatFinal = new JSONObject();
-        resultatFinal.accumulate("complet", resultat.complet);
-        resultatFinal.accumulate("erreurs", resultat.erreurs);
+        
+        if (validerNumeroPermis()){
+            
+            validerCycle();
+            creerCategories();
+            traitement();
+
+            
+            resultatFinal.accumulate("complet", resultat.complet);
+            resultatFinal.accumulate("erreurs", resultat.erreurs);
+            return resultatFinal;
+            
+        }
+        
+        resultatFinal.accumulate("Fichier invalide", "cycle incomplet");
         return resultatFinal;
     }
+    
+    
     
     void creerCategories(){
         
@@ -70,7 +81,7 @@ class Declaration {
         categories.put(activite.getCategorie(), heures);
     }
    
-    void validerNumeroPermis() {
+    boolean validerNumeroPermis() {
         
         boolean laSelection1=false;
         boolean laSelection2=false;
@@ -104,8 +115,7 @@ class Declaration {
             laSelection2=laSelection2&&ok;
         }
         
-        this.resultat.complet = laSelection1&&laSelection2;
-        // terminer le programme
+        return laSelection1&&laSelection2;
     }
     
     void traitementArchitecte(){
@@ -118,13 +128,19 @@ class Declaration {
         
         heureGroupeMinimum17 += heuresCyclePrecedent;
         
+        
+        
+        
+        
     }
+    
     void traitementPsychologue(){
         
     }
     void traitementGeologue(){
         
     }
+    
     
     private void traitement() throws ParseException{
         
@@ -202,7 +218,7 @@ class Declaration {
         
         for(int i = 0; i < cyclesSupportes.size(); i++){
             
-            if (cycle == cyclesSupportes.getJSONObject(i).getString("cycle")){
+            if (cycle.equals(cyclesSupportes.getJSONObject(i).getString("cycle"))){
                 cycleExisteDansListe = true;
             }
         }
@@ -212,5 +228,13 @@ class Declaration {
             resultat.erreurs.add("Le cycle ne correspond à aucun des cycles supportés");
         }
                 
+    }
+
+    private JSONArray obtenirListeCategories(String emplacement) throws IOException {
+        
+        String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
+        JSONArray listeCategories = new JSONArray();
+        listeCategories = JSONObject.fromObject(lecteur).getJSONArray(ordre);
+        return listeCategories;
     }
 }

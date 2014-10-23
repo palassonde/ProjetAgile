@@ -15,4 +15,10 @@ class Resultat {
     
     JSONArray erreurs;
     boolean complet;
+    
+    public Resultat(){
+        
+        erreurs = new JSONArray();
+        complet = false;
+    }
 }

@@ -36,8 +36,8 @@ class Activite {
         
         for(int i = 0; i < cyclesSupportes.size(); i++){
             
-            dateMin = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("datemin"));
-            dateMax = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("datemax"));
+            dateMin = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMin"));
+            dateMax = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMax"));
           
             if (!(date.after(dateMin) && date.before(dateMax))){
                 valide = false;

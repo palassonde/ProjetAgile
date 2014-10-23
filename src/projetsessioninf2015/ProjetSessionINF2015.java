@@ -40,6 +40,9 @@ public class ProjetSessionINF2015 {
         JSONObject resultat = declaration.valider();
         
         ecritureDeSortie(resultat, emplacementSortie);
+        if(!declaration.validerNumeroPermis()){
+            System.out.println("erreur");
+        }
     }
 
     private static JSONObject obtenirJsonObject(String emplacement) throws IOException {
