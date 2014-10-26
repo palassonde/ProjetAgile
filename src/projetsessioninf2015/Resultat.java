@@ -19,6 +19,6 @@ class Resultat {
     public Resultat () {
         
         erreurs = new JSONArray();
-        complet = false;
+        complet = true;
     }
 }

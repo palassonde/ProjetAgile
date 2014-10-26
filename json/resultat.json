@@ -1,1 +1,4 @@
-{"Fichier invalide": "cycle incomplet"}
+{
+  "complet": true,
+  "erreurs": ["L'activité Visite d'établissements architecturaux n'a pas été comptabilisé"]
+}

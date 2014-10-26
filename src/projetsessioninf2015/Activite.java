@@ -16,21 +16,22 @@ import net.sf.json.JSONObject;
  */
 class Activite {
     
-    private String description;
-    private String categorie;
-    private int heures;
+    private final String description;
+    private final String categorie;
+    private final int heures;
     private final Date date;
                      
     public Activite (JSONObject activite) throws ParseException {
         
-        date = ISO8601DateParser.parse(activite.getString("date"));
-        categorie = activite.getString("categorie");
-        heures = activite.getInt("heures");
+        this.date = ISO8601DateParser.parse(activite.getString("date"));
+        this.categorie = activite.getString("categorie");
+        this.heures = activite.getInt("heures");
+        this.description = activite.getString("description");
     }
     
     public boolean validerDate (JSONArray cyclesSupportes) throws ParseException {
         
-        boolean valide = true;
+        boolean valide = false;
         Date dateMin;
         Date dateMax;
         
@@ -39,8 +40,8 @@ class Activite {
             dateMin = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMin"));
             dateMax = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMax"));
           
-            if (!(date.after(dateMin) && date.before(dateMax))) {
-                valide = false;
+            if (date.after(dateMin) && date.before(dateMax)) {
+                valide = true;
             }
         }
  
@@ -52,6 +53,9 @@ class Activite {
     }
     public String getCategorie (){
         return categorie;
+    }
+    public String getDescription (){
+        return description;
     }
     
 }

@@ -1,13 +1,13 @@
 {
     "ordre": "architecte",
-    "numero_de_permis": "a0001",
-    "cycle": "2006-2014",
-    "heures_transferees_du_cycle_precedent": 0,
+    "numero_de_permis": "A0001",
+    "cycle": "2010-2012",
+    "heures_transferees_du_cycle_precedent": 6,
     "activites": [
         {
             "description": "Cours sur la déontologie",
             "categorie": "cours",
-            "heures": 5,
+            "heures": 10,
             "date": "2013-03-20"
         },
         {
@@ -19,13 +19,13 @@
         {
             "description": "Rédaction pour le magazine Architecture moderne",
             "categorie": "rédaction professionnelle",
-            "heures": 32,
+            "heures": 10,
             "date": "2012-10-22"
         },
         {
             "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
             "categorie": "groupe de discussion",
-            "heures": 4,
+            "heures": 10,
             "date": "2013-04-01"
         },
         {

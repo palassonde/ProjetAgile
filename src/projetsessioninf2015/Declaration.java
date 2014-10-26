@@ -29,7 +29,8 @@ class Declaration {
     Resultat resultat;
     private final ArrayList<Activite> activites;
     private final JSONArray cyclesSupportes;
-    private final JSONArray listeCategories;
+    private JSONArray listeCategories;
+    private JSONArray listeSousCategories;
 
     public Declaration (JSONObject declaration) throws IOException, ParseException {
         
@@ -38,9 +39,12 @@ class Declaration {
         this.ordre = declaration.getString("ordre");
         this.heuresCyclePrecedent = declaration.getInt("heures_transferees_du_cycle_precedent");
         this.numeroPermis = declaration.getString("numero_de_permis");
-        this.activites = obtenirActivites(declaration);
+        this.activites = new ArrayList();
+        obtenirActivites(declaration);
         this.cyclesSupportes = obtenirCyclesSupportes(declaration);
-        this.listeCategories = obtenirListeCategories("json/exigences/listecategories.json");
+        listeCategories = new JSONArray();
+        listeSousCategories = new JSONArray();
+        obtenirListeCategories("json/exigences/listecategories.json");
     }
     
     public JSONObject valider () throws IOException, ParseException {
@@ -52,19 +56,15 @@ class Declaration {
             validerCycle();
             creerCategories();
             traitement();
-
             
             resultatFinal.accumulate("complet", resultat.complet);
             resultatFinal.accumulate("erreurs", resultat.erreurs);
             return resultatFinal;
-            
         }
         
         resultatFinal.accumulate("Fichier invalide", "cycle incomplet");
         return resultatFinal;
     }
-    
-    
     
     void creerCategories () {
         
@@ -83,57 +83,79 @@ class Declaration {
    
     boolean validerNumeroPermis () {
         
-        boolean laSelection1=false;
-        boolean laSelection2=false;
-        boolean ok=true;
-        if (numeroPermis.length()==5) {
-            char leChar=numeroPermis.charAt(0);
+        boolean laSelection1 = false;
+        boolean laSelection2 = false;
+        boolean ok = true;
+        
+        if (numeroPermis.length() == 5) {
+            
+            char leChar = numeroPermis.charAt(0);
         
             switch (leChar) {
                case 'A':
-                   laSelection1=true; 
+                   laSelection1 = true; 
                    break;
                 case 'R':
-                   laSelection1=true; 
+                   laSelection1 = true; 
                    break;
                 case 'S':
-                    laSelection1=true; 
+                    laSelection1 = true; 
                     break;
                 case 'Z':
-                    laSelection1=true; 
+                    laSelection1 = true; 
                     break;
             }
-            for (int i=1;i<numeroPermis.length();i++) {
+            
+            for (int i = 1; i < numeroPermis.length(); i++) {
                 
-                if (numeroPermis.charAt(i) >= '0'&& numeroPermis.charAt(i) <='9' ) {
-                   laSelection2=true; 
+                if (numeroPermis.charAt(i) >= '0'&& numeroPermis.charAt(i) <= '9') {
+                   laSelection2 = true; 
                 }else{
-                    ok=false;
+                    ok = false;
                 }
                     
             }
-            laSelection2=laSelection2&&ok;
+            laSelection2 = laSelection2 && ok;
         }
         
-        return laSelection1&&laSelection2;
+        return laSelection1 && laSelection2;
     }
     
     void traitementArchitecte () {
        
-        int heureGroupeMinimum17 = 0;
-        int heurePresentation = 0;
-        int heureGroupeDiscussion=0;
-        int heureProjetRecherche=0;
-        int heureRedaction=0;
+        int heuresMinimumSousCategories = heuresCyclePrecedent;
         
-        heureGroupeMinimum17 += heuresCyclePrecedent;
+        if (categories.get("présentation") > 23){
+            categories.put("présentation", 23);
+        }
+        if (categories.get("groupe de discussion") > 17){
+            categories.put("groupe de discussion", 17);
+        }
+        if (categories.get("projet de recherche") > 23){
+            categories.put("projet de recherche", 23);
+        }
+        if (categories.get("rédaction professionnelle") > 17){
+            categories.put("rédaction professionnelle", 17);
+        }
+ 
+        for (int i = 0; i < listeSousCategories.size(); i++) {
+   
+            heuresMinimumSousCategories += categories.get(listeSousCategories.getString(i));
+        }
         
+        if (heuresMinimumSousCategories < 17){
+            
+            resultat.complet = false;
+            resultat.erreurs.add("Il y a moins de 17 heures effectués dans les catégories demandés");
+        }
         
+        calculerHeuresTotal();
         
-        
-        
-        
-        
+        if (nbrHeuresTotal < 40){
+            
+            resultat.complet = false;
+            resultat.erreurs.add("Il y a moins de 40 heures effectués dans la formation continue");
+        }
     }
     
     void traitementPsychologue () {
@@ -142,7 +164,6 @@ class Declaration {
     void traitementGeologue () {
         
     }
-    
     
     private void traitement () throws ParseException{
         
@@ -161,8 +182,16 @@ class Declaration {
         for (Activite activite : activites) {
            
             if (activite.validerDate(cyclesSupportes)) {
-               
-               accumulerHeures(activite);
+                
+               if (listeCategories.contains(activite.getCategorie())){
+                   accumulerHeures(activite);
+               }
+               else{
+                    resultat.erreurs.add("L'activité " + activite.getDescription() + " n'a pas été comptabilisé");
+               }    
+            }
+            else{ 
+               resultat.erreurs.add("L'activité " + activite.getDescription() + " a été effectué à l'extérieur de l'intervalle demandé");
             }
         }
 
@@ -177,29 +206,28 @@ class Declaration {
                 traitementGeologue();
                 break;
         }
+        
+        calculerHeuresTotal();
+        
     }
     
-    private ArrayList<Activite> obtenirActivites (JSONObject declaration) throws ParseException {
+    private void obtenirActivites (JSONObject declaration) throws ParseException {
         
         JSONArray listeActivites = declaration.getJSONArray("activites");
-        ArrayList<Activite> activites = new ArrayList<>();
         
         for (int i = 0; i < listeActivites.size(); i++) {
             
             Activite activite = new Activite(listeActivites.getJSONObject(i));
-        
             activites.add(activite);
         }
-        
-        return activites;
     }
 
     private JSONArray obtenirCyclesSupportes (JSONObject declaration) throws IOException {
         
-        JSONObject listeCyclesSupportes = obtenirJsonObject("json/exigences/listeCycles.json");
-        JSONArray cyclesSupportes = listeCyclesSupportes.getJSONArray(declaration.getString("ordre"));
+        JSONObject liste = obtenirJsonObject("json/exigences/listeCycles.json");
+        JSONArray cycles = liste.getJSONArray(declaration.getString("ordre"));
         
-        return cyclesSupportes;
+        return cycles;
     }
     
      private static JSONArray obtenirJsonArray (String emplacement) throws IOException {
@@ -228,15 +256,22 @@ class Declaration {
         if (!cycleExisteDansListe) {
             resultat.complet = false;
             resultat.erreurs.add("Le cycle ne correspond à aucun des cycles supportés");
-        }
-                
+        }      
     }
 
-    private JSONArray obtenirListeCategories (String emplacement) throws IOException {
+    private void obtenirListeCategories (String emplacement) throws IOException {
         
         String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
-        JSONArray listeCategories = new JSONArray();
+        JSONArray liste = new JSONArray();
         listeCategories = JSONObject.fromObject(lecteur).getJSONArray(ordre);
-        return listeCategories;
+        listeSousCategories = JSONObject.fromObject(lecteur).getJSONArray("sous-categories");
+    }
+    
+    private void calculerHeuresTotal() {
+        
+        for (Map.Entry<String, Integer> categorie : categories.entrySet()){
+            
+           nbrHeuresTotal += categorie.getValue();
+        }
     }
 }

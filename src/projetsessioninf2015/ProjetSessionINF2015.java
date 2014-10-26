@@ -9,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
@@ -34,9 +32,10 @@ public class ProjetSessionINF2015 {
         String fichierSortie = args[1];
         String emplacementEntree = "json/" + fichierEntre;
         String emplacementSortie = "json/" + fichierSortie;
+        Declaration declaration;
        
         JSONObject fichierDeclaration = obtenirJsonObject(emplacementEntree);
-        Declaration declaration = new Declaration(fichierDeclaration);
+        declaration = new Declaration(fichierDeclaration);
         JSONObject resultat = declaration.valider();
         
         ecritureDeSortie(resultat, emplacementSortie);
@@ -53,8 +52,8 @@ public class ProjetSessionINF2015 {
 
     private static void ecritureDeSortie (JSONObject resultat, String emplacement) throws IOException {
         
-        FileWriter ecrire = new FileWriter(emplacement);
-        ecrire.write(resultat.toString(2));
-        ecrire.close();
+        try (FileWriter ecrire = new FileWriter(emplacement)) {
+            ecrire.write(resultat.toString(2));
+        }
     }
 }
