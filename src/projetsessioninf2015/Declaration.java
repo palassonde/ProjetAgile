@@ -210,7 +210,9 @@ class Declaration {
         }
         
     }
-    
+    /* 
+    * traitement particulier de l'ordre des geologues.
+    */
     void traitementGeologue () {
         
         if (categories.get("cours") >= 22) {
