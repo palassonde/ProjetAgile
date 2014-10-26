@@ -179,10 +179,7 @@ class Declaration {
             
         if (categories.get("conférence") > 15){
             categories.put("conférence", 15);
-        }else{
-            
-             resultat.erreurs.add("Il y a moins de  heures effectués ");
-
+        
         }
             
         calculerHeuresTotal();
