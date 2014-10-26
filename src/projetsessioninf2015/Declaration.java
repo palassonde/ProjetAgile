@@ -44,6 +44,7 @@ class Declaration {
         this.cyclesSupportes = obtenirCyclesSupportes(declaration);
         listeCategories = new JSONArray();
         listeSousCategories = new JSONArray();
+        this.nbrHeuresTotal = 0;
         obtenirListeCategories("json/exigences/listecategories.json");
     }
     
@@ -207,7 +208,7 @@ class Declaration {
                 break;
         }
         
-        calculerHeuresTotal();
+        System.out.println(nbrHeuresTotal);
         
     }
     
