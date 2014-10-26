@@ -148,16 +148,23 @@ class Declaration {
        
         int heuresMinimumSousCategories = heuresCyclePrecedent;
         
-        if (categories.get("présentation") > 23){
+        if (categories.get("présentation") > 23) {
+            
             categories.put("présentation", 23);
         }
-        if (categories.get("groupe de discussion") > 17){
+        
+        if (categories.get("groupe de discussion") > 17) {
+            
             categories.put("groupe de discussion", 17);
         }
-        if (categories.get("projet de recherche") > 23){
+        
+        if (categories.get("projet de recherche") > 23) {
+            
             categories.put("projet de recherche", 23);
         }
-        if (categories.get("rédaction professionnelle") > 17){
+        
+        if (categories.get("rédaction professionnelle") > 17) {
+            
             categories.put("rédaction professionnelle", 17);
         }
  
@@ -166,7 +173,7 @@ class Declaration {
             heuresMinimumSousCategories += categories.get(listeSousCategories.getString(i));
         }
         
-        if (heuresMinimumSousCategories < 17){
+        if (heuresMinimumSousCategories < 17) {
             
             resultat.complet = false;
             resultat.erreurs.add("Il y a moins de 17 heures effectués dans les catégories demandés");
@@ -174,33 +181,62 @@ class Declaration {
         
         calculerHeuresTotal();
         
-        if (nbrHeuresTotal < 42){
+        if (nbrHeuresTotal < 42) {
             
             resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de 40 heures effectués dans la formation continue");
+            resultat.erreurs.add("Il y a moins de 42 heures effectués dans la formation continue");
         }
     }
     
     void traitementPsychologue () {
-        if (categories.get("cours") > 25){
-            categories.put("cours", 25);
+        
+        if (categories.get("cours") >= 25) {
+            
+            categories.put("cours", categories.get("cours"));
         }
             
-        if (categories.get("conférence") > 15){
+        if (categories.get("conférence") > 15) {
+            
             categories.put("conférence", 15);
         
         }
             
         calculerHeuresTotal();
         
-        if (nbrHeuresTotal < 90){
+        if (nbrHeuresTotal < 90) {
             
             resultat.complet = false;
             resultat.erreurs.add("Il y a moins de 90 heures effectués dans la formation continue");
         }
         
     }
+    
     void traitementGeologue () {
+        
+        if (categories.get("cours") >= 22) {
+            
+            categories.put("cours", categories.get("cours"));
+        }
+            
+        if (categories.get("projet de recherche") >= 3) {
+            
+            categories.put("projet de recherche", categories.get("projet de recherche"));
+        
+        }
+        
+        if (categories.get("groupe de discussion") >= 1) {
+            
+            categories.put("groupe de discution", categories.get("groupe de discussion"));
+        
+        }
+            
+        calculerHeuresTotal();
+        
+        if (nbrHeuresTotal < 55) {
+            
+            resultat.complet = false;
+            resultat.erreurs.add("Il y a moins de 55 heures effectués dans la formation continue");
+        }
         
     }
     /* fait une vérification si l'ordre existe
