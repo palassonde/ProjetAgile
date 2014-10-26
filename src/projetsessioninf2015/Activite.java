@@ -13,6 +13,9 @@ import net.sf.json.JSONObject;
 /**
  *
  * @author palass
+ * validation de la date et de la catégorie
+ * vérification de la date dans le format 
+ * récupère la catégorie
  */
 class Activite {
     

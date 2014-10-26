@@ -17,6 +17,11 @@ import net.sf.json.JSONSerializer;
 /**
  *
  * @author palass
+ * la méthode ci fait une vérification de tout ce qui est entré 
+ * c'est à dire qu'il vérifie la catégorie les heures dans chaque
+ * activité 
+ * retourne des messages des messages d'erreur si une étape n'a pas été
+ * vérifié.
  */
 class Declaration {
        
@@ -67,6 +72,7 @@ class Declaration {
         resultatFinal.accumulate("Fichier invalide", "cycle incomplet");
         return resultatFinal;
     }
+    // crée la catégprie (les activtés)
     
     void creerCategories () {
         
@@ -74,7 +80,7 @@ class Declaration {
             categories.put(listeCategories.getString(i), 0);
         }
     }
-
+// calcul les heures accumuleés dans les cycles préceédent
     void accumulerHeures (Activite activite) {
         
         int heures;
@@ -82,7 +88,10 @@ class Declaration {
         heures += activite.getHeures();
         categories.put(activite.getCategorie(), heures);
     }
-   
+   /* vérifie le numéro de permis 
+    return true si elle est correcte 
+    et false dans le cas contraire
+    */
     boolean validerNumeroPermis () {
         
         boolean laSelection1 = false;
@@ -194,7 +203,10 @@ class Declaration {
     void traitementGeologue () {
         
     }
-    
+    /* fait une vérification si l'ordre existe
+    prend cet ordre calcule ces heures 
+    et voit si elle a été effectuer dans le cycle 
+    */
     private void traitement () throws ParseException{
         
         for (Activite activite : activites) {
@@ -229,7 +241,7 @@ class Declaration {
                 break;
         }
     }
-    
+    // récupère les activités
     private void obtenirActivites () throws ParseException {
         
         JSONArray listeActivites = fichierDeclaration.getJSONArray("activites");
@@ -240,6 +252,7 @@ class Declaration {
             activites.add(activite);
         }
     }
+    // récupère le cycle 
 
     private JSONArray obtenirCyclesSupportes () throws IOException {
         
@@ -248,6 +261,7 @@ class Declaration {
         
         return cycles;
     }
+    
     
      private static JSONArray obtenirJsonArray (String emplacement) throws IOException {
 
@@ -260,7 +274,7 @@ class Declaration {
         String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
         return (JSONObject) JSONSerializer.toJSON(lecteur);
     }
-
+// fait une vérification du cycle 
     private void validerCycle () {
         
         boolean cycleExisteDansListe = false;
@@ -277,7 +291,8 @@ class Declaration {
             resultat.erreurs.add("Le cycle ne correspond à aucun des cycles supportés");
         }      
     }
-
+// vérifie si la catégorie existe et va le récupérer après
+    
     private void obtenirListeCategories (String emplacement) throws IOException {
         
         String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
@@ -285,7 +300,7 @@ class Declaration {
         listeCategories = JSONObject.fromObject(lecteur).getJSONArray(ordre);
         listeSousCategories = JSONObject.fromObject(lecteur).getJSONArray("sous-categories");
     }
-    
+    // fait la somme de tous les heures dans chaque catégorie
     private void calculerHeuresTotal() {
         
         nbrHeuresTotal += heuresCyclePrecedent;
