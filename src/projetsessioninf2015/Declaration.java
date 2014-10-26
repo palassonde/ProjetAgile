@@ -173,6 +173,25 @@ class Declaration {
     }
     
     void traitementPsychologue () {
+        if (categories.get("cours") > 25){
+            categories.put("cours", 25);
+        }
+            
+        if (categories.get("conférence") > 15){
+            categories.put("conférence", 15);
+        }else{
+            
+             resultat.erreurs.add("Il y a moins de  heures effectués ");
+
+        }
+            
+        calculerHeuresTotal();
+        
+        if (nbrHeuresTotal < 90){
+            
+            resultat.complet = false;
+            resultat.erreurs.add("Il y a moins de 90 heures effectués dans la formation continue");
+        }
         
     }
     void traitementGeologue () {
