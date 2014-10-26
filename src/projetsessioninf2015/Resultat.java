@@ -8,7 +8,8 @@ package projetsessioninf2015;
 import net.sf.json.JSONArray;
 
 /**
- *retournr true si tout est correct et false dans le cas contraire
+ *retournr true si tout les chants souhaités ont passé tous les test
+ * et false dans le cas contraire
  * @author palass
  */
 class Resultat {
