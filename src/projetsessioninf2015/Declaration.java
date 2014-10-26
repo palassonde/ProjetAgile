@@ -19,29 +19,30 @@ import net.sf.json.JSONSerializer;
  * @author palass
  */
 class Declaration {
-   
+       
+    String ordre;
+    String cycle;
     int nbrHeuresTotal;
     int heuresCyclePrecedent;
-    String cycle;
     Map <String, Integer> categories = new HashMap<>();
-    String ordre;
     private final String numeroPermis;
     Resultat resultat;
     private final ArrayList<Activite> activites;
     private final JSONArray cyclesSupportes;
     private JSONArray listeCategories;
     private JSONArray listeSousCategories;
-
-    public Declaration (JSONObject declaration) throws IOException, ParseException {
+    private final JSONObject fichierDeclaration;
+    
+    public Declaration (JSONObject fichierDeclaration) throws IOException, ParseException {
         
+        this.fichierDeclaration = fichierDeclaration;
         this.resultat = new Resultat();
-        this.cycle = declaration.getString("cycle");
-        this.ordre = declaration.getString("ordre");
-        this.heuresCyclePrecedent = declaration.getInt("heures_transferees_du_cycle_precedent");
-        this.numeroPermis = declaration.getString("numero_de_permis");
+        this.cycle = fichierDeclaration.getString("cycle");
+        this.ordre = fichierDeclaration.getString("ordre");
+        this.numeroPermis = fichierDeclaration.getString("numero_de_permis");
         this.activites = new ArrayList();
-        obtenirActivites(declaration);
-        this.cyclesSupportes = obtenirCyclesSupportes(declaration);
+        obtenirActivites();
+        this.cyclesSupportes = obtenirCyclesSupportes();
         listeCategories = new JSONArray();
         listeSousCategories = new JSONArray();
         this.nbrHeuresTotal = 0;
@@ -123,6 +124,18 @@ class Declaration {
     }
     
     void traitementArchitecte () {
+        
+        heuresCyclePrecedent = fichierDeclaration.getInt("heures_transferees_du_cycle_precedent");
+        
+        if (heuresCyclePrecedent > 7) {
+
+            heuresCyclePrecedent = 7;
+            resultat.erreurs.add("Le nombre d'heures cumulees ne peut dépasser 7");
+            
+        } else if (heuresCyclePrecedent < 0) {
+
+            heuresCyclePrecedent = 0;
+        }
        
         int heuresMinimumSousCategories = heuresCyclePrecedent;
         
@@ -152,7 +165,7 @@ class Declaration {
         
         calculerHeuresTotal();
         
-        if (nbrHeuresTotal < 40){
+        if (nbrHeuresTotal < 42){
             
             resultat.complet = false;
             resultat.erreurs.add("Il y a moins de 40 heures effectués dans la formation continue");
@@ -168,35 +181,27 @@ class Declaration {
     
     private void traitement () throws ParseException{
         
-        if (heuresCyclePrecedent > 7) {
-
-            heuresCyclePrecedent = 7;
-            resultat.erreurs.add("Le nombre d'heures cumulees ne peut dépasser 7");
-            
-        } else if (heuresCyclePrecedent < 0) {
-
-            heuresCyclePrecedent = 0;
-        }
-        
-        nbrHeuresTotal += heuresCyclePrecedent;
-        
         for (Activite activite : activites) {
            
             if (activite.validerDate(cyclesSupportes)) {
                 
                if (listeCategories.contains(activite.getCategorie())){
+                   
                    accumulerHeures(activite);
                }
                else{
+                   
                     resultat.erreurs.add("L'activité " + activite.getDescription() + " n'a pas été comptabilisé");
                }    
             }
             else{ 
+                
                resultat.erreurs.add("L'activité " + activite.getDescription() + " a été effectué à l'extérieur de l'intervalle demandé");
             }
         }
 
         switch (this.ordre) {
+            
             case "architecte":
                 traitementArchitecte();
                 break;
@@ -207,14 +212,11 @@ class Declaration {
                 traitementGeologue();
                 break;
         }
-        
-        System.out.println(nbrHeuresTotal);
-        
     }
     
-    private void obtenirActivites (JSONObject declaration) throws ParseException {
+    private void obtenirActivites () throws ParseException {
         
-        JSONArray listeActivites = declaration.getJSONArray("activites");
+        JSONArray listeActivites = fichierDeclaration.getJSONArray("activites");
         
         for (int i = 0; i < listeActivites.size(); i++) {
             
@@ -223,10 +225,10 @@ class Declaration {
         }
     }
 
-    private JSONArray obtenirCyclesSupportes (JSONObject declaration) throws IOException {
+    private JSONArray obtenirCyclesSupportes () throws IOException {
         
         JSONObject liste = obtenirJsonObject("json/exigences/listeCycles.json");
-        JSONArray cycles = liste.getJSONArray(declaration.getString("ordre"));
+        JSONArray cycles = liste.getJSONArray(fichierDeclaration.getString("ordre"));
         
         return cycles;
     }
@@ -269,6 +271,8 @@ class Declaration {
     }
     
     private void calculerHeuresTotal() {
+        
+        nbrHeuresTotal += heuresCyclePrecedent;
         
         for (Map.Entry<String, Integer> categorie : categories.entrySet()){
             
