@@ -131,7 +131,9 @@ class Declaration {
         
         return laSelection1 && laSelection2;
     }
-    
+    /*
+    * traitement particulier de l'ordre des architectes.
+    */
     void traitementArchitecte () {
         
         heuresCyclePrecedent = fichierDeclaration.getInt("heures_transferees_du_cycle_precedent");
@@ -187,7 +189,9 @@ class Declaration {
             resultat.erreurs.add("Il y a moins de 42 heures effectués dans la formation continue");
         }
     }
-    
+    /*
+    * traitement particulier de l'ordre des psychologues.
+    */
     void traitementPsychologue () {
         
         if (categories.get("cours") >= 25) {
