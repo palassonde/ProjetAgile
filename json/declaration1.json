@@ -1,37 +1,42 @@
 {
-    "ordre": "géologues",
+    "ordre": "psychologues",
     "numero_de_permis": "A0001",
     "cycle": "2013-2016",
-    "heures_transferees_du_cycle_precedent": 5,
     "activites": [
         {
             "description": "Cours sur la déontologie",
             "categorie": "cours",
-            "heures": 0,
-            "date": "2013-03-20"
+            "heures": 20,
+            "date": "2013-07-20"
         },
         {
             "description": "Séminaire sur l'architecture contemporaine",
             "categorie": "séminaire",
-            "heures": 20,
+            "heures": -1,
             "date": "2014-01-07"
         },
         {
             "description": "Rédaction pour le magazine Architecture moderne",
             "categorie": "rédaction professionnelle",
-            "heures": 5,
-            "date": "2012-10-22"
+            "heures": 10,
+            "date": "2015-10-22"
         },
         {
             "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
             "categorie": "groupe de discussion",
             "heures": 10,
-            "date": "2013-04-01"
+            "date": "2013-10-09"
         },
         {
             "description": "Visite d'établissements architecturaux",
             "categorie": "voyage",
-            "heures": 20,
+            "heures": 2,
+            "date": "2014-02-02"
+        },
+        {
+            "description": "pratique",
+            "categorie": "projet de recherche",
+            "heures": 4,
             "date": "2014-02-02"
         }
     ]

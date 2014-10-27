@@ -194,9 +194,9 @@ class Declaration {
     */
     void traitementPsychologue () {
         
-        if (categories.get("cours") >= 25) {
+        if (categories.get("cours") < 25) {
             
-            categories.put("cours", categories.get("cours"));
+            categories.remove(categories.get("cours"));
         }
             
         if (categories.get("conférence") > 15) {
@@ -219,20 +219,20 @@ class Declaration {
     */
     void traitementGeologue () {
         
-        if (categories.get("cours") >= 22) {
+        if (categories.get("cours") < 22) {
             
-            categories.put("cours", categories.get("cours"));
+            categories.remove(categories.get("cours"));
         }
             
-        if (categories.get("projet de recherche") >= 3) {
+        if (categories.get("projet de recherche") < 3) {
             
-            categories.put("projet de recherche", categories.get("projet de recherche"));
+            categories.remove(categories.get("projet de recherche"));
         
         }
         
-        if (categories.get("groupe de discussion") >= 1) {
+        if (categories.get("groupe de discussion") < 1) {
             
-            categories.put("groupe de discution", categories.get("groupe de discussion"));
+            categories.remove(categories.get("groupe de discussion"));
         
         }
             

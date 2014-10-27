@@ -1,10 +1,9 @@
 {
   "complet": false,
   "erreurs":   [
-    "L'activité Cours sur la déontologie a été effectué à l'extérieur de l'intervalle demandé",
+    "Le cycle ne correspond à aucun des cycles supportés",
     "L'activité Rédaction pour le magazine Architecture moderne a été effectué à l'extérieur de l'intervalle demandé",
-    "L'activité Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans a été effectué à l'extérieur de l'intervalle demandé",
     "L'activité Visite d'établissements architecturaux n'a pas été comptabilisé",
-    "Il y a moins de 55 heures effectués dans la formation continue"
+    "Il y a moins de 90 heures effectués dans la formation continue"
   ]
 }
