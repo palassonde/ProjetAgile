@@ -1,6 +1,7 @@
 {
+    "ordre": "géologues",
     "numero_de_permis": "A0001",
-    "cycle": "2010-2014",
+    "cycle": "2013-2016",
     "heures_transferees_du_cycle_precedent": 5,
     "activites": [
         {
@@ -12,25 +13,25 @@
         {
             "description": "Séminaire sur l'architecture contemporaine",
             "categorie": "séminaire",
-            "heures": 2,
+            "heures": 20,
             "date": "2014-01-07"
         },
         {
             "description": "Rédaction pour le magazine Architecture moderne",
             "categorie": "rédaction professionnelle",
-            "heures": 6,
+            "heures": 5,
             "date": "2012-10-22"
         },
         {
             "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
             "categorie": "groupe de discussion",
-            "heures": 6,
+            "heures": 10,
             "date": "2013-04-01"
         },
         {
             "description": "Visite d'établissements architecturaux",
             "categorie": "voyage",
-            "heures": 2,
+            "heures": 20,
             "date": "2014-02-02"
         }
     ]

@@ -272,13 +272,13 @@ class Declaration {
 
         switch (this.ordre) {
             
-            case "architecte":
+            case "architectes":
                 traitementArchitecte();
                 break;
-            case "psychologue":
+            case "psychologues":
                 traitementPsychologue();
                 break;
-            case "Geologue":
+            case "géologues":
                 traitementGeologue();
                 break;
         }
