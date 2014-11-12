@@ -7,12 +7,9 @@ package projetsessioninf2015;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
 
 /**
  *
@@ -27,57 +24,44 @@ class Declaration {
        
     String ordre;
     String cycle;
+    String numeroPermis;
+    
     int nbrHeuresTotal;
     int heuresCyclePrecedent;
-    Map <String, Integer> categories = new HashMap<>();
-    private final String numeroPermis;
-    Resultat resultat;
-    private final ArrayList<Activite> activites;
-    private final JSONArray cyclesSupportes;
-    private JSONArray listeCategories;
-    private JSONArray listeSousCategories;
-    private final JSONObject fichierDeclaration;
     
-    public Declaration (JSONObject fichierDeclaration) throws IOException, ParseException {
+    Map <String, Integer> categories = new HashMap<>();
+   
+    Resultat resultat;
+    LectureJSON lecture;
+    
+    public Declaration (LectureJSON lecture) throws IOException, ParseException {
         
-        this.fichierDeclaration = fichierDeclaration;
+        this.lecture = lecture;
         this.resultat = new Resultat();
-        this.cycle = fichierDeclaration.getString("cycle");
-        this.ordre = fichierDeclaration.getString("ordre");
-        this.numeroPermis = fichierDeclaration.getString("numero_de_permis");
-        this.activites = new ArrayList();
-        obtenirActivites();
-        this.cyclesSupportes = obtenirCyclesSupportes();
-        listeCategories = new JSONArray();
-        listeSousCategories = new JSONArray();
+        this.cycle = lecture.declaration.getString("cycle");
+        this.ordre = lecture.declaration.getString("ordre");
+        this.numeroPermis = lecture.declaration.getString("numero_de_permis");
         this.nbrHeuresTotal = 0;
-        obtenirListeCategories("json/exigences/listecategories.json");
     }
     
     public JSONObject valider () throws IOException, ParseException {
            
         JSONObject resultatFinal = new JSONObject();
-        
-        if (validerNumeroPermis()) {
             
-            validerCycle();
-            creerCategories();
-            traitement();
-            
-            resultatFinal.accumulate("complet", resultat.complet);
-            resultatFinal.accumulate("erreurs", resultat.erreurs);
-            return resultatFinal;
-        }
-        
-        resultatFinal.accumulate("Fichier invalide", "cycle incomplet");
+        validerCycle();
+        creerCategories();
+        traitement();
+
+        resultatFinal.accumulate("complet", resultat.complet);
+        resultatFinal.accumulate("erreurs", resultat.erreurs);
         return resultatFinal;
     }
     // crée la catégprie (les activtés)
     
     void creerCategories () {
         
-        for (int i = 0; i < listeCategories.size(); i++) {
-            categories.put(listeCategories.getString(i), 0);
+        for (int i = 0; i < lecture.listeCategories.size(); i++) {
+            categories.put(lecture.listeCategories.getString(i), 0);
         }
     }
 // calcul les heures accumuleés dans les cycles préceédent
@@ -88,55 +72,12 @@ class Declaration {
         heures += activite.getHeures();
         categories.put(activite.getCategorie(), heures);
     }
-   /* vérifie le numéro de permis 
-    return true si elle est correcte 
-    et false dans le cas contraire
-    */
-    boolean validerNumeroPermis () {
-        
-        boolean laSelection1 = false;
-        boolean laSelection2 = false;
-        boolean ok = true;
-        
-        if (numeroPermis.length() == 5) {
-            
-            char leChar = numeroPermis.charAt(0);
-        
-            switch (leChar) {
-               case 'A':
-                   laSelection1 = true; 
-                   break;
-                case 'R':
-                   laSelection1 = true; 
-                   break;
-                case 'S':
-                    laSelection1 = true; 
-                    break;
-                case 'Z':
-                    laSelection1 = true; 
-                    break;
-            }
-            
-            for (int i = 1; i < numeroPermis.length(); i++) {
-                
-                if (numeroPermis.charAt(i) >= '0'&& numeroPermis.charAt(i) <= '9') {
-                   laSelection2 = true; 
-                }else{
-                    ok = false;
-                }
-                    
-            }
-            laSelection2 = laSelection2 && ok;
-        }
-        
-        return laSelection1 && laSelection2;
-    }
     /*
     * traitement particulier de l'ordre des architectes.
     */
     void traitementArchitecte () {
         
-        heuresCyclePrecedent = fichierDeclaration.getInt("heures_transferees_du_cycle_precedent");
+        heuresCyclePrecedent = lecture.declaration.getInt("heures_transferees_du_cycle_precedent");
         
         if (heuresCyclePrecedent > 7) {
 
@@ -170,9 +111,9 @@ class Declaration {
             categories.put("rédaction professionnelle", 17);
         }
  
-        for (int i = 0; i < listeSousCategories.size(); i++) {
+        for (int i = 0; i < lecture.listeSousCategories.size(); i++) {
    
-            heuresMinimumSousCategories += categories.get(listeSousCategories.getString(i));
+            heuresMinimumSousCategories += categories.get(lecture.listeSousCategories.getString(i));
         }
         
         if (heuresMinimumSousCategories < 17) {
@@ -183,10 +124,24 @@ class Declaration {
         
         calculerHeuresTotal();
         
-        if (nbrHeuresTotal < 42) {
+        if ("2010-2012".equals(cycle)){
+            if (nbrHeuresTotal < 40) {
             
-            resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de 42 heures effectués dans la formation continue");
+                resultat.complet = false;
+                resultat.erreurs.add("Il y a moins de 40 heures effectués dans la formation continue");
+            }
+            else if ("2008-2010".equals(cycle)) {
+                if (nbrHeuresTotal < 42) {
+                    resultat.complet = false;
+                    resultat.erreurs.add("Il y a moins de 42 heures effectués dans la formation continue");
+                }
+            else if ("2010-2012".equals(cycle)) {
+                if (nbrHeuresTotal < 42) {
+                    resultat.complet = false;
+                    resultat.erreurs.add("Il y a moins de 42 heures effectués dans la formation continue");
+                    }    
+                }
+            }   
         }
     }
     /*
@@ -202,7 +157,6 @@ class Declaration {
         if (categories.get("conférence") > 15) {
             
             categories.put("conférence", 15);
-        
         }
             
         calculerHeuresTotal();
@@ -227,13 +181,11 @@ class Declaration {
         if (categories.get("projet de recherche") < 3) {
             
             categories.remove(categories.get("projet de recherche"));
-        
         }
         
         if (categories.get("groupe de discussion") < 1) {
             
             categories.remove(categories.get("groupe de discussion"));
-        
         }
             
         calculerHeuresTotal();
@@ -249,13 +201,13 @@ class Declaration {
     prend cet ordre calcule ces heures 
     et voit si elle a été effectuer dans le cycle 
     */
-    private void traitement () throws ParseException{
+    private void traitement () throws ParseException {
         
-        for (Activite activite : activites) {
+        for (Activite activite : lecture.activites) {
            
-            if (activite.validerDate(cyclesSupportes)) {
+            if (activite.validerDate(lecture.cyclesSupportes)) {
                 
-               if (listeCategories.contains(activite.getCategorie())){
+               if (lecture.listeCategories.contains(activite.getCategorie())){
                    
                    accumulerHeures(activite);
                }
@@ -283,65 +235,27 @@ class Declaration {
                 break;
         }
     }
-    // récupère les activités
-    private void obtenirActivites () throws ParseException {
-        
-        JSONArray listeActivites = fichierDeclaration.getJSONArray("activites");
-        
-        for (int i = 0; i < listeActivites.size(); i++) {
-            
-            Activite activite = new Activite(listeActivites.getJSONObject(i));
-            activites.add(activite);
-        }
-    }
-    // récupère le cycle 
-
-    private JSONArray obtenirCyclesSupportes () throws IOException {
-        
-        JSONObject liste = obtenirJsonObject("json/exigences/listeCycles.json");
-        JSONArray cycles = liste.getJSONArray(fichierDeclaration.getString("ordre"));
-        
-        return cycles;
-    }
     
-    
-     private static JSONArray obtenirJsonArray (String emplacement) throws IOException {
-
-        String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
-        return JSONArray.fromObject(lecteur);
-    }
-     
-     private static JSONObject obtenirJsonObject(String emplacement) throws IOException {
-
-        String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
-        return (JSONObject) JSONSerializer.toJSON(lecteur);
-    }
 // fait une vérification du cycle 
     private void validerCycle () {
         
         boolean cycleExisteDansListe = false;
         
-        for (int i = 0; i < cyclesSupportes.size(); i++) {
+        for (int i = 0; i < lecture.cyclesSupportes.size(); i++) {
             
-            if (cycle.equals(cyclesSupportes.getJSONObject(i).getString("cycle"))) {
+            if (cycle.equals(lecture.cyclesSupportes.getJSONObject(i).getString("cycle"))) {
+                
                 cycleExisteDansListe = true;
             }
         }
         
         if (!cycleExisteDansListe) {
+            
             resultat.complet = false;
             resultat.erreurs.add("Le cycle ne correspond à aucun des cycles supportés");
         }      
     }
-// vérifie si la catégorie existe et va le récupérer après
     
-    private void obtenirListeCategories (String emplacement) throws IOException {
-        
-        String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
-        JSONArray liste = new JSONArray();
-        listeCategories = JSONObject.fromObject(lecteur).getJSONArray(ordre);
-        listeSousCategories = JSONObject.fromObject(lecteur).getJSONArray("sous-categories");
-    }
     // fait la somme de tous les heures dans chaque catégorie
     private void calculerHeuresTotal() {
         

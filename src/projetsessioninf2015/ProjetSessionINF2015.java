@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
 
 /**
  *
@@ -32,22 +31,16 @@ public class ProjetSessionINF2015 {
         String fichierSortie = args[1];
         String emplacementEntree = "json/" + fichierEntre;
         String emplacementSortie = "json/" + fichierSortie;
+        
         Declaration declaration;
-       
-        JSONObject fichierDeclaration = obtenirJsonObject(emplacementEntree);
-        declaration = new Declaration(fichierDeclaration);
+        LectureJSON lecture = new LectureJSON(emplacementEntree, emplacementSortie);
+        
+        lecture.lireFichiersJSON();
+
+        declaration = new Declaration(lecture);
         JSONObject resultat = declaration.valider();
         
         ecritureDeSortie(resultat, emplacementSortie);
-        if (!declaration.validerNumeroPermis()) {
-            System.out.println("erreur");
-        }
-    }
-
-    private static JSONObject obtenirJsonObject (String emplacement) throws IOException {
-
-        String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
-        return (JSONObject) JSONSerializer.toJSON(lecteur);
     }
 
     private static void ecritureDeSortie (JSONObject resultat, String emplacement) throws IOException {
