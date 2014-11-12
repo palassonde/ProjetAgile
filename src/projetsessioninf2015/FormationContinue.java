@@ -28,8 +28,10 @@ public class FormationContinue {
         String fichierSortie = args[1];
         String emplacementEntree = "json/" + fichierEntre;
         String emplacementSortie = "json/" + fichierSortie;
+        String emplacementStatistiques = "json/statistiques.json";
         JSONObject resultat;
         
+        Statistique statistique;
         Declaration declaration;
         LectureJSON lecture = new LectureJSON(emplacementEntree);
         
@@ -37,6 +39,9 @@ public class FormationContinue {
         lecture.lireFichiersJSON();
         declaration = new Declaration(lecture);
         resultat = declaration.valider();
+        statistique = declaration.recupererStatistiques();
+        //statistique.afficher();
+        ecritureDeSortie(statistique.toJSONObject(), emplacementStatistiques);
         ecritureDeSortie(resultat, emplacementSortie);
         } catch(Exception e){
             resultat = new JSONObject();
