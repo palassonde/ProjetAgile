@@ -17,6 +17,7 @@ public class LectureJSON {
     private final String emplacementListeCategories = "json/exigences/listecategories.json";
     private final String emplacementListeCycles = "json/exigences/listeCycles.json";
     private final String emplacementNormesPermis = "json/exigences/normesPermis.json";
+    private final String emplacementStatistiques = "json/statistiques.json";
     
     private String normePermis;
     
@@ -26,6 +27,7 @@ public class LectureJSON {
     public JSONArray listeSousCategories;
     public JSONObject declaration;
     public ArrayList<Activite> activites;
+    public JSONObject statistiques;
     
     LectureJSON (String emplacementDeclaration) throws IOException{
         
@@ -42,6 +44,7 @@ public class LectureJSON {
     public void lireFichiersJSON () throws IOException, ParseException, Exception{
         
         obtenirDeclaration();
+        obtenirStatistiques();
         obtenirListeCategories();
         obtenirCyclesSupportes();
         obtenirActivites();
@@ -139,6 +142,11 @@ public class LectureJSON {
                 normePermis = "\\d{5}";
                 break;  
         }
+    }
+
+    private void obtenirStatistiques() throws IOException {
+        
+        statistiques = obtenirJsonObject(emplacementStatistiques);
     }
     
 }
