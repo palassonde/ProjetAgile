@@ -28,6 +28,7 @@ class Declaration {
     
     int nbrHeuresTotal;
     int heuresCyclePrecedent;
+    int heuresTotalMinimum;
     
     Map <String, Integer> categories = new HashMap<>();
    
@@ -60,7 +61,7 @@ class Declaration {
     
     void creerCategories () {
         
-        for (int i = 0; i < lecture.listeCategories.size(); i++) {
+        for (int i = 0; i < lecture.listeCategories.size(); i++){
             categories.put(lecture.listeCategories.getString(i), 0);
         }
     }
@@ -79,12 +80,12 @@ class Declaration {
         
         heuresCyclePrecedent = lecture.declaration.getInt("heures_transferees_du_cycle_precedent");
         
-        if (heuresCyclePrecedent > 7) {
+        if (heuresCyclePrecedent > 7){
 
             heuresCyclePrecedent = 7;
             resultat.erreurs.add("Le nombre d'heures cumulees ne peut dépasser 7");
             
-        } else if (heuresCyclePrecedent < 0) {
+        } else if (heuresCyclePrecedent < 0){
 
             heuresCyclePrecedent = 0;
         }
@@ -96,27 +97,27 @@ class Declaration {
             categories.put("présentation", 23);
         }
         
-        if (categories.get("groupe de discussion") > 17) {
+        if (categories.get("groupe de discussion") > 17){
             
             categories.put("groupe de discussion", 17);
         }
         
-        if (categories.get("projet de recherche") > 23) {
+        if (categories.get("projet de recherche") > 23){
             
             categories.put("projet de recherche", 23);
         }
         
-        if (categories.get("rédaction professionnelle") > 17) {
+        if (categories.get("rédaction professionnelle") > 17){
             
             categories.put("rédaction professionnelle", 17);
         }
  
-        for (int i = 0; i < lecture.listeSousCategories.size(); i++) {
+        for (int i = 0; i < lecture.listeSousCategories.size(); i++){
    
             heuresMinimumSousCategories += categories.get(lecture.listeSousCategories.getString(i));
         }
         
-        if (heuresMinimumSousCategories < 17) {
+        if (heuresMinimumSousCategories < 17){
             
             resultat.complet = false;
             resultat.erreurs.add("Il y a moins de 17 heures effectués dans les catégories demandés");
@@ -124,47 +125,34 @@ class Declaration {
         
         calculerHeuresTotal();
         
-        if ("2010-2012".equals(cycle)){
-            if (nbrHeuresTotal < 40) {
-            
-                resultat.complet = false;
-                resultat.erreurs.add("Il y a moins de 40 heures effectués dans la formation continue");
-            }
-            else if ("2008-2010".equals(cycle)) {
-                if (nbrHeuresTotal < 42) {
-                    resultat.complet = false;
-                    resultat.erreurs.add("Il y a moins de 42 heures effectués dans la formation continue");
-                }
-            else if ("2010-2012".equals(cycle)) {
-                if (nbrHeuresTotal < 42) {
-                    resultat.complet = false;
-                    resultat.erreurs.add("Il y a moins de 42 heures effectués dans la formation continue");
-                    }    
-                }
-            }   
+        if (nbrHeuresTotal < heuresTotalMinimum){
+
+            resultat.complet = false;
+            resultat.erreurs.add("Il y a moins de "+heuresTotalMinimum+" heures effectués dans la formation continue");
         }
+            
     }
     /*
     * traitement particulier de l'ordre des psychologues.
     */
     void traitementPsychologue () {
         
-        if (categories.get("cours") < 25) {
+        if (categories.get("cours") < 25){
             
             categories.remove(categories.get("cours"));
         }
             
-        if (categories.get("conférence") > 15) {
+        if (categories.get("conférence") > 15){
             
             categories.put("conférence", 15);
         }
             
         calculerHeuresTotal();
         
-        if (nbrHeuresTotal < 90) {
+        if (nbrHeuresTotal < heuresTotalMinimum){
             
             resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de 90 heures effectués dans la formation continue");
+            resultat.erreurs.add("Il y a moins de "+heuresTotalMinimum+" heures effectués dans la formation continue");
         }
         
     }
@@ -173,27 +161,27 @@ class Declaration {
     */
     void traitementGeologue () {
         
-        if (categories.get("cours") < 22) {
+        if (categories.get("cours") < 22){
             
             categories.remove(categories.get("cours"));
         }
             
-        if (categories.get("projet de recherche") < 3) {
+        if (categories.get("projet de recherche") < 3){
             
             categories.remove(categories.get("projet de recherche"));
         }
         
-        if (categories.get("groupe de discussion") < 1) {
+        if (categories.get("groupe de discussion") < 1){
             
             categories.remove(categories.get("groupe de discussion"));
         }
             
         calculerHeuresTotal();
         
-        if (nbrHeuresTotal < 55) {
+        if (nbrHeuresTotal < heuresTotalMinimum) {
             
             resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de 55 heures effectués dans la formation continue");
+            resultat.erreurs.add("Il y a moins de "+heuresTotalMinimum+" heures effectués dans la formation continue");
         }
         
     }
@@ -203,26 +191,11 @@ class Declaration {
     */
     private void traitement () throws ParseException, Exception {
         
-        for (Activite activite : lecture.activites) {
-           
-            if (activite.validerDate(lecture.cyclesSupportes)) {
-                
-               if (lecture.listeCategories.contains(activite.getCategorie())){
-                   
-                   accumulerHeures(activite);
-               }
-               else{
-                   
-                    resultat.erreurs.add("L'activité " + activite.getDescription() + " n'a pas été comptabilisé");
-               }    
-            }
-            else{ 
-                
-               resultat.erreurs.add("L'activité " + activite.getDescription() + " a été effectué à l'extérieur de l'intervalle demandé");
-            }
-        }
-
-        switch (this.ordre) {
+        
+        traitementActivites();
+        obtenirHeuresTotalMinimum();
+        
+        switch(ordre){
             
             case "architectes":
                 traitementArchitecte();
@@ -231,6 +204,9 @@ class Declaration {
                 traitementPsychologue();
                 break;
             case "géologues":
+                traitementGeologue();
+                break;
+            case "podiatres":
                 traitementGeologue();
                 break;
         }
@@ -243,10 +219,8 @@ class Declaration {
         
         for (int i = 0; i < lecture.cyclesSupportes.size(); i++) {
             
-            if (cycle.equals(lecture.cyclesSupportes.getJSONObject(i).getString("cycle"))) {
-                
+            if (cycle.equals(lecture.cyclesSupportes.getJSONObject(i).getString("cycle")))
                 cycleExisteDansListe = true;
-            }
         }
         
         if (!cycleExisteDansListe) {
@@ -264,6 +238,46 @@ class Declaration {
         for (Map.Entry<String, Integer> categorie : categories.entrySet()){
             
            nbrHeuresTotal += categorie.getValue();
+        }
+    }
+    
+    private void obtenirHeuresTotalMinimum() {
+        
+        switch(ordre){
+            
+            case "architectes":
+                heuresTotalMinimum = 40;
+                if(!cycle.equals("2012-2014"))
+                    heuresTotalMinimum = 42;
+                break;
+            case "podiatres":
+                heuresTotalMinimum = 60;
+                break;
+            case "géologues":
+                heuresTotalMinimum = 55;
+                break;
+            case "psychologues":
+                heuresTotalMinimum = 90;
+                break;
+        }
+    }
+
+    private void traitementActivites() throws Exception {
+        
+        for (Activite activite : lecture.activites){
+           
+            if (activite.validerDate(lecture.cyclesSupportes)){
+                
+               if (lecture.listeCategories.contains(activite.getCategorie())){
+                   accumulerHeures(activite);
+               }
+               else{
+                    resultat.erreurs.add("L'activité " + activite.getDescription() + " n'a pas été comptabilisé");
+               }    
+            }
+            else{ 
+               resultat.erreurs.add("L'activité " + activite.getDescription() + " a été effectué à l'extérieur de l'intervalle demandé");
+            }
         }
     }
 }

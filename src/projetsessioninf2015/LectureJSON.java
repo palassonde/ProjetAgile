@@ -16,8 +16,9 @@ public class LectureJSON {
     private final String emplacementDeclaration;
     private final String emplacementListeCategories = "json/exigences/listecategories.json";
     private final String emplacementListeCycles = "json/exigences/listeCycles.json";
+    private final String emplacementNormesPermis = "json/exigences/normesPermis.json";
     
-    private final String permisValide = "[ARSZ]\\d\\d\\d\\d";
+    private String normePermis;
     
     private final JSONArray erreur;
     public JSONArray cyclesSupportes;
@@ -35,6 +36,7 @@ public class LectureJSON {
         activites = new ArrayList<>();
         declaration = new JSONObject();
         erreur = new JSONArray();
+        normePermis = new String();
     }
     
     public void lireFichiersJSON () throws IOException, ParseException, Exception{
@@ -43,6 +45,7 @@ public class LectureJSON {
         obtenirListeCategories();
         obtenirCyclesSupportes();
         obtenirActivites();
+        obtenirNormePermis();
         validerFichier();
     }
     
@@ -75,7 +78,7 @@ public class LectureJSON {
         
         JSONArray listeActivites = declaration.getJSONArray("activites");
         
-        for (int i = 0; i < listeActivites.size(); i++) {
+        for (int i = 0; i < listeActivites.size(); i++){
             
             Activite activite = new Activite(listeActivites.getJSONObject(i));
             activites.add(activite);
@@ -86,24 +89,55 @@ public class LectureJSON {
         
         validerPermis();
         validerActivites();
+        validerSexe();
     }
     
     private void validerPermis () throws Exception{
         
-        if(!declaration.getString("numero_de_permis").matches(permisValide)){
+        if(!declaration.getString("numero_de_permis").matches(normePermis)){
             throw new Exception("Le permis n'est pas valide");
         }
     }
 
     private void validerActivites () throws Exception {
         
-        for (Activite activite : activites) {
+        for (Activite activite : activites){
+            
             if (activite.getHeures() < 1){
                 throw new Exception("Les heures des activités doivent être supérieur à 0");
             }
             else if (activite.getDescription().length() < 20){
                 throw new Exception("La description d'une ou plusieurs activités est trop courte");
             }
+        }
+    }
+    
+    private void validerSexe () throws Exception {
+        
+        if (declaration.getInt("sexe") < 0 || declaration.getInt("sexe") > 2){
+            throw new Exception("La valeur indiquant le sexe ne respecte pas la norme  ISO 5218");
+        }
+        
+    }
+
+    private void obtenirNormePermis() throws IOException {
+
+        switch(declaration.getString("ordre")){
+            
+            case "architectes":
+                normePermis = "[AT]\\d{4}";
+                break;
+            case "géologues":
+                String nom = declaration.getString("nom");
+                String prenom = declaration.getString("prenom");
+                normePermis = nom.substring(0,1) + prenom.substring(0,1) + "\\d{4}";
+                break;
+            case "psychologues":
+                normePermis = "\\d{5}-\\d{2}";
+                break;
+            case "podiatres":
+                normePermis = "\\d{5}";
+                break;  
         }
     }
     

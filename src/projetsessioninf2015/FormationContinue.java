@@ -15,7 +15,7 @@ import net.sf.json.JSONObject;
  * @author Pierre-Alexandre
  * @author Gires
  */
-public class ProjetSessionINF2015 {
+public class FormationContinue {
 
     /**
      * @param args the command line arguments
@@ -48,7 +48,7 @@ public class ProjetSessionINF2015 {
 
     private static void ecritureDeSortie (JSONObject resultat, String emplacement) throws IOException {
         
-        try (FileWriter ecrire = new FileWriter(emplacement)) {
+        try (FileWriter ecrire = new FileWriter(emplacement)){
             ecrire.write(resultat.toString(2));
         }
     }

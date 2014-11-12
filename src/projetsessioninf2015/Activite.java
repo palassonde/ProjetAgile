@@ -34,30 +34,29 @@ class Activite {
     
     public boolean validerDate (JSONArray cyclesSupportes) throws ParseException, Exception {
         
-        boolean valide = false;
         Date dateMin;
         Date dateMax;
         
-        for (int i = 0; i < cyclesSupportes.size(); i++) {
+        for (int i = 0; i < cyclesSupportes.size(); i++){
             
             dateMin = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMin"));
             dateMax = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMax"));
           
-            if (date.after(dateMin) && date.before(dateMax)) {
-                valide = true;
+            if (date.after(dateMin) && date.before(dateMax)){
+                return true;
             }
         }
  
-        return valide;
+        return false;
     }
     
-    public int getHeures (){
+    public int getHeures () {
         return heures;
     }
-    public String getCategorie (){
+    public String getCategorie () {
         return categorie;
     }
-    public String getDescription (){
+    public String getDescription () {
         return description;
     }
     
