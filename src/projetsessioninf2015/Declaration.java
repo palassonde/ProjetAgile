@@ -185,6 +185,7 @@ class Declaration {
         }
         
     }
+    
     /* fait une vérification si l'ordre existe
     prend cet ordre calcule ces heures 
     et voit si elle a été effectuer dans le cycle 

@@ -130,7 +130,7 @@ public class LectureJSON {
             case "géologues":
                 String nom = declaration.getString("nom");
                 String prenom = declaration.getString("prenom");
-                normePermis = nom.substring(0,1) + prenom.substring(0,1) + "\\d{4}";
+                normePermis = nom.substring(0,1).toUpperCase() + prenom.substring(0,1).toUpperCase() + "\\d{4}";
                 break;
             case "psychologues":
                 normePermis = "\\d{5}-\\d{2}";
