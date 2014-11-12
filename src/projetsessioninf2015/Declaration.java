@@ -44,7 +44,7 @@ class Declaration {
         this.nbrHeuresTotal = 0;
     }
     
-    public JSONObject valider () throws IOException, ParseException {
+    public JSONObject valider () throws IOException, ParseException, Exception {
            
         JSONObject resultatFinal = new JSONObject();
             
@@ -201,7 +201,7 @@ class Declaration {
     prend cet ordre calcule ces heures 
     et voit si elle a été effectuer dans le cycle 
     */
-    private void traitement () throws ParseException {
+    private void traitement () throws ParseException, Exception {
         
         for (Activite activite : lecture.activites) {
            

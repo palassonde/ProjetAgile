@@ -1,6 +1,5 @@
 package projetsessioninf2015;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -14,21 +13,20 @@ import net.sf.json.JSONSerializer;
  */
 public class LectureJSON {
     
-    String emplacementDeclaration;
-    String emplacementResultat;
-    String emplacementListeCategories = "json/exigences/listecategories.json";
-    String emplacementListeCycles = "json/exigences/listeCycles.json";
+    private final String emplacementDeclaration;
+    private final String emplacementListeCategories = "json/exigences/listecategories.json";
+    private final String emplacementListeCycles = "json/exigences/listeCycles.json";
+    
+    private final String permisValide = "[ARSZ]\\d\\d\\d\\d";
     
     private final JSONArray erreur;
-    private final FileWriter ecrire;
     public JSONArray cyclesSupportes;
     public JSONArray listeCategories;
     public JSONArray listeSousCategories;
     public JSONObject declaration;
     public ArrayList<Activite> activites;
     
-    
-    LectureJSON(String emplacementDeclaration, String emplacementResultat) throws IOException{
+    LectureJSON (String emplacementDeclaration) throws IOException{
         
         this.emplacementDeclaration = emplacementDeclaration;
         cyclesSupportes = new JSONArray();
@@ -37,21 +35,15 @@ public class LectureJSON {
         activites = new ArrayList<>();
         declaration = new JSONObject();
         erreur = new JSONArray();
-        ecrire = new FileWriter(emplacementResultat);
     }
     
-    public void lireFichiersJSON() throws IOException, ParseException {
+    public void lireFichiersJSON () throws IOException, ParseException, Exception{
         
         obtenirDeclaration();
         obtenirListeCategories();
         obtenirCyclesSupportes();
         obtenirActivites();
-        try{
-            validerFichiers();
-        } catch(ErreurFonctionnel e){
-            ecrire.write(erreur.toString(2));
-        }
-        
+        validerFichier();
     }
     
     private void obtenirDeclaration () throws IOException {
@@ -62,7 +54,6 @@ public class LectureJSON {
     private void obtenirListeCategories () throws IOException {
         
         String lecteur = FileReader.loadFileIntoString(emplacementListeCategories, "UTF-8");
-        JSONArray liste = new JSONArray();
         listeCategories = JSONObject.fromObject(lecteur).getJSONArray(declaration.getString("ordre"));
         listeSousCategories = JSONObject.fromObject(lecteur).getJSONArray("sous-categories");
     }
@@ -80,7 +71,7 @@ public class LectureJSON {
         return (JSONObject) JSONSerializer.toJSON(lecteur);
     }
 
-    private void obtenirActivites () throws ParseException {
+    private void obtenirActivites () throws ParseException, Exception {
         
         JSONArray listeActivites = declaration.getJSONArray("activites");
         
@@ -91,66 +82,29 @@ public class LectureJSON {
         }
     }
     
-    private void validerFichiers() throws IOException, ErreurFonctionnel{
+    private void validerFichier () throws Exception{
         
-        erreur.add("Fichier Invalide, Cycle Incomplet");
-        
-        if(!validerPermis()){
-            throw new ErreurFonctionnel("Le permis n'est pas valide");
-        }
-        
-        for (Activite activite : activites) {
-            
-            if (activite.getHeures() < 1){
-             
-                    throw new ErreurFonctionnel("L'heure d'une activité doit être supérieur à 0");
-                }
-            
-        }        
+        validerPermis();
+        validerActivites();
     }
     
-     /* vérifie le numéro de permis 
-    return true si elle est correcte 
-    et false dans le cas contraire
-    */
-    boolean validerPermis () {
+    private void validerPermis () throws Exception{
         
-        boolean laSelection1 = false;
-        boolean laSelection2 = false;
-        boolean ok = true;
-        String numeroPermis = declaration.getString("numero_de_permis");
-        
-        if (numeroPermis.length() == 5) {
-            
-            char leChar = numeroPermis.charAt(0);
-        
-            switch (leChar) {
-               case 'A':
-                   laSelection1 = true; 
-                   break;
-                case 'R':
-                   laSelection1 = true; 
-                   break;
-                case 'S':
-                    laSelection1 = true; 
-                    break;
-                case 'Z':
-                    laSelection1 = true; 
-                    break;
-            }
-            
-            for (int i = 1; i < numeroPermis.length(); i++) {
-                
-                if (numeroPermis.charAt(i) >= '0'&& numeroPermis.charAt(i) <= '9') {
-                   laSelection2 = true; 
-                }else{
-                    ok = false;
-                }
-                    
-            }
-            laSelection2 = laSelection2 && ok;
+        if(!declaration.getString("numero_de_permis").matches(permisValide)){
+            throw new Exception("Le permis n'est pas valide");
         }
-        
-        return laSelection1 && laSelection2;
     }
+
+    private void validerActivites () throws Exception {
+        
+        for (Activite activite : activites) {
+            if (activite.getHeures() < 1){
+                throw new Exception("Les heures des activités doivent être supérieur à 0");
+            }
+            else if (activite.getDescription().length() < 20){
+                throw new Exception("La description d'une ou plusieurs activités est trop courte");
+            }
+        }
+    }
+    
 }

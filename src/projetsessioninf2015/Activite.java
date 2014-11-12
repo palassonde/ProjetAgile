@@ -24,7 +24,7 @@ class Activite {
     private final int heures;
     private final Date date;
                      
-    public Activite (JSONObject activite) throws ParseException {
+    public Activite (JSONObject activite) throws ParseException, Exception {
         
         this.date = ISO8601DateParser.parse(activite.getString("date"));
         this.categorie = activite.getString("categorie");
@@ -32,7 +32,7 @@ class Activite {
         this.description = activite.getString("description");
     }
     
-    public boolean validerDate (JSONArray cyclesSupportes) throws ParseException {
+    public boolean validerDate (JSONArray cyclesSupportes) throws ParseException, Exception {
         
         boolean valide = false;
         Date dateMin;

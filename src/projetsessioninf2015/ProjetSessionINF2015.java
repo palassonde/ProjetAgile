@@ -5,10 +5,8 @@
  */
 package projetsessioninf2015;
 
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
 import net.sf.json.JSONObject;
 
 /**
@@ -22,25 +20,30 @@ public class ProjetSessionINF2015 {
     /**
      * @param args the command line arguments
      * @throws java.io.FileNotFoundException
-     * @throws java.text.ParseException
      */
-    public static void main (String[] args) throws FileNotFoundException, IOException, ParseException {
+    public static void main (String[] args) throws IOException{
 
         // Declaration des variables locales
         String fichierEntre = args[0];
         String fichierSortie = args[1];
         String emplacementEntree = "json/" + fichierEntre;
         String emplacementSortie = "json/" + fichierSortie;
+        JSONObject resultat;
         
         Declaration declaration;
-        LectureJSON lecture = new LectureJSON(emplacementEntree, emplacementSortie);
+        LectureJSON lecture = new LectureJSON(emplacementEntree);
         
+        try{
         lecture.lireFichiersJSON();
-
         declaration = new Declaration(lecture);
-        JSONObject resultat = declaration.valider();
-        
+        resultat = declaration.valider();
         ecritureDeSortie(resultat, emplacementSortie);
+        } catch(Exception e){
+            resultat = new JSONObject();
+            resultat.accumulate("Erreur", "Le fichier d'entrée est invalide, le cycle est incomplet");
+            ecritureDeSortie(resultat, emplacementSortie);
+            System.out.println(e);
+        }
     }
 
     private static void ecritureDeSortie (JSONObject resultat, String emplacement) throws IOException {
@@ -49,4 +52,5 @@ public class ProjetSessionINF2015 {
             ecrire.write(resultat.toString(2));
         }
     }
+    
 }

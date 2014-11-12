@@ -16,11 +16,9 @@ package projetsessioninf2015;
  * limitations under the License.
  */
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
 
 /**
  * ISO 8601 date parsing utility.  Designed for parsing the ISO subset used in
@@ -76,10 +74,17 @@ public class ISO8601DateParser {
     //      ss   = two digits of second (00 through 59)
     //      s    = one or more digits representing a decimal fraction of a second
     //      TZD  = time zone designator (Z or +hh:mm or -hh:mm)
-    public static Date parse (String input) throws java.text.ParseException {
+    public static Date parse (String input) throws java.text.ParseException, Exception {
 
         //NOTE: SimpleDateFormat uses GMT[-+]hh:mm for the TZ which breaks
         //things a bit.  Before we go on we have to repair this.
+        
+        //Code que j'ai rajouté pour être sur que la date soit dans le bon format
+        if(!input.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")){
+            throw new Exception("Le format d'une des dates d'une activité est invalide");
+        }
+        ///////////////////////////////////////////////////////////////////////////
+        
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"/*'T'HH:mm:ssz"*/ );
         
         //this is zero time so we need to add that TZ indicator for 
@@ -119,7 +124,6 @@ public class ISO8601DateParser {
         result = result.replaceAll("UTC", "+00:00");
         
         return result;
-        
     }
 
 }
