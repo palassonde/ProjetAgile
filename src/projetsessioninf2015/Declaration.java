@@ -121,16 +121,7 @@ class Declaration {
             
             resultat.complet = false;
             resultat.erreurs.add("Il y a moins de 17 heures effectués dans les catégories demandés");
-        }
-        
-        calculerHeuresTotal();
-        
-        if (nbrHeuresTotal < heuresTotalMinimum){
-
-            resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de "+heuresTotalMinimum+" heures effectués dans la formation continue");
-        }
-            
+        } 
     }
     /*
     * traitement particulier de l'ordre des psychologues.
@@ -139,51 +130,37 @@ class Declaration {
         
         if (categories.get("cours") < 25){
             
-            categories.remove(categories.get("cours"));
+            resultat.complet = false;
+            resultat.erreurs.add("Il y a moins de 25 heures effectué dans la catégorie cours");
         }
             
         if (categories.get("conférence") > 15){
             
             categories.put("conférence", 15);
         }
-            
-        calculerHeuresTotal();
-        
-        if (nbrHeuresTotal < heuresTotalMinimum){
-            
-            resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de "+heuresTotalMinimum+" heures effectués dans la formation continue");
-        }
-        
     }
     /* 
     * traitement particulier de l'ordre des geologues.
     */
-    void traitementGeologue () {
+    void traitementGeologuePodiatre () {
         
         if (categories.get("cours") < 22){
             
-            categories.remove(categories.get("cours"));
+            resultat.complet = false;
+            resultat.erreurs.add("Il y a moins de 22 heures effectué dans la catégorie cours");
         }
             
         if (categories.get("projet de recherche") < 3){
             
-            categories.remove(categories.get("projet de recherche"));
+            resultat.complet = false;
+            resultat.erreurs.add("Il y a moins de 3 heures effectué dans la catégorie projet de recherche");
         }
         
         if (categories.get("groupe de discussion") < 1){
             
-            categories.remove(categories.get("groupe de discussion"));
-        }
-            
-        calculerHeuresTotal();
-        
-        if (nbrHeuresTotal < heuresTotalMinimum) {
-            
             resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de "+heuresTotalMinimum+" heures effectués dans la formation continue");
+            resultat.erreurs.add("Il y a moins de 1 heures effectué dans la catégorie groupe de discussion");
         }
-        
     }
     
     /* fait une vérification si l'ordre existe
@@ -205,12 +182,15 @@ class Declaration {
                 traitementPsychologue();
                 break;
             case "géologues":
-                traitementGeologue();
+                traitementGeologuePodiatre();
                 break;
             case "podiatres":
-                traitementGeologue();
+                traitementGeologuePodiatre();
                 break;
         }
+        
+        calculerHeuresTotal();
+        verifierHeuresTotal();
     }
     
 // fait une vérification du cycle 
@@ -279,6 +259,15 @@ class Declaration {
             else{ 
                resultat.erreurs.add("L'activité " + activite.getDescription() + " a été effectué à l'extérieur de l'intervalle demandé");
             }
+        }
+    }
+
+    private void verifierHeuresTotal() {
+        
+        if (nbrHeuresTotal < heuresTotalMinimum) {
+            
+            resultat.complet = false;
+            resultat.erreurs.add("Il y a moins de "+heuresTotalMinimum+" heures effectués dans la formation continue");
         }
     }
 }
