@@ -34,15 +34,17 @@ class Declaration {
    
     Resultat resultat;
     LectureJSON lecture;
+    Statistique statistique;
     
     public Declaration (LectureJSON lecture) throws IOException, ParseException {
         
         this.lecture = lecture;
-        this.resultat = new Resultat();
-        this.cycle = lecture.declaration.getString("cycle");
-        this.ordre = lecture.declaration.getString("ordre");
-        this.numeroPermis = lecture.declaration.getString("numero_de_permis");
-        this.nbrHeuresTotal = 0;
+        resultat = new Resultat();
+        cycle = lecture.declaration.getString("cycle");
+        ordre = lecture.declaration.getString("ordre");
+        numeroPermis = lecture.declaration.getString("numero_de_permis");
+        nbrHeuresTotal = 0;
+        statistique = new Statistique(lecture);
     }
     
     public JSONObject valider () throws IOException, ParseException, Exception {
@@ -169,7 +171,7 @@ class Declaration {
     */
     private void traitement () throws ParseException, Exception {
         
-        
+        statistique.creerCategories();
         traitementActivites();
         obtenirHeuresTotalMinimum();
         
@@ -191,6 +193,8 @@ class Declaration {
         
         calculerHeuresTotal();
         verifierHeuresTotal();
+        compilerStatistique();
+        
     }
     
 // fait une vérification du cycle 
@@ -251,6 +255,7 @@ class Declaration {
                 
                if (lecture.listeCategories.contains(activite.getCategorie())){
                    accumulerHeures(activite);
+                   compilerStatistiqueActivites(activite);
                }
                else{
                     resultat.erreurs.add("L'activité " + activite.getDescription() + " n'a pas été comptabilisé");
@@ -269,5 +274,42 @@ class Declaration {
             resultat.complet = false;
             resultat.erreurs.add("Il y a moins de "+heuresTotalMinimum+" heures effectués dans la formation continue");
         }
+    }
+    
+    public Statistique recupererStatistiques(){
+
+        return statistique;
+    }
+
+    private void compilerStatistique () {
+       
+        statistique.nbrTotalDeclarationTraite++;
+        if (resultat.complet)
+            statistique.nbrTotalDeclarationComplete++;
+        else
+            statistique.nbrTotalDeclarationInvalide++;
+        
+        switch ( lecture.declaration.getInt("sexe")) {
+        
+            case 0:
+                statistique.nbrTotalDeclarationSexeIconnu++;
+                break;
+            case 1:
+                statistique.nbrTotalDeclarationHomme++;
+                break;
+            case 2:
+                statistique.nbrTotalDeclarationFemme++;
+                break;
+        }      
+    }
+
+    private void compilerStatistiqueActivites(Activite activite) {
+        
+        int nbrTotalActivites;
+        statistique.nbrTotalActiviteValide++;
+         
+        nbrTotalActivites = statistique.activiteValideParCategorie.get(activite.getCategorie());
+        nbrTotalActivites++;
+        statistique.activiteValideParCategorie.put(activite.getCategorie(), nbrTotalActivites);
     }
 }

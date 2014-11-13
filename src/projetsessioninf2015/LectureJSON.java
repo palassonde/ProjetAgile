@@ -28,6 +28,7 @@ public class LectureJSON {
     public JSONObject declaration;
     public ArrayList<Activite> activites;
     public JSONObject statistiques;
+    public JSONArray listeTouteCategories;
     
     LectureJSON (String emplacementDeclaration) throws IOException{
         
@@ -62,6 +63,7 @@ public class LectureJSON {
         String lecteur = FileReader.loadFileIntoString(emplacementListeCategories, "UTF-8");
         listeCategories = JSONObject.fromObject(lecteur).getJSONArray(declaration.getString("ordre"));
         listeSousCategories = JSONObject.fromObject(lecteur).getJSONArray("sous-categories");
+        listeTouteCategories = JSONObject.fromObject(lecteur).getJSONArray("categories");
     }
     
     private void obtenirCyclesSupportes () throws IOException {
@@ -96,7 +98,7 @@ public class LectureJSON {
     }
     
     private void validerPermis () throws Exception{
-        
+
         if(!declaration.getString("numero_de_permis").matches(normePermis)){
             throw new Exception("Le permis n'est pas valide");
         }
