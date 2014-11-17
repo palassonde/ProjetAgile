@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package projetsessioninf2015;
 
 import java.io.FileWriter;
@@ -17,10 +13,7 @@ import net.sf.json.JSONObject;
  */
 public class FormationContinue {
 
-    /**
-     * @param args the command line arguments
-     * @throws java.io.FileNotFoundException
-     */
+    
     public static void main (String[] args) throws IOException{
 
         // Declaration des variables locales
@@ -32,6 +25,7 @@ public class FormationContinue {
         JSONObject resultat;
         
         Statistique statistique;
+        Statistique valeurRemisAZero;
         Declaration declaration;
         LectureJSON lecture = new LectureJSON(emplacementEntree);
         
@@ -40,17 +34,19 @@ public class FormationContinue {
         declaration = new Declaration(lecture);
         resultat = declaration.valider();
         statistique = declaration.recupererStatistiques();
-        //statistique.afficher();
+        statistique.afficher();
         ecritureDeSortie(statistique.toJSONObject(), emplacementStatistiques);
         ecritureDeSortie(resultat, emplacementSortie);
+        
         } catch(Exception e){
             resultat = new JSONObject();
             resultat.accumulate("Erreur", "Le fichier d'entrée est invalide, le cycle est incomplet");
             ecritureDeSortie(resultat, emplacementSortie);
             System.out.println(e);
         }
+        
     }
-
+// sort le fichier JSON avec toutes les données
     private static void ecritureDeSortie (JSONObject resultat, String emplacement) throws IOException {
         
         try (FileWriter ecrire = new FileWriter(emplacement)){

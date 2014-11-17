@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package projetsessioninf2015;
 
 import java.text.ParseException;
@@ -13,10 +9,9 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author palass
- * validation de la date et de la catégorie
- * vérification de la date dans le format 
- * récupère la catégorie
+ * @author Achille
+ * @author Pierre-Alexandre
+ * @author Gires
  */
 class Activite {
     
@@ -32,7 +27,7 @@ class Activite {
         this.heures = activite.getInt("heures");
         this.description = activite.getString("description");
     }
-    
+    // vérifie l'heure return true si elle respecte les normes false dans le cas contraire
     public boolean validerDate (JSONArray cyclesSupportes) throws ParseException, Exception {
         
         Date dateMin;

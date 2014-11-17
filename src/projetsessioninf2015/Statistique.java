@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package projetsessioninf2015;
 
@@ -12,8 +7,9 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author achille
- * 
+ * @author Achille
+ * @author Pierre-Alexandre
+ * @author Gires
  */
 public class Statistique {
     
@@ -24,11 +20,14 @@ public class Statistique {
     public int nbrTotalDeclarationFemme;
     public int nbrTotalDeclarationSexeIconnu;
     public int nbrTotalActiviteValide;
+    public String argument;
     
     Map <String, Integer> activiteValideParCategorie = new HashMap<>();
     LectureJSON lecture;
     JSONObject statistique;
-     
+    JSONObject statistiqueValeurNul;
+    
+     // lecture des informations pour l'affichage 
      public Statistique (LectureJSON lecture) {
          
          statistique = lecture.statistiques;
@@ -41,7 +40,8 @@ public class Statistique {
          nbrTotalActiviteValide = lecture.statistiques.getInt("activités_valides");
          this.lecture = lecture;
      }
-     
+    
+     // création de la catégorie
     public void creerCategories () {
         
         for (int i = 0; i < lecture.listeTouteCategories.size(); i++){
@@ -49,11 +49,35 @@ public class Statistique {
             
         }
     }
-
+// réalise l'affichage des variables a la console
     void afficher () {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        switch(argument){
+            
+            case "-S":
+                
+                System.out.println(nbrTotalDeclarationTraite);
+                System.out.println(nbrTotalDeclarationComplete);
+                System.out.println(nbrTotalDeclarationInvalide);
+                System.out.println(nbrTotalDeclarationHomme);
+                System.out.println(nbrTotalDeclarationFemme);
+                System.out.println(nbrTotalDeclarationSexeIconnu);
+                System.out.println(nbrTotalActiviteValide);
+                break;
+                
+            case "-SR":
+                
+                System.out.println(nbrTotalDeclarationTraite);
+                System.out.println(nbrTotalDeclarationComplete);
+                System.out.println(nbrTotalDeclarationInvalide);
+                System.out.println(nbrTotalDeclarationHomme);
+                System.out.println(nbrTotalDeclarationFemme);
+                System.out.println(nbrTotalDeclarationSexeIconnu);
+                System.out.println(nbrTotalActiviteValide);
+               
+                break;
+        }
     }
-
+// incrémente le nombre de fois l'activité a été faite
     JSONObject toJSONObject() {
         
         int valeur;

@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Achille
+ * @author Pierre-Alexandre
+ * @author Gires
  */
 package projetsessioninf2015;
 
@@ -11,15 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import net.sf.json.JSONObject;
 
-/**
- *
- * @author palass
- * la méthode ci fait une vérification de tout ce qui est entré 
- * c'est à dire qu'il vérifie la catégorie les heures dans chaque
- * activité 
- * retourne des messages des messages d'erreur si une étape n'a pas été
- * vérifié.
- */
 class Declaration {
        
     String ordre;
