@@ -41,6 +41,7 @@ public class Statistique {
          this.lecture = lecture;
      }
     
+   
      // création de la catégorie
     public void creerCategories () {
         
@@ -49,6 +50,19 @@ public class Statistique {
             
         }
     }
+       void  Statistique() {
+        
+        nbrTotalDeclarationTraite = 0;
+         nbrTotalDeclarationComplete = 0;
+         nbrTotalDeclarationInvalide =0;
+         nbrTotalDeclarationHomme = 0;
+         nbrTotalDeclarationFemme = 0;
+         nbrTotalDeclarationSexeIconnu = 0;
+         nbrTotalActiviteValide = 0;
+         this.lecture = null;
+        
+    }
+     
 // réalise l'affichage des variables a la console
     void afficher () {
         switch(argument){
@@ -62,19 +76,14 @@ public class Statistique {
                 System.out.println(nbrTotalDeclarationFemme);
                 System.out.println(nbrTotalDeclarationSexeIconnu);
                 System.out.println(nbrTotalActiviteValide);
+                
+                break;
+            case "-SR" :
+                Statistique();
+                System.out.println("Réinilisation des variables a été bien éffectué");
                 break;
                 
-            case "-SR":
-                
-                System.out.println(nbrTotalDeclarationTraite);
-                System.out.println(nbrTotalDeclarationComplete);
-                System.out.println(nbrTotalDeclarationInvalide);
-                System.out.println(nbrTotalDeclarationHomme);
-                System.out.println(nbrTotalDeclarationFemme);
-                System.out.println(nbrTotalDeclarationSexeIconnu);
-                System.out.println(nbrTotalActiviteValide);
                
-                break;
         }
     }
 // incrémente le nombre de fois l'activité a été faite
@@ -101,6 +110,7 @@ public class Statistique {
         
         return statistique;
     }
-     
+
+    
      
 }
