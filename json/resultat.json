@@ -1,8 +1,4 @@
 {
-  "complet": false,
-  "erreurs":   [
-    "L'activité Visite d'établissements architecturaux n'a pas été comptabilisé",
-    "Il y a moins de 17 heures effectués dans les catégories demandés",
-    "Il y a moins de 40 heures effectués dans la formation continue"
-  ]
+  "complet": true,
+  "erreurs": ["L'activité Visite d'établissements architecturaux n'a pas été comptabilisé"]
 }

@@ -53,6 +53,19 @@
         "rédaction professionnelle",
         "formation continue"
     ],
+     "podiatres" :[
+        "cours",
+        "atelier",
+        "séminaire",
+        "colloque",
+        "conférence",
+        "lecture dirigée",
+        "présentation",
+        "groupe de discussion",
+        "projet de recherche",
+        "rédaction professionnelle",
+        "formation continue"
+    ],
     
     "sous-categories":[
         "cours",

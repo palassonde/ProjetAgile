@@ -223,9 +223,9 @@ class Declaration {
         switch(ordre){
             
             case "architectes":
-                heuresTotalMinimum = 40;
-                if(!cycle.equals("2012-2014"))
-                    heuresTotalMinimum = 42;
+                heuresTotalMinimum = 42;
+                if(cycle.equals("2012-2014"))
+                    heuresTotalMinimum = 40;
                 break;
             case "podiatres":
                 heuresTotalMinimum = 60;

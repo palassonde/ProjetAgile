@@ -1,22 +1,22 @@
 {
-  "déclarations_traitées": 19,
-  "déclarations_complètes": 0,
-  "déclarations_invalides": 19,
-  "déclarations_hommes": 19,
-  "déclarations_femmes": 0,
+  "déclarations_traitées": 1,
+  "déclarations_complètes": 1,
+  "déclarations_invalides": 0,
+  "déclarations_hommes": 0,
+  "déclarations_femmes": 1,
   "déclarations_sexe_inconnu": 0,
-  "activités_valides": 76,
+  "activités_valides": 6,
   "activités_valides_par_catégories":   {
-    "rédaction professionnelle": 6,
-    "conférence": 0,
-    "colloque": 0,
+    "projet de recherche": 1,
     "formation continue": 0,
-    "projet de recherche": 0,
-    "groupe de discussion": 6,
-    "cours": 6,
-    "présentation": 0,
-    "séminaire": 6,
+    "groupe de discussion": 1,
+    "conférence": 1,
+    "rédaction professionnelle": 1,
+    "colloque": 0,
+    "séminaire": 1,
     "lecture dirigée": 0,
-    "atelier": 0
+    "atelier": 0,
+    "cours": 1,
+    "présentation": 0
   }
 }

@@ -26,6 +26,7 @@ public class Statistique {
     LectureJSON lecture;
     JSONObject statistique;
     JSONObject statistiqueValeurNul;
+    JSONObject activitesValides;
     
      // lecture des informations pour l'affichage 
      public Statistique (LectureJSON lecture) {
@@ -40,6 +41,13 @@ public class Statistique {
          nbrTotalActiviteValide = lecture.statistiques.getInt("activités_valides");
          this.lecture = lecture;
      }
+
+    Statistique(JSONObject fichierStatistique) {
+        
+        statistique = fichierStatistique;
+        activitesValides = statistique.getJSONObject("activités_valides_par_catégories");
+        
+    }
     
    
      // création de la catégorie
@@ -50,9 +58,9 @@ public class Statistique {
             
         }
     }
-       void  Statistique() {
+       void ValeurNull() {
         
-        nbrTotalDeclarationTraite = 0;
+         nbrTotalDeclarationTraite = 0;
          nbrTotalDeclarationComplete = 0;
          nbrTotalDeclarationInvalide =0;
          nbrTotalDeclarationHomme = 0;
@@ -63,29 +71,6 @@ public class Statistique {
         
     }
      
-// réalise l'affichage des variables a la console
-    void afficher () {
-        switch(argument){
-            
-            case "-S":
-                
-                System.out.println(nbrTotalDeclarationTraite);
-                System.out.println(nbrTotalDeclarationComplete);
-                System.out.println(nbrTotalDeclarationInvalide);
-                System.out.println(nbrTotalDeclarationHomme);
-                System.out.println(nbrTotalDeclarationFemme);
-                System.out.println(nbrTotalDeclarationSexeIconnu);
-                System.out.println(nbrTotalActiviteValide);
-                
-                break;
-            case "-SR" :
-                Statistique();
-                System.out.println("Réinilisation des variables a été bien éffectué");
-                break;
-                
-               
-        }
-    }
 // incrémente le nombre de fois l'activité a été faite
     JSONObject toJSONObject() {
         
@@ -111,6 +96,30 @@ public class Statistique {
         return statistique;
     }
 
-    
+    public JSONObject reinitialise() {
+         
+        activitesValides.put( "rédaction professionnelle", 0);
+        activitesValides.put( "conférence", 0);
+        activitesValides.put( "colloque", 0);
+        activitesValides.put("formation continue", 0);
+        activitesValides.put( "projet de recherche", 0);
+        activitesValides.put(  "groupe de discussion", 0);
+        activitesValides.put(  "cours", 0);
+        activitesValides.put(  "présentation", 0);
+        activitesValides.put(  "séminaire", 0);
+        activitesValides.put(  "lecture dirigée", 0);
+        activitesValides.put(  "atelier", 0);
      
+        statistique.put("déclarations_traitées", 0);
+        statistique.put("déclarations_complètes",0); 
+        statistique.put("déclarations_invalides", 0);
+        statistique.put("déclarations_hommes",0); 
+        statistique.put("déclarations_femmes",0); 
+        statistique.put("déclarations_sexe_inconnu",0 );
+        statistique.put("activités_valides", 0);
+        statistique.put("activités_valides_par_catégories", activitesValides);
+        
+         return statistique;
+    }
+    
 }

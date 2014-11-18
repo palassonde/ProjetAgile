@@ -80,7 +80,7 @@ public class ISO8601DateParser {
         //things a bit.  Before we go on we have to repair this.
         
         //Code que j'ai rajouté pour être sur que la date soit dans le bon format
-        if(!input.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d")){
+        if(!input.matches("\\d{4}-\\d{2}-\\d{2}")){
             throw new Exception("Le format d'une des dates d'une activité est invalide");
         }
         ///////////////////////////////////////////////////////////////////////////
