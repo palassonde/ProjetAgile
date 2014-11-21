@@ -1,5 +1,5 @@
 
-package projetsessioninf2015;
+package model;
 
 import java.io.IOException;
 
@@ -34,7 +34,7 @@ public class FormationContinue {
             Traitement traitement = new Traitement(declaration);
             
             try{
-                traitement.traiterDeclaration(); 
+                traitement.produireResultat(); 
             } catch(Exception e){
                 traitement.ecrireResultat(emplacementSortie);
                 System.out.println(e);

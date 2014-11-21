@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetsessioninf2015;
+package util;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
@@ -41,6 +42,18 @@ public class TraitementJSON {
         
         JSONObject obj = JSONObject.fromObject(bean);
         return obj;
+    }
+    
+    public static HashMap getMapCategories () throws IOException {
+        
+        String emplacement = "json/listeCategories.json";
+        HashMap categories = new HashMap();
+        JSONArray listeCategories = obtenirJsonObject(emplacement).getJSONArray("catégories");
+        
+        for (int i = 0; i < listeCategories.size(); i++)
+            categories.put(listeCategories.getString(i), 0);
+        
+        return categories;
     }
     
 }

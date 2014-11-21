@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetsessioninf2015;
+package model;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Map;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import util.TraitementJSON;
+import util.Validation;
 
 /**
  *
@@ -17,22 +19,24 @@ import net.sf.json.JSONObject;
  */
 public class Traitement {
     
-    JSONArray cyclesSupportes;
-    JSONArray categoriesSupportes;
-    JSONArray sousCategories;
-    String normePermis;
-    
     Statistique statistique;
     Resultat resultat;
     Declaration declaration;
+    ExigencesOrdre exigences;
+    HashMap heuresParCategories;
     
     public Traitement(Declaration declaration) throws IOException{
         
         this.declaration = declaration;
-        obtenirExigences();   
+        exigences = new ExigencesOrdre(declaration);
+        statistique = new Statistique();
+        resultat = new Resultat();
+        heuresParCategories = TraitementJSON.getMapCategories();
     }
     
     private void compilerStatistiqueActivites(Activite activite) {
+        
+        declaration.
         
         int nbrTotalActivites;
         statistique.nbrTotalActiviteValide++;
@@ -64,11 +68,6 @@ public class Traitement {
         }      
     }
     
-    public Statistique3 recupererStatistiques(){
-
-        return statistique;
-    }
-    
     private void verifierHeuresTotal() {
         
         if (nbrHeuresTotal < heuresTotalMinimum) {
@@ -93,30 +92,33 @@ public class Traitement {
                }    
             }
             else{ 
-               resultat.erreurs.add("L'activité " + activite.getDescription() + " a été effectué à l'extérieur de l'intervalle demandé");
+               resultat.erreurs.add();
             }
         }
     }
     
+
+    
+    private void validerFichier () throws Exception{
+        
+        validerPermis();
+        validerActivites();
+        validerSexe();
+    }
+
+ 
+
+
+    private void obtenirStatistiques() throws IOException {
+        
+        
+        
+        statistiques = obtenirJsonObject(emplacementStatistiques);
+    }
+    
     private void obtenirHeuresTotalMinimum() {
         
-        switch(ordre){
-            
-            case "architectes":
-                heuresTotalMinimum = 42;
-                if(cycle.equals("2012-2014"))
-                    heuresTotalMinimum = 40;
-                break;
-            case "podiatres":
-                heuresTotalMinimum = 60;
-                break;
-            case "géologues":
-                heuresTotalMinimum = 55;
-                break;
-            case "psychologues":
-                heuresTotalMinimum = 90;
-                break;
-        }
+        
     }
     
     private void calculerHeuresTotal() {
@@ -146,12 +148,6 @@ public class Traitement {
         }      
     }
     
-    void creerCategories () {
-        
-        for (int i = 0; i < lecture.listeCategories.size(); i++){
-            categories.put(lecture.listeCategories.getString(i), 0);
-        }
-    }
 // calcul les heures accumuleés dans les cycles préceédent
     void accumulerHeures (Activite activite) {
         
@@ -307,35 +303,105 @@ public class Traitement {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void obtenirExigences() throws IOException {
-        
-        String ordre = declaration.getOrdre();
-        cyclesSupportes = TraitementJSON.obtenirJsonObject("json/exigences/listeCycles").getJSONArray(ordre);
-        categoriesSupportes = TraitementJSON.obtenirJsonObject("json/exigences/listeCategories").getJSONArray(ordre);
-        sousCategories = TraitementJSON.obtenirJsonObject("json/exigences/listeCategories").getJSONArray("sous-categories");
-        obtenirNormePermis();
+
     
+    
+    
+    
+       void ValeurNull() {
+        
+         nbrTotalDeclarationTraite = 0;
+         nbrTotalDeclarationComplete = 0;
+         nbrTotalDeclarationInvalide =0;
+         nbrTotalDeclarationHomme = 0;
+         nbrTotalDeclarationFemme = 0;
+         nbrTotalDeclarationSexeIconnu = 0;
+         nbrTotalActiviteValide = 0;
+         this.lecture = null;
+        
+    }
+     
+// incrémente le nombre de fois l'activité a été faite
+    JSONObject toJSONObject() {
+        
+        int valeur;
+        
+        JSONObject activitesValides = new JSONObject();
+        
+        for (Map.Entry<String, Integer> activiteValide : activiteValideParCategorie.entrySet()) {
+            
+           valeur = statistique.getJSONObject("activités_valides_par_catégories").getInt(activiteValide.getKey());
+           activitesValides.put(activiteValide.getKey(), activiteValide.getValue() + valeur);
+        }
+        
+        statistique.put("déclarations_traitées", nbrTotalDeclarationTraite);
+        statistique.put("déclarations_complètes",nbrTotalDeclarationComplete); 
+        statistique.put("déclarations_invalides", nbrTotalDeclarationInvalide);
+        statistique.put("déclarations_hommes",nbrTotalDeclarationHomme); 
+        statistique.put("déclarations_femmes",nbrTotalDeclarationFemme); 
+        statistique.put("déclarations_sexe_inconnu",nbrTotalDeclarationSexeIconnu );
+        statistique.put("activités_valides", nbrTotalActiviteValide);
+        statistique.put("activités_valides_par_catégories", activitesValides);
+        
+        return statistique;
+    }
+
+    public JSONObject reinitialise() {
+         
+        activitesValides.put( "rédaction professionnelle", 0);
+        activitesValides.put( "conférence", 0);
+        activitesValides.put( "colloque", 0);
+        activitesValides.put("formation continue", 0);
+        activitesValides.put( "projet de recherche", 0);
+        activitesValides.put(  "groupe de discussion", 0);
+        activitesValides.put(  "cours", 0);
+        activitesValides.put(  "présentation", 0);
+        activitesValides.put(  "séminaire", 0);
+        activitesValides.put(  "lecture dirigée", 0);
+        activitesValides.put(  "atelier", 0);
+     
+        statistique.put("déclarations_traitées", 0);
+        statistique.put("déclarations_complètes",0); 
+        statistique.put("déclarations_invalides", 0);
+        statistique.put("déclarations_hommes",0); 
+        statistique.put("déclarations_femmes",0); 
+        statistique.put("déclarations_sexe_inconnu",0 );
+        statistique.put("activités_valides", 0);
+        statistique.put("activités_valides_par_catégories", activitesValides);
+        
+        
+         return statistique;
+    }
+
+    void produireResultat() {
+        
+        caclulerHeures();
+        
     }
     
-    private void obtenirNormePermis() throws IOException {
-
-        switch(declaration.getOrdre()){
+    private void validerActivites() throws Exception{
+        
+        for(Activite activite : declaration.getActivites()){
             
-            case "architectes":
-                normePermis = "[AT]\\d{4}";
-                break;
-            case "géologues":
-                String nom = declaration.getNom();
-                String prenom = declaration.getPrenom();
-                normePermis = nom.substring(0,1).toUpperCase() + prenom.substring(0,1).toUpperCase() + "\\d{4}";
-                break;
-            case "psychologues":
-                normePermis = "\\d{5}-\\d{2}";
-                break;
-            case "podiatres":
-                normePermis = "\\d{5}";
-                break;  
-        }
+            if(!Validation.validerDateActivite(exigences.getCyclesSupportes(), activite.getParsedDate())){
+                activite.setInvalide();
+                resultat.ajoutErreur("L'activité "+ activite.getDescription() +" a été effectué à l'extérieur de l'intervalle demandé");
+            }
+            else if(!Validation.validerDescriptionActivite(activite) | !Validation.validerFormatDate(activite.getDate())){
+                resultat.setInvalide();
+            }
+        }   
+    }
+
+    private void caclulerHeures() {
+        
+        for(Activite activite : declaration.getActivites()){
+            
+            if(activite.getValidite())
+                int heures
+                heures = heuresParCategories.get(activite.getCategorie());
+                heuresParCategories.put(activite.getCategorie(), activite.getHeures());
+        }  
     }
     
 }

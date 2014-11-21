@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetsessioninf2015;
+package util;
 
 import java.util.Date;
 import net.sf.json.JSONArray;
+import model.Activite;
+import util.ISO8601DateParser;
 
 /**
  *
@@ -52,7 +54,7 @@ public class Validation {
         return date.matches("\\d{4}-\\d{2}-\\d{2}");
     }
     
-    public static boolean validerDateActivite(JSONArray cyclesSupportes, Activite activite) throws Exception{
+    public static boolean validerDateActivite(JSONArray cyclesSupportes, Date date) throws Exception{
         
         Date dateMin;
         Date dateMax;
@@ -62,7 +64,7 @@ public class Validation {
             dateMin = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMin"));
             dateMax = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMax"));
           
-            if(activite.getDate().after(dateMin) && activite.getDate().before(dateMax))
+            if(date.after(dateMin) && date.before(dateMax))
                 return true;
         }
  

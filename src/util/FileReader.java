@@ -1,5 +1,5 @@
 
-package projetsessioninf2015;
+package util;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;

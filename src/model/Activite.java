@@ -1,6 +1,7 @@
 
-package projetsessioninf2015;
+package model;
 
+import util.ISO8601DateParser;
 import java.util.Date;
 import net.sf.json.JSONObject;
 
@@ -12,11 +13,13 @@ import net.sf.json.JSONObject;
  */
 public class Activite {
     
-    JSONObject activite;
+    private final JSONObject activite;
+    private boolean validite;
     
     public Activite (JSONObject activite){
         
         this.activite = activite;
+        validite = true;
     }
     
     public int getHeures(){
@@ -34,9 +37,23 @@ public class Activite {
         return activite.getString("catégorie");
     }
    
-    Date getDate() throws Exception {
+    public Date getParsedDate() throws Exception {
         
-        return ISO8601DateParser.parse(activite.getString("date"));
+        return ISO8601DateParser.parse(getDate());
     }
+    
+    public String getDate() throws Exception {
+        
+        return activite.getString("date");
+    }
+
+    public boolean getValidite() {
+        return validite;
+    }
+    
+    public void setInvalide(){
+        validite = false;
+    }
+    
     
 }

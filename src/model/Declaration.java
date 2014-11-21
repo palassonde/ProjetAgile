@@ -1,11 +1,12 @@
-/**
+ /**
  *
  * @author Achille
  * @author Pierre-Alexandre
  * @author Gires
  */
-package projetsessioninf2015;
+package model;
 
+import util.TraitementJSON;
 import java.io.IOException;
 import java.util.ArrayList;
 import net.sf.json.JSONArray;
@@ -13,51 +14,46 @@ import net.sf.json.JSONObject;
 
 public class Declaration {
     
-    JSONObject declaration;
-    JSONArray activites;
-    ArrayList<Activite> listeActivites;
-    boolean erreurFonctionnel;
+    private final JSONObject declaration;
+    private final JSONArray activites;
+    private ArrayList<Activite> listeActivites;
     
     public Declaration (String emplacement) throws IOException, Exception{
-        
-        erreurFonctionnel = false;
+
         declaration = TraitementJSON.obtenirJsonObject(emplacement);
         activites = declaration.getJSONArray("activités");
         creerListeActivites();
     }
     
-    public String getPrenom(){
-        
-        return declaration.getString("prénom");
-    }
-    
-    public String getNom(){
-        
-        return declaration.getString("nom");
-    }
-    
-    public int getSexe(){
-        
+    public int getSexe(){       
         return declaration.getInt("sexe");
     }
     
-    public String getCycle(){
-        
-        return declaration.getString("cycle");
+    public String getNom(){
+        return declaration.getString("nom");
     }
     
-    public String getOrdre(){
-        
+    public String getPrenom(){
+        return declaration.getString("prenom");
+    }
+    
+    public String getOrdre(){       
         return declaration.getString("ordre");
     }
     
-    public String getNumeroPermis(){
-        
+    public String getCycle(){        
+        return declaration.getString("cycle");
+    }
+    
+    public String getNumeroPermis(){        
         return declaration.getString("numero_de_permis");
     }
     
-    public ArrayList<Activite> getActivites(){
-        
+    public int getHeuresCyclePrecedent() {
+        return declaration.getInt("heures_transfere_cycle_precedent");
+    }
+    
+    public ArrayList<Activite> getActivites(){       
         return listeActivites;
     }
     
@@ -69,5 +65,5 @@ public class Declaration {
             listeActivites.add(activite);
         }
     }
-    
+     
 }

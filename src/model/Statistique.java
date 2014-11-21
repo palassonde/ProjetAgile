@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetsessioninf2015;
+package model;
 
+import util.TraitementJSON;
 import java.io.IOException;
 import net.sf.json.JSONObject;
 
@@ -14,15 +15,7 @@ import net.sf.json.JSONObject;
  */
 public class Statistique {
 
-    static void ecrire() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    static void compiler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    JSONObject statistique;
+    private JSONObject statistique;
     private final JSONObject activitesValidesParCategories;
     private final JSONObject activitesValidesEtCompletesParOrdre;
     private final JSONObject activitesValidesEtIncompletesParOrdre;
@@ -44,6 +37,14 @@ public class Statistique {
         
         JSONObject fichierStat = TraitementJSON.obtenirJsonObject("JSON/statistiques.json");
         return fichierStat;
+    }
+    
+    static void ecrire() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    static void compiler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public static void reinitialiser() {

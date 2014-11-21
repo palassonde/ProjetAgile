@@ -1,4 +1,4 @@
-package projetsessioninf2015;
+package util;
 
 /*
  * Copyright 1999,2004 The Apache Software Foundation.
