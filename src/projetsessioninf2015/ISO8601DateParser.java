@@ -79,12 +79,6 @@ public class ISO8601DateParser {
         //NOTE: SimpleDateFormat uses GMT[-+]hh:mm for the TZ which breaks
         //things a bit.  Before we go on we have to repair this.
         
-        //Code que j'ai rajouté pour être sur que la date soit dans le bon format
-        if(!input.matches("\\d{4}-\\d{2}-\\d{2}")){
-            throw new Exception("Le format d'une des dates d'une activité est invalide");
-        }
-        ///////////////////////////////////////////////////////////////////////////
-        
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"/*'T'HH:mm:ssz"*/ );
         
         //this is zero time so we need to add that TZ indicator for 

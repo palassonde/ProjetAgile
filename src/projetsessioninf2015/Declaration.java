@@ -7,301 +7,67 @@
 package projetsessioninf2015;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-class Declaration {
-       
-    String ordre;
-    String cycle;
-    String numeroPermis;
+public class Declaration {
     
-    int nbrHeuresTotal;
-    int heuresCyclePrecedent;
-    int heuresTotalMinimum;
+    JSONObject declaration;
+    JSONArray activites;
+    ArrayList<Activite> listeActivites;
+    boolean erreurFonctionnel;
     
-    Map <String, Integer> categories = new HashMap<>();
-   
-    Resultat resultat;
-    LectureJSON lecture;
-    Statistique statistique;
-    
-    public Declaration (LectureJSON lecture) throws IOException, ParseException {
+    public Declaration (String emplacement) throws IOException, Exception{
         
-        this.lecture = lecture;
-        resultat = new Resultat();
-        cycle = lecture.declaration.getString("cycle");
-        ordre = lecture.declaration.getString("ordre");
-        numeroPermis = lecture.declaration.getString("numero_de_permis");
-        nbrHeuresTotal = 0;
-        statistique = new Statistique(lecture);
+        erreurFonctionnel = false;
+        declaration = TraitementJSON.obtenirJsonObject(emplacement);
+        activites = declaration.getJSONArray("activités");
+        creerListeActivites();
     }
     
-    public JSONObject valider () throws IOException, ParseException, Exception {
-           
-        JSONObject resultatFinal = new JSONObject();
-            
-        validerCycle();
-        creerCategories();
-        traitement();
-
-        resultatFinal.accumulate("complet", resultat.complet);
-        resultatFinal.accumulate("erreurs", resultat.erreurs);
-        return resultatFinal;
+    public String getPrenom(){
+        
+        return declaration.getString("prénom");
     }
-    // crée la catégprie (les activtés)
     
-    void creerCategories () {
+    public String getNom(){
         
-        for (int i = 0; i < lecture.listeCategories.size(); i++){
-            categories.put(lecture.listeCategories.getString(i), 0);
-        }
+        return declaration.getString("nom");
     }
-// calcul les heures accumuleés dans les cycles préceédent
-    void accumulerHeures (Activite activite) {
+    
+    public int getSexe(){
         
-        int heures;
-        heures = categories.get(activite.getCategorie());
-        heures += activite.getHeures();
-        categories.put(activite.getCategorie(), heures);
+        return declaration.getInt("sexe");
     }
-    /*
-    * traitement particulier de l'ordre des architectes.
-    */
-    void traitementArchitecte () {
+    
+    public String getCycle(){
         
-        heuresCyclePrecedent = lecture.declaration.getInt("heures_transferees_du_cycle_precedent");
-        
-        if (heuresCyclePrecedent > 7){
-
-            heuresCyclePrecedent = 7;
-            resultat.erreurs.add("Le nombre d'heures cumulees ne peut dépasser 7");
-            
-        } else if (heuresCyclePrecedent < 0){
-
-            heuresCyclePrecedent = 0;
-        }
-       
-        int heuresMinimumSousCategories = heuresCyclePrecedent;
-        
-        if (categories.get("présentation") > 23) {
-            
-            categories.put("présentation", 23);
-        }
-        
-        if (categories.get("groupe de discussion") > 17){
-            
-            categories.put("groupe de discussion", 17);
-        }
-        
-        if (categories.get("projet de recherche") > 23){
-            
-            categories.put("projet de recherche", 23);
-        }
-        
-        if (categories.get("rédaction professionnelle") > 17){
-            
-            categories.put("rédaction professionnelle", 17);
-        }
- 
-        for (int i = 0; i < lecture.listeSousCategories.size(); i++){
-   
-            heuresMinimumSousCategories += categories.get(lecture.listeSousCategories.getString(i));
-        }
-        
-        if (heuresMinimumSousCategories < 17){
-            
-            resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de 17 heures effectués dans les catégories demandés");
-        } 
+        return declaration.getString("cycle");
     }
-    /*
-    * traitement particulier de l'ordre des psychologues.
-    */
-    void traitementPsychologue () {
+    
+    public String getOrdre(){
         
-        if (categories.get("cours") < 25){
-            
-            resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de 25 heures effectué dans la catégorie cours");
-        }
-            
-        if (categories.get("conférence") > 15){
-            
-            categories.put("conférence", 15);
-        }
+        return declaration.getString("ordre");
     }
-    /* 
-    * traitement particulier de l'ordre des geologues.
-    */
-    void traitementGeologuePodiatre () {
+    
+    public String getNumeroPermis(){
         
-        if (categories.get("cours") < 22){
-            
-            resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de 22 heures effectué dans la catégorie cours");
-        }
-            
-        if (categories.get("projet de recherche") < 3){
-            
-            resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de 3 heures effectué dans la catégorie projet de recherche");
-        }
+        return declaration.getString("numero_de_permis");
+    }
+    
+    public ArrayList<Activite> getActivites(){
         
-        if (categories.get("groupe de discussion") < 1){
+        return listeActivites;
+    }
+    
+    private void creerListeActivites() throws Exception {
+        
+        for (int i = 0; i < activites.size(); i++){
             
-            resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de 1 heures effectué dans la catégorie groupe de discussion");
+            Activite activite = new Activite(activites.getJSONObject(i));
+            listeActivites.add(activite);
         }
     }
     
-    /* fait une vérification si l'ordre existe
-    prend cet ordre calcule ces heures 
-    et voit si elle a été effectuer dans le cycle 
-    */
-    private void traitement () throws ParseException, Exception {
-        
-        statistique.creerCategories();
-        traitementActivites();
-        obtenirHeuresTotalMinimum();
-        
-        switch(ordre){
-            
-            case "architectes":
-                traitementArchitecte();
-                break;
-            case "psychologues":
-                traitementPsychologue();
-                break;
-            case "géologues":
-                traitementGeologuePodiatre();
-                break;
-            case "podiatres":
-                traitementGeologuePodiatre();
-                break;
-        }
-        
-        calculerHeuresTotal();
-        verifierHeuresTotal();
-        compilerStatistique();
-        
-    }
-    
-// fait une vérification du cycle 
-    private void validerCycle () {
-        
-        boolean cycleExisteDansListe = false;
-        
-        for (int i = 0; i < lecture.cyclesSupportes.size(); i++) {
-            
-            if (cycle.equals(lecture.cyclesSupportes.getJSONObject(i).getString("cycle")))
-                cycleExisteDansListe = true;
-        }
-        
-        if (!cycleExisteDansListe) {
-            
-            resultat.complet = false;
-            resultat.erreurs.add("Le cycle ne correspond à aucun des cycles supportés");
-        }      
-    }
-    
-    // fait la somme de tous les heures dans chaque catégorie
-    private void calculerHeuresTotal() {
-        
-        nbrHeuresTotal += heuresCyclePrecedent;
-        
-        for (Map.Entry<String, Integer> categorie : categories.entrySet()){
-            
-           nbrHeuresTotal += categorie.getValue();
-        }
-    }
-    
-    private void obtenirHeuresTotalMinimum() {
-        
-        switch(ordre){
-            
-            case "architectes":
-                heuresTotalMinimum = 42;
-                if(cycle.equals("2012-2014"))
-                    heuresTotalMinimum = 40;
-                break;
-            case "podiatres":
-                heuresTotalMinimum = 60;
-                break;
-            case "géologues":
-                heuresTotalMinimum = 55;
-                break;
-            case "psychologues":
-                heuresTotalMinimum = 90;
-                break;
-        }
-    }
-
-    private void traitementActivites() throws Exception {
-        
-        for (Activite activite : lecture.activites){
-           
-            if (activite.validerDate(lecture.cyclesSupportes)){
-                
-               if (lecture.listeCategories.contains(activite.getCategorie())){
-                   accumulerHeures(activite);
-                   compilerStatistiqueActivites(activite);
-               }
-               else{
-                    resultat.erreurs.add("L'activité " + activite.getDescription() + " n'a pas été comptabilisé");
-               }    
-            }
-            else{ 
-               resultat.erreurs.add("L'activité " + activite.getDescription() + " a été effectué à l'extérieur de l'intervalle demandé");
-            }
-        }
-    }
-
-    private void verifierHeuresTotal() {
-        
-        if (nbrHeuresTotal < heuresTotalMinimum) {
-            
-            resultat.complet = false;
-            resultat.erreurs.add("Il y a moins de "+heuresTotalMinimum+" heures effectués dans la formation continue");
-        }
-    }
-    
-    public Statistique recupererStatistiques(){
-
-        return statistique;
-    }
-
-    private void compilerStatistique () {
-       
-        statistique.nbrTotalDeclarationTraite++;
-        if (resultat.complet)
-            statistique.nbrTotalDeclarationComplete++;
-        else
-            statistique.nbrTotalDeclarationInvalide++;
-        
-        switch ( lecture.declaration.getInt("sexe")) {
-        
-            case 0:
-                statistique.nbrTotalDeclarationSexeIconnu++;
-                break;
-            case 1:
-                statistique.nbrTotalDeclarationHomme++;
-                break;
-            case 2:
-                statistique.nbrTotalDeclarationFemme++;
-                break;
-        }      
-    }
-
-    private void compilerStatistiqueActivites(Activite activite) {
-        
-        int nbrTotalActivites;
-        statistique.nbrTotalActiviteValide++;
-         
-        nbrTotalActivites = statistique.activiteValideParCategorie.get(activite.getCategorie());
-        nbrTotalActivites++;
-        statistique.activiteValideParCategorie.put(activite.getCategorie(), nbrTotalActivites);
-    }
 }

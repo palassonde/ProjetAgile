@@ -1,10 +1,7 @@
 
 package projetsessioninf2015;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
 
 /**
  *
@@ -14,72 +11,39 @@ import net.sf.json.JSONSerializer;
  */
 public class FormationContinue {
 
-    
-    public static void main (String[] args) throws IOException{
-
-        String fichierEntre = args[0];
-        String emplacementStatistiques = "json/statistiques.json";
-        JSONObject resultat;
-        Statistique statistique;
-        JSONObject stats;
-        stats = obtenirJsonObject(emplacementStatistiques); 
+    public static void main (String[] args) throws IOException, Exception{
         
         switch(args[0]){
         
         case "-S":
             
-            System.out.println(stats.toString(4));
+            Statistique.afficher();
             break;
             
         case "-SR":
             
-            statistique = new Statistique(stats);
-            ecritureDeSortie(statistique.reinitialise(), emplacementStatistiques);
+            Statistique.reinitialiser();
             System.out.println("Réintialisation effectuée");
             break;
             
         default:
-            
-            Declaration declaration;
-            String fichierSortie = args[1];
-            String emplacementEntree = "json/" + fichierEntre;
-            String emplacementSortie = "json/" + fichierSortie;
-            LectureJSON lecture = new LectureJSON(emplacementEntree);
+
+            String emplacementEntree = "json/" + args[0];
+            String emplacementSortie = "json/" + args[1];
+            Declaration declaration = new Declaration(emplacementEntree);
+            Traitement traitement = new Traitement(declaration);
             
             try{
-                
-            lecture.lireFichiersJSON();
-            declaration = new Declaration(lecture);
-            resultat = declaration.valider();
-            statistique = declaration.recupererStatistiques();
-            ecritureDeSortie(statistique.toJSONObject(), emplacementStatistiques);
-            ecritureDeSortie(resultat, emplacementSortie);
-
+                traitement.traiterDeclaration(); 
             } catch(Exception e){
-                
-                resultat = new JSONObject();
-                resultat.accumulate("Erreur", "Le fichier d'entrée est invalide, le cycle est incomplet");
-                ecritureDeSortie(resultat, emplacementSortie);
+                traitement.ecrireResultat(emplacementSortie);
                 System.out.println(e);
-            }    
+            }
+            finally{
+                Statistique.compiler();
+                Statistique.ecrire();
+            }
             break;
-        }
-        
+        }   
     }
-    
-// sort le fichier JSON avec toutes les données
-    private static void ecritureDeSortie (JSONObject resultat, String emplacement) throws IOException {
-        
-        try (FileWriter ecrire = new FileWriter(emplacement)){
-            ecrire.write(resultat.toString(2));
-        }
-    }
-    private static JSONObject obtenirJsonObject (String emplacement) throws IOException {
-
-        String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
-        return (JSONObject) JSONSerializer.toJSON(lecteur);
-    }
-    
-
-    
 }

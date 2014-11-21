@@ -125,28 +125,11 @@ public class LectureJSON {
         
     }
 
-    private void obtenirNormePermis() throws IOException {
-
-        switch(declaration.getString("ordre")){
-            
-            case "architectes":
-                normePermis = "[AT]\\d{4}";
-                break;
-            case "géologues":
-                String nom = declaration.getString("nom");
-                String prenom = declaration.getString("prenom");
-                normePermis = nom.substring(0,1).toUpperCase() + prenom.substring(0,1).toUpperCase() + "\\d{4}";
-                break;
-            case "psychologues":
-                normePermis = "\\d{5}-\\d{2}";
-                break;
-            case "podiatres":
-                normePermis = "\\d{5}";
-                break;  
-        }
-    }
+    
 
     private void obtenirStatistiques() throws IOException {
+        
+        
         
         statistiques = obtenirJsonObject(emplacementStatistiques);
     }

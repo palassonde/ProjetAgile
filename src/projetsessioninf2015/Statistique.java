@@ -1,114 +1,66 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package projetsessioninf2015;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 import net.sf.json.JSONObject;
 
 /**
  *
- * @author Achille
- * @author Pierre-Alexandre
- * @author Gires
+ * @author palass
  */
 public class Statistique {
+
+    static void ecrire() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    static void compiler() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
-    public int nbrTotalDeclarationTraite;
-    public int nbrTotalDeclarationComplete;
-    public int nbrTotalDeclarationInvalide;
-    public int nbrTotalDeclarationHomme;
-    public int nbrTotalDeclarationFemme;
-    public int nbrTotalDeclarationSexeIconnu;
-    public int nbrTotalActiviteValide;
-    public String argument;
-    
-    Map <String, Integer> activiteValideParCategorie = new HashMap<>();
-    LectureJSON lecture;
     JSONObject statistique;
-    JSONObject statistiqueValeurNul;
-    JSONObject activitesValides;
-    
-     // lecture des informations pour l'affichage 
-     public Statistique (LectureJSON lecture) {
-         
-         statistique = lecture.statistiques;
-         nbrTotalDeclarationTraite = lecture.statistiques.getInt("déclarations_traitées");
-         nbrTotalDeclarationComplete = lecture.statistiques.getInt("déclarations_complètes");
-         nbrTotalDeclarationInvalide =lecture.statistiques.getInt("déclarations_invalides");
-         nbrTotalDeclarationHomme = lecture.statistiques.getInt("déclarations_hommes");
-         nbrTotalDeclarationFemme = lecture.statistiques.getInt("déclarations_femmes");
-         nbrTotalDeclarationSexeIconnu = lecture.statistiques.getInt("déclarations_sexe_inconnu");
-         nbrTotalActiviteValide = lecture.statistiques.getInt("activités_valides");
-         this.lecture = lecture;
-     }
+    private final JSONObject activitesValidesParCategories;
+    private final JSONObject activitesValidesEtCompletesParOrdre;
+    private final JSONObject activitesValidesEtIncompletesParOrdre;
 
-    Statistique(JSONObject fichierStatistique) {
+    public Statistique() throws IOException {
         
-        statistique = fichierStatistique;
-        activitesValides = statistique.getJSONObject("activités_valides_par_catégories");
-        
+        statistique = getFichierStat();
+        activitesValidesParCategories = statistique.getJSONObject("activités_valides_par_catégories");
+        activitesValidesEtCompletesParOrdre = statistique.getJSONObject("declarations_valides_et_completes_par_ordre_professionnelle");
+        activitesValidesEtIncompletesParOrdre = statistique.getJSONObject("declarations_valides_et_incompletes_par_ordre_professionnelle");
     }
     
-   
-     // création de la catégorie
-    public void creerCategories () {
+    public static void afficher() throws IOException{
         
-        for (int i = 0; i < lecture.listeTouteCategories.size(); i++){
-            activiteValideParCategorie.put(lecture.listeTouteCategories.getString(i), 0);
-            
-        }
+        System.out.println(getFichierStat().toString(4));
     }
-       void ValeurNull() {
+    
+    private static JSONObject getFichierStat() throws IOException{
         
-         nbrTotalDeclarationTraite = 0;
-         nbrTotalDeclarationComplete = 0;
-         nbrTotalDeclarationInvalide =0;
-         nbrTotalDeclarationHomme = 0;
-         nbrTotalDeclarationFemme = 0;
-         nbrTotalDeclarationSexeIconnu = 0;
-         nbrTotalActiviteValide = 0;
-         this.lecture = null;
-        
+        JSONObject fichierStat = TraitementJSON.obtenirJsonObject("JSON/statistiques.json");
+        return fichierStat;
     }
-     
-// incrémente le nombre de fois l'activité a été faite
-    JSONObject toJSONObject() {
+    
+    public static void reinitialiser() {
         
-        int valeur;
+        /*statistique.putAll(statistique);
         
-        JSONObject activitesValides = new JSONObject();
-        
-        for (Map.Entry<String, Integer> activiteValide : activiteValideParCategorie.entrySet()) {
-            
-           valeur = statistique.getJSONObject("activités_valides_par_catégories").getInt(activiteValide.getKey());
-           activitesValides.put(activiteValide.getKey(), activiteValide.getValue() + valeur);
-        }
-        
-        statistique.put("déclarations_traitées", nbrTotalDeclarationTraite);
-        statistique.put("déclarations_complètes",nbrTotalDeclarationComplete); 
-        statistique.put("déclarations_invalides", nbrTotalDeclarationInvalide);
-        statistique.put("déclarations_hommes",nbrTotalDeclarationHomme); 
-        statistique.put("déclarations_femmes",nbrTotalDeclarationFemme); 
-        statistique.put("déclarations_sexe_inconnu",nbrTotalDeclarationSexeIconnu );
-        statistique.put("activités_valides", nbrTotalActiviteValide);
-        statistique.put("activités_valides_par_catégories", activitesValides);
-        
-        return statistique;
-    }
-
-    public JSONObject reinitialise() {
-         
-        activitesValides.put( "rédaction professionnelle", 0);
-        activitesValides.put( "conférence", 0);
-        activitesValides.put( "colloque", 0);
-        activitesValides.put("formation continue", 0);
-        activitesValides.put( "projet de recherche", 0);
-        activitesValides.put(  "groupe de discussion", 0);
-        activitesValides.put(  "cours", 0);
-        activitesValides.put(  "présentation", 0);
-        activitesValides.put(  "séminaire", 0);
-        activitesValides.put(  "lecture dirigée", 0);
-        activitesValides.put(  "atelier", 0);
+        activitesValidesParCategories.put( "rédaction professionnelle", 0);
+        activitesValidesParCategories.put( "conférence", 0);
+        activitesValidesParCategories.put( "colloque", 0);
+        activitesValidesParCategories.put("formation continue", 0);
+        activitesValidesParCategories.put( "projet de recherche", 0);
+        activitesValidesParCategories.put(  "groupe de discussion", 0);
+        activitesValidesParCategories.put(  "cours", 0);
+        activitesValidesParCategories.put(  "présentation", 0);
+        activitesValidesParCategories.put(  "séminaire", 0);
+        activitesValidesParCategories.put(  "lecture dirigée", 0);
+        activitesValidesParCategories.put(  "atelier", 0);
      
         statistique.put("déclarations_traitées", 0);
         statistique.put("déclarations_complètes",0); 
@@ -117,9 +69,46 @@ public class Statistique {
         statistique.put("déclarations_femmes",0); 
         statistique.put("déclarations_sexe_inconnu",0 );
         statistique.put("activités_valides", 0);
-        statistique.put("activités_valides_par_catégories", activitesValides);
+        statistique.put("activités_valides_par_catégories", activitesValidesParCategories);*/
+    }
+    
+    public void incrementerStat(String stat){
         
-         return statistique;
+        int valeur = statistique.getInt(stat);
+        valeur++;
+        statistique.put(stat, valeur);
+    }
+    
+    public void incrementerCategorie(String categorie){
+        
+        int valeur = activitesValidesParCategories.getInt(categorie);
+        valeur++;
+        activitesValidesParCategories.put(categorie, valeur);
+    }
+    
+    public void incrementerDeclarationCompleteInvalide(String ordre){
+        
+        int valeur = activitesValidesEtCompletesParOrdre.getInt(ordre);
+        valeur++;
+        activitesValidesEtCompletesParOrdre.put(ordre, valeur);
+    }
+    
+    public void incrementerDeclarationCompleteValide(String ordre){
+        
+        int valeur = activitesValidesEtIncompletesParOrdre.getInt(ordre);
+        valeur++;
+        activitesValidesEtIncompletesParOrdre.put(ordre, valeur);
+    }
+    
+    public JSONObject compilerJSONObject(){
+        
+        JSONObject stat = new JSONObject();
+        
+        stat.accumulate("activités_valides_par_catégories", activitesValidesParCategories);
+        stat.accumulate("declarations_valides_et_completes_par_ordre_professionnelle", activitesValidesEtCompletesParOrdre);
+        stat.accumulate("declarations_valides_et_incompletes_par_ordre_professionnelle", activitesValidesEtIncompletesParOrdre);
+
+        return stat;
     }
     
 }
