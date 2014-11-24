@@ -14,12 +14,12 @@ import net.sf.json.JSONObject;
 public class Activite {
     
     private final JSONObject activite;
-    private boolean validite;
+    private boolean valide;
     
     public Activite (JSONObject activite){
         
         this.activite = activite;
-        validite = true;
+        valide = true;
     }
     
     public int getHeures(){
@@ -34,7 +34,7 @@ public class Activite {
     
     public String getCategorie(){
         
-        return activite.getString("catégorie");
+        return activite.getString("categorie");
     }
    
     public Date getParsedDate() throws Exception {
@@ -47,12 +47,12 @@ public class Activite {
         return activite.getString("date");
     }
 
-    public boolean getValidite() {
-        return validite;
+    public boolean isValidite() {
+        return valide;
     }
     
     public void setInvalide(){
-        validite = false;
+        valide = false;
     }
     
     

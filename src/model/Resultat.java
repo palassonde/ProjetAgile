@@ -11,7 +11,7 @@ import net.sf.json.JSONArray;
  *
  * @author palass
  */
-class Resultat {
+public class Resultat {
     
     private final JSONArray erreurs;
     private boolean complet;
@@ -26,7 +26,7 @@ class Resultat {
     
     public void ajoutErreur(String msg){
         
-        erreurs.add(msg);
+        getErreurs().add(msg);
     }
     
     public void setIncomplet(){
@@ -38,5 +38,28 @@ class Resultat {
         
         this.validite = false;
     }
+
+    /**
+     * @return the erreurs
+     */
+    public JSONArray getErreurs() {
+        return erreurs;
+    }
+
+    /**
+     * @return the complet
+     */
+    public boolean isComplet() {
+        return complet;
+    }
+
+    /**
+     * @return the validite
+     */
+    public boolean isValidite() {
+        return validite;
+    }
+    
+    
           
 }

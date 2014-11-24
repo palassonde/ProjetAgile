@@ -7,10 +7,10 @@ package util;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
+import model.Resultat;
 
 /**
  *
@@ -18,13 +18,13 @@ import net.sf.json.JSONSerializer;
  */
 public class TraitementJSON {
     
-    public static  JSONObject obtenirJsonObject (String emplacement) throws IOException {
+    public static  JSONObject obtenirJSONObject (String emplacement) throws IOException {
 
         String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
         return (JSONObject) JSONSerializer.toJSON(lecteur);
     }
     
-    public static JSONArray obtenirJsonArray (String emplacement) throws IOException {
+    public static JSONArray obtenirJSONArray (String emplacement) throws IOException {
 
         String lecteur = FileReader.loadFileIntoString(emplacement, "UTF-8");
         return (JSONArray) JSONSerializer.toJSON(lecteur);
@@ -38,22 +38,26 @@ public class TraitementJSON {
         }
     }
     
-    public static JSONObject toJSONObject(Object bean){
+    public static JSONObject resultatToJSONObject(Resultat resultat){
         
-        JSONObject obj = JSONObject.fromObject(bean);
+        JSONObject obj = new JSONObject();
+        
+        obj.accumulate("complet", resultat.isComplet());
+        obj.accumulate("erreurs", resultat.getErreurs());
+        
         return obj;
     }
+
+    public static JSONObject obtenirTabCategories() throws IOException {
+        return TraitementJSON.obtenirJSONObject("json/categories.json").getJSONObject("categories");
+    }
     
-    public static HashMap getMapCategories () throws IOException {
-        
-        String emplacement = "json/listeCategories.json";
-        HashMap categories = new HashMap();
-        JSONArray listeCategories = obtenirJsonObject(emplacement).getJSONArray("catégories");
-        
-        for (int i = 0; i < listeCategories.size(); i++)
-            categories.put(listeCategories.getString(i), 0);
-        
-        return categories;
+    public static JSONObject obtenirTabOrdre() throws IOException {
+        return TraitementJSON.obtenirJSONObject("json/categories.json").getJSONObject("ordres");
+    }
+    
+    public static JSONObject obtenirTabStat() throws IOException {
+        return TraitementJSON.obtenirJSONObject("json/categories.json").getJSONObject("statistiques");
     }
     
 }

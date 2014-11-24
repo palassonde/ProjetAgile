@@ -1,35 +1,35 @@
 {
-  "déclarations_traitées": 1,
-  "déclarations_complètes": 1,
-  "déclarations_invalides": 0,
-  "déclarations_hommes": 0,
-  "déclarations_femmes": 1,
-  "déclarations_sexe_inconnu": 0,
-  "activités_valides": 6,
-  "declaration_permis_invalides": 0,
-  "activités_valides_par_catégories":   {
-    "projet de recherche valide": 1,
-    "formation continue": 0,
-    "groupe de discussion": 1,
-    "conférence": 1,
-    "rédaction professionnelle": 1,
-    "colloque": 0,
-    "séminaire": 1,
-    "lecture dirigée": 0,
-    "atelier": 0,
-    "cours": 1,
-    "présentation": 0
-  },
-  "déclarations_valides_et_complètes_par_ordre_professionnelle": {
-      "architectes": 0,
-      "psychologues": 0,
-      "géologues": 0,
-      "podiatres": 0      
-  },
-  "déclarations_valides_et_incomplètes_par_ordre_professionnelle": {
-      "architectes": 0,
-      "psychologues": 0,
-      "géologues": 0,
-      "podiatres": 0  
-  }
+    "déclarations_traitées": 2,
+    "déclarations_complètes": 0,
+    "déclarations_invalides": 2,
+    "déclarations_hommes": 0,
+    "déclarations_femmes": 0,
+    "déclarations_sexe_inconnu": 2,
+    "activités_valides": 10,
+    "declaration_permis_invalides": 0,
+    "activités_valides_par_catégories":     {
+        "cours": 0,
+        "atelier": 0,
+        "séminaire": 2,
+        "colloque": 0,
+        "conférence": 2,
+        "lecture dirigée": 0,
+        "présentation": 0,
+        "groupe de discussion": 2,
+        "projet de recherche": 2,
+        "rédaction professionnelle": 2,
+        "formation continue": 0
+    },
+    "declarations_valides_et_completes_par_ordre_professionnelle":     {
+        "architectes": 0,
+        "psychologues": 0,
+        "géologues": 0,
+        "podiatres": 0
+    },
+    "declarations_valides_et_incompletes_par_ordre_professionnelle":     {
+        "architectes": 0,
+        "psychologues": 0,
+        "géologues": 0,
+        "podiatres": 2
+    }
 }

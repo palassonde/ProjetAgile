@@ -16,14 +16,11 @@ import util.TraitementJSON;
  */
 public class ExigencesOrdre {
     
-    private final String emplacementCategories = "json/listeCategories.json";
-    private final String emplacementCycles = "json/listeCategories.json";
-    private final String emplacementTableaux = "json/tableaux.json";
+    private final String emplacementCycles = "json/cycles.json";
     
     private final JSONArray cyclesSupportes;
-    private final JSONArray categoriesSupportes;
+    private final JSONObject categories;
     private final JSONArray sousCategories;
-    private final JSONArray listeTouteCategories;
     private String normePermis;
     private final String ordre;
     
@@ -36,12 +33,11 @@ public class ExigencesOrdre {
     ExigencesOrdre(Declaration declaration) throws IOException {
         
         this.ordre = declaration.getOrdre();
-        listeTouteCategories = TraitementJSON.obtenirJsonObject(emplacementCategories).getJSONArray("categories");
-        sousCategories = TraitementJSON.obtenirJsonObject(emplacementCategories).getJSONArray("sous-categories");
-        categoriesSupportes = TraitementJSON.obtenirJsonObject(emplacementCategories).getJSONArray(ordre);
-        cyclesSupportes = TraitementJSON.obtenirJsonObject(emplacementCycles).getJSONArray(ordre);
-        heuresMinParCategories = TraitementJSON.obtenirJsonObject(emplacementTableaux).getJSONObject("catégories");
-        heuresMaxParCategories = TraitementJSON.obtenirJsonObject(emplacementTableaux).getJSONObject("catégories");
+        sousCategories = TraitementJSON.obtenirJSONObject("json/categories.json").getJSONArray("sous-categories");
+        categories = TraitementJSON.obtenirTabCategories();
+        cyclesSupportes = TraitementJSON.obtenirJSONObject(emplacementCycles).getJSONArray(ordre);
+        heuresMinParCategories = TraitementJSON.obtenirTabCategories();
+        heuresMaxParCategories = TraitementJSON.obtenirTabCategories();
         setNormePermis(declaration.getNom(), declaration.getPrenom());
         setHeuresMinimumParCategorie();
         setHeuresMaximumParCategorie();
@@ -125,7 +121,6 @@ public class ExigencesOrdre {
     }
     
     private void setHeuresCyclePrecedent(int heures) {
-        
         heuresCyclePrecedent = heures;
     }
 
@@ -133,16 +128,12 @@ public class ExigencesOrdre {
         return cyclesSupportes;
     }
 
-    public JSONArray getCategoriesSupportes() {
-        return categoriesSupportes;
+    public JSONObject getCategories() {
+        return categories;
     }
 
     public JSONArray getSousCategories() {
         return sousCategories;
-    }
-
-    public JSONArray getListeTouteCategories() {
-        return listeTouteCategories;
     }
 
     public String getNormePermis() {

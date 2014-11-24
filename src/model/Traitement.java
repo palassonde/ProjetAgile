@@ -31,7 +31,7 @@ public class Traitement {
         exigences = new ExigencesOrdre(declaration);
         statistique = new Statistique();
         resultat = new Resultat();
-        heuresParCategories = TraitementJSON.obtenirJsonObject("json/tableaux.json");
+        heuresParCategories = TraitementJSON.obtenirTabCategories();
     }
     
     private void verifierHeuresTotal() {
@@ -63,38 +63,37 @@ public class Traitement {
         }      
     }
 
-    void traiterDeclaration(Declaration declaration) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    void ecrireResultat(String fichierSortie) throws IOException {
+        TraitementJSON.ecritureDeSortie(TraitementJSON.resultatToJSONObject(resultat), fichierSortie);
     }
 
-    void ecrireResultat(String fichierSortie) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    void traiterDeclaration() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    void produireResultat() {
+    void produireResultat() throws Exception {
         
+        verifierActivites();
         caclulerHeures();
-        
+        verifierHeuresMinimales();
+        verifierHeuresMaximales();
+        verifierHeuresSousCategories();
     }
     
-    private void validerActivites() throws Exception{
-        
+    private void verifierActivites() throws Exception{
+         
         for(Activite activite : declaration.getActivites()){
             
             if(!Validation.validerDateActivite(exigences.getCyclesSupportes(), activite.getParsedDate())){
                 activite.setInvalide();
                 resultat.ajoutErreur("L'activité "+ activite.getDescription() +" a été effectué à l'extérieur de l'intervalle demandé");
             }
-            else if(!Validation.validerDescriptionActivite(activite) | !Validation.validerFormatDate(activite.getDate())){
+            else if(!Validation.validerFormatDate(activite.getDate())){
+                activite.setInvalide();
                 resultat.setInvalide();
             }
-            else if(!exigences.getCategoriesSupportes().contains(activite.getCategorie())){
+            else if(!exigences.getCategories().has(activite.getCategorie())){
                 activite.setInvalide();
-                resultat.ajoutErreur("L'activité "+ activite.getDescription() +" n'est pas supporté");
+                resultat.ajoutErreur("La catégorie "+ activite.getDescription() +" n'est pas supporté");
+            }
+            else if(!Validation.validerDescriptionActivite(activite)){
+                activite.setInvalide();
             }
         }   
     }
@@ -108,10 +107,9 @@ public class Traitement {
             if(heuresParCategories.getInt(key) < exigences.getHeuresMinParCategories().getInt(key)){
                 resultat.setIncomplet();
                 resultat.ajoutErreur("Il y a moins de "+ exigences.getHeuresMinParCategories().getInt(key) +
-                                     " heures effectuées dans la catégorie" + key);
+                                     " heures effectuées dans la catégorie " + key);
             }
         }
-        
     }
     
     private void verifierHeuresMaximales(){
@@ -148,7 +146,7 @@ public class Traitement {
         
         for(Activite activite : declaration.getActivites()){
             
-            if(activite.getValidite()){
+            if(activite.isValidite()){
                 
                 heures = heuresParCategories.getInt(activite.getCategorie());
                 heuresParCategories.put(activite.getCategorie(), activite.getHeures());
@@ -156,5 +154,50 @@ public class Traitement {
         }  
     }
 
-    
+    void ecrireStatistique() throws IOException {
+        statistique.ecrire();
+    }
+
+    void compilerStatistique() throws Exception {
+        
+        statistique.incrementerStat("déclarations_traitées");
+        
+        if ( resultat.isComplet() && declaration.isValide()) {
+            
+            statistique.incrementerStat("déclarations_complètes");
+        
+        }else{
+             statistique.incrementerStat("déclarations_invalides");
+        }
+        
+        if (declaration.getSexe()==0) {
+            
+           statistique.incrementerStat("déclarations_homme"); 
+        }else if (declaration.getSexe()==1){
+            statistique.incrementerStat("déclarations_femmes");  
+        }else if (declaration.getSexe()==2){
+            
+            statistique.incrementerStat("déclarations_sexe_inconnu");  
+        }
+        
+        for (Activite activite:declaration.getActivites()){
+            
+            if (activite.isValidite()){
+                statistique.incrementerStat("activités_valides"); 
+                statistique.incrementerCategorie(activite.getCategorie());
+             }
+        }
+        
+        if (!Validation.validerPermis(exigences.getNormePermis(), declaration.getNumeroPermis()))
+            statistique.incrementerStat("declaration_permis_invalides"); 
+        
+        System.out.println(resultat.isComplet());
+        
+        if(declaration.isValide() && resultat.isComplet())
+            statistique.incrementerDeclarationComplete(declaration.getOrdre());
+        
+        if(declaration.isValide() && !resultat.isComplet())
+            statistique.incrementerDeclarationIncomplete(declaration.getOrdre());
+    }
+
 }

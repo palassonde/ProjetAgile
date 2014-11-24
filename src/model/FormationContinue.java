@@ -34,14 +34,15 @@ public class FormationContinue {
             Traitement traitement = new Traitement(declaration);
             
             try{
-                traitement.produireResultat(); 
+                traitement.produireResultat();
+                traitement.compilerStatistique();
             } catch(Exception e){
-                traitement.ecrireResultat(emplacementSortie);
+                
                 System.out.println(e);
             }
             finally{
-                Statistique.compiler();
-                Statistique.ecrire();
+                traitement.ecrireResultat(emplacementSortie);
+                traitement.ecrireStatistique();
             }
             break;
         }   

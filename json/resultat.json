@@ -1,4 +1,8 @@
 {
-  "complet": true,
-  "erreurs": ["L'activité Visite d'établissements architecturaux n'a pas été comptabilisé"]
+    "complet": false,
+    "erreurs":     [
+        "La catégorie Visite d'établissements architecturaux n'est pas supporté",
+        "Il y a moins de 22 heures effectuées dans la catégorie cours",
+        "Il y a moins de 17 heures effectuées dans les sous-catégories"
+    ]
 }

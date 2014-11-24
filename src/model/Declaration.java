@@ -16,13 +16,16 @@ public class Declaration {
     
     private final JSONObject declaration;
     private final JSONArray activites;
-    private ArrayList<Activite> listeActivites;
+    private final ArrayList<Activite> listeActivites;
+    private boolean valide;
     
     public Declaration (String emplacement) throws IOException, Exception{
 
-        declaration = TraitementJSON.obtenirJsonObject(emplacement);
-        activites = declaration.getJSONArray("activités");
+        declaration = TraitementJSON.obtenirJSONObject(emplacement);
+        activites = declaration.getJSONArray("activites");
+        listeActivites = new ArrayList<>();
         creerListeActivites();
+        valide = true;
     }
     
     public int getSexe(){       
@@ -50,7 +53,11 @@ public class Declaration {
     }
     
     public int getHeuresCyclePrecedent() {
-        return declaration.getInt("heures_transfere_cycle_precedent");
+        
+        if(declaration.has("heures_transfere_cycle_precedent"))
+            return declaration.getInt("heures_transfere_cycle_precedent");
+        
+        return 0;
     }
     
     public ArrayList<Activite> getActivites(){       
@@ -64,6 +71,17 @@ public class Declaration {
             Activite activite = new Activite(activites.getJSONObject(i));
             listeActivites.add(activite);
         }
+    }
+
+    /**
+     * @return the valide
+     */
+    public boolean isValide() {
+        return valide;
+    }
+
+    public void setInvalide() {
+        this.valide = false;
     }
      
 }

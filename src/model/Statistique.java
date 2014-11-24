@@ -7,6 +7,7 @@ package model;
 
 import util.TraitementJSON;
 import java.io.IOException;
+import java.util.Iterator;
 import net.sf.json.JSONObject;
 
 /**
@@ -22,7 +23,7 @@ public class Statistique {
 
     public Statistique() throws IOException {
         
-        statistique = getFichierStat();
+        statistique = TraitementJSON.obtenirJSONObject("json/statistiques.json");
         activitesValidesParCategories = statistique.getJSONObject("activités_valides_par_catégories");
         activitesValidesEtCompletesParOrdre = statistique.getJSONObject("declarations_valides_et_completes_par_ordre_professionnelle");
         activitesValidesEtIncompletesParOrdre = statistique.getJSONObject("declarations_valides_et_incompletes_par_ordre_professionnelle");
@@ -35,42 +36,33 @@ public class Statistique {
     
     private static JSONObject getFichierStat() throws IOException{
         
-        JSONObject fichierStat = TraitementJSON.obtenirJsonObject("JSON/statistiques.json");
+        JSONObject fichierStat = TraitementJSON.obtenirJSONObject("json/statistiques.json");
         return fichierStat;
     }
     
-    static void ecrire() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void ecrire() throws IOException {
+        TraitementJSON.ecritureDeSortie(compilerJSONObject(), "json/statistiques.json");
     }
 
     static void compiler() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
     
-    public static void reinitialiser() {
-        
-        /*statistique.putAll(statistique);
-        
-        activitesValidesParCategories.put( "rédaction professionnelle", 0);
-        activitesValidesParCategories.put( "conférence", 0);
-        activitesValidesParCategories.put( "colloque", 0);
-        activitesValidesParCategories.put("formation continue", 0);
-        activitesValidesParCategories.put( "projet de recherche", 0);
-        activitesValidesParCategories.put(  "groupe de discussion", 0);
-        activitesValidesParCategories.put(  "cours", 0);
-        activitesValidesParCategories.put(  "présentation", 0);
-        activitesValidesParCategories.put(  "séminaire", 0);
-        activitesValidesParCategories.put(  "lecture dirigée", 0);
-        activitesValidesParCategories.put(  "atelier", 0);
+    public static void reinitialiser() throws IOException {
      
-        statistique.put("déclarations_traitées", 0);
-        statistique.put("déclarations_complètes",0); 
-        statistique.put("déclarations_invalides", 0);
-        statistique.put("déclarations_hommes",0); 
-        statistique.put("déclarations_femmes",0); 
-        statistique.put("déclarations_sexe_inconnu",0 );
-        statistique.put("activités_valides", 0);
-        statistique.put("activités_valides_par_catégories", activitesValidesParCategories);*/
+        JSONObject stat = new JSONObject();
+        JSONObject catStat = TraitementJSON.obtenirTabStat();
+        
+        Iterator<String> keys = catStat.keys();
+        while(keys.hasNext()){
+            String key = keys.next();
+            stat.put(key, 0);
+        }
+        stat.accumulate("activités_valides_par_catégories", TraitementJSON.obtenirTabCategories());
+        stat.accumulate("declarations_valides_et_completes_par_ordre_professionnelle", TraitementJSON.obtenirTabOrdre());
+        stat.accumulate("declarations_valides_et_incompletes_par_ordre_professionnelle", TraitementJSON.obtenirTabOrdre());
+        
+        TraitementJSON.ecritureDeSortie(stat, "json/statistiques.json");
     }
     
     public void incrementerStat(String stat){
@@ -87,14 +79,14 @@ public class Statistique {
         activitesValidesParCategories.put(categorie, valeur);
     }
     
-    public void incrementerDeclarationCompleteInvalide(String ordre){
+    public void incrementerDeclarationComplete(String ordre){
         
         int valeur = activitesValidesEtCompletesParOrdre.getInt(ordre);
         valeur++;
         activitesValidesEtCompletesParOrdre.put(ordre, valeur);
     }
     
-    public void incrementerDeclarationCompleteValide(String ordre){
+    public void incrementerDeclarationIncomplete(String ordre){
         
         int valeur = activitesValidesEtIncompletesParOrdre.getInt(ordre);
         valeur++;
@@ -105,10 +97,19 @@ public class Statistique {
         
         JSONObject stat = new JSONObject();
         
+        stat.put("déclarations_traitées", statistique.getInt("déclarations_traitées"));
+        stat.put("déclarations_complètes", statistique.getInt("déclarations_complètes"));
+        stat.put("déclarations_invalides", statistique.getInt("déclarations_invalides"));
+        stat.put("déclarations_hommes", statistique.getInt("déclarations_hommes"));
+        stat.put("déclarations_femmes", statistique.getInt("déclarations_femmes"));
+        stat.put("déclarations_sexe_inconnu", statistique.getInt("déclarations_sexe_inconnu"));
+        stat.put("activités_valides", statistique.getInt("activités_valides"));
+        stat.put("declaration_permis_invalides", statistique.getInt("declaration_permis_invalides"));
+        
         stat.accumulate("activités_valides_par_catégories", activitesValidesParCategories);
         stat.accumulate("declarations_valides_et_completes_par_ordre_professionnelle", activitesValidesEtCompletesParOrdre);
         stat.accumulate("declarations_valides_et_incompletes_par_ordre_professionnelle", activitesValidesEtIncompletesParOrdre);
-
+        
         return stat;
     }
     
