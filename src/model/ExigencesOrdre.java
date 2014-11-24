@@ -6,8 +6,8 @@
 package model;
 
 import java.io.IOException;
-import java.util.HashMap;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import util.TraitementJSON;
 
 /**
@@ -18,6 +18,7 @@ public class ExigencesOrdre {
     
     private final String emplacementCategories = "json/listeCategories.json";
     private final String emplacementCycles = "json/listeCategories.json";
+    private final String emplacementTableaux = "json/tableaux.json";
     
     private final JSONArray cyclesSupportes;
     private final JSONArray categoriesSupportes;
@@ -26,8 +27,8 @@ public class ExigencesOrdre {
     private String normePermis;
     private final String ordre;
     
-    private final HashMap heuresMinParCategories;
-    private final HashMap heuresMaxParCategories;
+    private final JSONObject heuresMinParCategories;
+    private final JSONObject heuresMaxParCategories;
     
     private int heuresCyclePrecedent;
     private int heuresMinimum;
@@ -39,8 +40,8 @@ public class ExigencesOrdre {
         sousCategories = TraitementJSON.obtenirJsonObject(emplacementCategories).getJSONArray("sous-categories");
         categoriesSupportes = TraitementJSON.obtenirJsonObject(emplacementCategories).getJSONArray(ordre);
         cyclesSupportes = TraitementJSON.obtenirJsonObject(emplacementCycles).getJSONArray(ordre);
-        heuresMinParCategories = TraitementJSON.getMapCategories();
-        heuresMaxParCategories = TraitementJSON.getMapCategories();
+        heuresMinParCategories = TraitementJSON.obtenirJsonObject(emplacementTableaux).getJSONObject("catégories");
+        heuresMaxParCategories = TraitementJSON.obtenirJsonObject(emplacementTableaux).getJSONObject("catégories");
         setNormePermis(declaration.getNom(), declaration.getPrenom());
         setHeuresMinimumParCategorie();
         setHeuresMaximumParCategorie();
@@ -152,11 +153,11 @@ public class ExigencesOrdre {
         return ordre;
     }
     
-    public HashMap getHeuresMinParCategories() {
+    public JSONObject getHeuresMinParCategories() {
         return heuresMinParCategories;
     }
 
-    public HashMap getHeuresMaxParCategories() {
+    public JSONObject getHeuresMaxParCategories() {
         return heuresMaxParCategories;
     }
 

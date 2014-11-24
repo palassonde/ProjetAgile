@@ -1,71 +1,58 @@
-{
-    "catégories":[
-        "cours",
-        "atelier",
-        "séminaire",
-        "colloque",
-        "conférence",
-        "lecture dirigée",
-        "présentation",
-        "groupe de discussion",
-        "projet de recherche",
-        "rédaction professionnelle",
-        "formation continue"
-    ],
+{   
+    "géologues":{
+        "cours": 0,
+        "atelier": 0,
+        "séminaire": 0,
+        "colloque": 0,
+        "conférence": 0,
+        "lecture dirigée": 0,
+        "présentation": 0,
+        "groupe de discussion": 0,
+        "projet de recherche": 0,
+        "rédaction professionnelle": 0,
+        "formation continue": 0
+    },
     
-    "géologues" :[
-        "cours",
-        "atelier",
-        "séminaire",
-        "colloque",
-        "conférence",
-        "lecture dirigée",
-        "présentation",
-        "groupe de discussion",
-        "projet de recherche",
-        "rédaction professionnelle",
-        "formation continue"
-    ],
+    "architectes":{
+        "cours": 0,
+        "atelier": 0,
+        "séminaire": 0,
+        "colloque": 0,
+        "conférence": 0,
+        "lecture dirigée": 0,
+        "présentation": 0,
+        "groupe de discussion": 0,
+        "projet de recherche": 0,
+        "rédaction professionnelle": 0
+    },
     
-    "architectes":[
-        "cours",
-        "atelier",
-        "séminaire",
-        "colloque",
-        "conférence",
-        "lecture dirigée",
-        "présentation",
-        "groupe de discussion",
-        "projet de recherche",
-        "rédaction professionnelle"
-    ],
+    "psychologues":{
+        "cours": 0,
+        "atelier": 0,
+        "séminaire": 0,
+        "colloque": 0,
+        "conférence": 0,
+        "lecture dirigée": 0,
+        "présentation": 0,
+        "groupe de discussion": 0,
+        "projet de recherche": 0,
+        "rédaction professionnelle": 0,
+        "formation continue": 0
+    },
     
-    "psychologues":[
-        "cours",
-        "atelier",
-        "séminaire",
-        "colloque",
-        "conférence",
-        "lecture dirigée",
-        "présentation",
-        "groupe de discussion",
-        "projet de recherche",
-        "rédaction professionnelle",
-        "formation continue"
-    ],
-     "podiatres" :[
-        "cours",
-        "atelier",
-        "séminaire",
-        "colloque",
-        "conférence",
-        "lecture dirigée",
-        "présentation",
-        "groupe de discussion",
-        "projet de recherche",
-        "rédaction professionnelle",
-        "formation continue"
-    ],
+     "podiatres" :{
+        "cours": 0,
+        "atelier": 0,
+        "séminaire": 0,
+        "colloque": 0,
+        "conférence": 0,
+        "lecture dirigée": 0,
+        "présentation": 0,
+        "groupe de discussion": 0,
+        "projet de recherche": 0,
+        "rédaction professionnelle": 0,
+        "formation continue": 0
+    },
     
     "sous-catégories":[
         "cours",

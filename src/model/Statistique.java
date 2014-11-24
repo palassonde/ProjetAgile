@@ -15,7 +15,7 @@ import net.sf.json.JSONObject;
  */
 public class Statistique {
 
-    private JSONObject statistique;
+    private final JSONObject statistique;
     private final JSONObject activitesValidesParCategories;
     private final JSONObject activitesValidesEtCompletesParOrdre;
     private final JSONObject activitesValidesEtIncompletesParOrdre;
