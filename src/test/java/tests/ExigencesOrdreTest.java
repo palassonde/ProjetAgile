@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package model;
+package tests;
 
+import model.ExigencesOrdre;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.After;

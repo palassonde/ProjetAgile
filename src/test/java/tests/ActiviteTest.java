@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package model;
+package tests;
 
 import java.util.Date;
+import model.Activite;
 import net.sf.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -46,7 +47,6 @@ public class ActiviteTest {
     @Test
     public void testGetHeures() {
         System.out.println("getHeures");
-        Activite instance;
         instance.getHeures() = activite;
         int expResult = 0;
         int result = instance.getHeures();

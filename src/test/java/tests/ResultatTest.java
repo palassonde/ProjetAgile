@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package model;
+package tests;
 
+import model.Resultat;
 import net.sf.json.JSONArray;
 import org.junit.After;
 import org.junit.AfterClass;

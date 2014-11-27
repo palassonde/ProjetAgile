@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 
-package model;
+package tests;
 
+import java.io.IOException;
+import model.Statistique;
 import net.sf.json.JSONObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -88,7 +90,7 @@ public class StatistiqueTest {
      * Test of incrementerStat method, of class Statistique.
      */
     @Test
-    public void testIncrementerStat() {
+    public void testIncrementerStat() throws IOException {
         System.out.println("incrementerStat");
         String stat = "";
         Statistique instance = new Statistique();
@@ -101,7 +103,7 @@ public class StatistiqueTest {
      * Test of incrementerCategorie method, of class Statistique.
      */
     @Test
-    public void testIncrementerCategorie() {
+    public void testIncrementerCategorie() throws IOException {
         System.out.println("incrementerCategorie");
         String categorie = "";
         Statistique instance = new Statistique();
@@ -114,7 +116,7 @@ public class StatistiqueTest {
      * Test of incrementerDeclarationComplete method, of class Statistique.
      */
     @Test
-    public void testIncrementerDeclarationComplete() {
+    public void testIncrementerDeclarationComplete() throws IOException {
         System.out.println("incrementerDeclarationComplete");
         String ordre = "";
         Statistique instance = new Statistique();
@@ -127,7 +129,7 @@ public class StatistiqueTest {
      * Test of incrementerDeclarationIncomplete method, of class Statistique.
      */
     @Test
-    public void testIncrementerDeclarationIncomplete() {
+    public void testIncrementerDeclarationIncomplete() throws IOException {
         System.out.println("incrementerDeclarationIncomplete");
         String ordre = "";
         Statistique instance = new Statistique();
@@ -140,7 +142,7 @@ public class StatistiqueTest {
      * Test of compilerJSONObject method, of class Statistique.
      */
     @Test
-    public void testCompilerJSONObject() {
+    public void testCompilerJSONObject() throws IOException {
         System.out.println("compilerJSONObject");
         Statistique instance = new Statistique();
         JSONObject expResult = null;

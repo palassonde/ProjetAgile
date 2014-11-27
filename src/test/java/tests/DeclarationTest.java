@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-package model;
+package tests;
 
 import java.util.ArrayList;
+import model.Activite;
+import model.Declaration;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
