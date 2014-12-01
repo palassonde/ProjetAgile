@@ -63,11 +63,11 @@ public class Traitement {
         }      
     }
 
-    void ecrireResultat(String fichierSortie) throws IOException {
+   public void ecrireResultat(String fichierSortie) throws IOException {
         TraitementJSON.ecritureDeSortie(TraitementJSON.resultatToJSONObject(resultat), fichierSortie);
     }
 
-    void produireResultat() throws Exception {
+  public  void produireResultat() throws Exception {
         
         verifierActivites();
         caclulerHeures();
@@ -154,11 +154,11 @@ public class Traitement {
         }  
     }
 
-    void ecrireStatistique() throws IOException {
+   public void ecrireStatistique() throws IOException {
         statistique.ecrire();
     }
 
-    void compilerStatistique() throws Exception {
+   public void compilerStatistique() throws Exception {
         
         statistique.incrementerStat("déclarations_traitées");
         

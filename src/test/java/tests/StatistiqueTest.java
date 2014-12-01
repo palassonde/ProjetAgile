@@ -63,16 +63,6 @@ public class StatistiqueTest {
     }
 
     /**
-     * Test of compiler method, of class Statistique.
-     */
-    @Test
-    public void testCompiler() {
-        System.out.println("compiler");
-        Statistique.compiler();
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of reinitialiser method, of class Statistique.
      */
     @Test

@@ -44,10 +44,6 @@ public class Statistique {
         TraitementJSON.ecritureDeSortie(compilerJSONObject(), "json/statistiques.json");
     }
 
-    static void compiler() {
-
-    }
-    
     public static void reinitialiser() throws IOException {
      
         JSONObject stat = new JSONObject();
