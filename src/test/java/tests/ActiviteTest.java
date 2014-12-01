@@ -47,11 +47,11 @@ public class ActiviteTest {
     @Test
     public void testGetHeures() {
         System.out.println("getHeures");
-        instance.getHeures() = activite;
+        Activite instance;
+        instance = null;
         int expResult = 0;
         int result = instance.getHeures();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -66,7 +66,6 @@ public class ActiviteTest {
         String expResult = "";
         String result = instance.getDescription();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -80,7 +79,6 @@ public class ActiviteTest {
         String expResult = "";
         String result = instance.getCategorie();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -99,7 +97,6 @@ public class ActiviteTest {
         expResult = new Date ();
         Date result = instance.getParsedDate();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -128,7 +125,6 @@ public class ActiviteTest {
         boolean expResult = false;
         boolean result = instance.isValidite();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -140,7 +136,6 @@ public class ActiviteTest {
         System.out.println("setInvalide");
         Activite instance = null;
         instance.setInvalide();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
     

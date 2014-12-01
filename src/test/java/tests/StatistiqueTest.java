@@ -48,7 +48,6 @@ public class StatistiqueTest {
     public void testAfficher() throws Exception {
         System.out.println("afficher");
         Statistique.afficher();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -60,7 +59,6 @@ public class StatistiqueTest {
         System.out.println("ecrire");
         Statistique instance = new Statistique();
         instance.ecrire();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -71,7 +69,6 @@ public class StatistiqueTest {
     public void testCompiler() {
         System.out.println("compiler");
         Statistique.compiler();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -82,7 +79,6 @@ public class StatistiqueTest {
     public void testReinitialiser() throws Exception {
         System.out.println("reinitialiser");
         Statistique.reinitialiser();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -95,7 +91,6 @@ public class StatistiqueTest {
         String stat = "";
         Statistique instance = new Statistique();
         instance.incrementerStat(stat);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -108,7 +103,6 @@ public class StatistiqueTest {
         String categorie = "";
         Statistique instance = new Statistique();
         instance.incrementerCategorie(categorie);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -121,7 +115,6 @@ public class StatistiqueTest {
         String ordre = "";
         Statistique instance = new Statistique();
         instance.incrementerDeclarationComplete(ordre);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -134,7 +127,6 @@ public class StatistiqueTest {
         String ordre = "";
         Statistique instance = new Statistique();
         instance.incrementerDeclarationIncomplete(ordre);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -148,7 +140,6 @@ public class StatistiqueTest {
         JSONObject expResult = null;
         JSONObject result = instance.compilerJSONObject();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
     

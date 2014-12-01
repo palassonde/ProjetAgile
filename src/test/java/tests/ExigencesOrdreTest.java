@@ -79,7 +79,6 @@ public class ExigencesOrdreTest {
         JSONArray expResult = null;
         JSONArray result = instance.getSousCategories();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -93,7 +92,6 @@ public class ExigencesOrdreTest {
         String expResult = "";
         String result = instance.getNormePermis();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -107,7 +105,6 @@ public class ExigencesOrdreTest {
         String expResult = "";
         String result = instance.getOrdre();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -121,7 +118,6 @@ public class ExigencesOrdreTest {
         JSONObject expResult = null;
         JSONObject result = instance.getHeuresMinParCategories();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -135,7 +131,6 @@ public class ExigencesOrdreTest {
         JSONObject expResult = null;
         JSONObject result = instance.getHeuresMaxParCategories();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -149,7 +144,6 @@ public class ExigencesOrdreTest {
         int expResult = 0;
         int result = instance.getHeuresCyclePrecedent();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -163,7 +157,6 @@ public class ExigencesOrdreTest {
         int expResult = 0;
         int result = instance.getHeuresMinimum();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
     

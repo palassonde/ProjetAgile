@@ -93,7 +93,7 @@ public class Statistique {
         activitesValidesEtIncompletesParOrdre.put(ordre, valeur);
     }
     
-    public JSONObject compilerJSONObject(){
+    public  JSONObject compilerJSONObject(){
         
         JSONObject stat = new JSONObject();
         

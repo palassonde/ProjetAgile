@@ -49,7 +49,6 @@ public class ResultatTest {
         String msg = "";
         Resultat instance = new Resultat();
         instance.ajoutErreur(msg);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -61,7 +60,6 @@ public class ResultatTest {
         System.out.println("setIncomplet");
         Resultat instance = new Resultat();
         instance.setIncomplet();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -73,7 +71,6 @@ public class ResultatTest {
         System.out.println("setInvalide");
         Resultat instance = new Resultat();
         instance.setInvalide();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -87,7 +84,6 @@ public class ResultatTest {
         JSONArray expResult = null;
         JSONArray result = instance.getErreurs();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -101,7 +97,6 @@ public class ResultatTest {
         boolean expResult = false;
         boolean result = instance.isComplet();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -115,7 +110,6 @@ public class ResultatTest {
         boolean expResult = false;
         boolean result = instance.isValidite();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
     

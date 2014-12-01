@@ -48,7 +48,6 @@ public class TraitementTest {
         String fichierSortie = "";
         Traitement instance = null;
         instance.ecrireResultat(fichierSortie);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -60,7 +59,6 @@ public class TraitementTest {
         System.out.println("produireResultat");
         Traitement instance = null;
         instance.produireResultat();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -72,7 +70,6 @@ public class TraitementTest {
         System.out.println("ecrireStatistique");
         Traitement instance = null;
         instance.ecrireStatistique();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -84,7 +81,6 @@ public class TraitementTest {
         System.out.println("compilerStatistique");
         Traitement instance = null;
         instance.compilerStatistique();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
     

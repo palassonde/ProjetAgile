@@ -51,7 +51,6 @@ public class DeclarationTest {
         int expResult = 0;
         int result = instance.getSexe();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -65,7 +64,6 @@ public class DeclarationTest {
         String expResult = "";
         String result = instance.getNom();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -79,7 +77,6 @@ public class DeclarationTest {
         String expResult = "";
         String result = instance.getPrenom();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -93,7 +90,6 @@ public class DeclarationTest {
         String expResult = "";
         String result = instance.getOrdre();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -107,7 +103,6 @@ public class DeclarationTest {
         String expResult = "";
         String result = instance.getCycle();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -121,7 +116,6 @@ public class DeclarationTest {
         String expResult = "";
         String result = instance.getNumeroPermis();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -135,7 +129,6 @@ public class DeclarationTest {
         int expResult = 0;
         int result = instance.getHeuresCyclePrecedent();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -149,7 +142,6 @@ public class DeclarationTest {
         ArrayList<Activite> expResult = null;
         ArrayList<Activite> result = instance.getActivites();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -163,7 +155,6 @@ public class DeclarationTest {
         boolean expResult = false;
         boolean result = instance.isValide();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -175,7 +166,6 @@ public class DeclarationTest {
         System.out.println("setInvalide");
         Declaration instance = null;
         instance.setInvalide();
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
     
