@@ -1,8 +1,7 @@
 
 
-package tests;
+package model;
 
-import model.Traitement;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

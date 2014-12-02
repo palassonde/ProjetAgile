@@ -1,6 +1,6 @@
 
 
-package tests;
+package model;
 
 import model.FormationContinue;
 import org.junit.After;
