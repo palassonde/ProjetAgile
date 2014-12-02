@@ -1,35 +1,35 @@
 {
-    "d√©clarations_trait√©es": 2,
-    "d√©clarations_compl√®tes": 0,
-    "d√©clarations_invalides": 2,
-    "d√©clarations_hommes": 0,
-    "d√©clarations_femmes": 0,
-    "d√©clarations_sexe_inconnu": 2,
-    "activit√©s_valides": 10,
+    "dÈclarations_traitÈes": 0,
+    "dÈclarations_complËtes": 0,
+    "dÈclarations_invalides": 0,
+    "dÈclarations_hommes": 0,
+    "dÈclarations_femmes": 0,
+    "dÈclarations_sexe_inconnu": 0,
+    "activitÈs_valides": 0,
     "declaration_permis_invalides": 0,
     "activit√©s_valides_par_cat√©gories":     {
         "cours": 0,
         "atelier": 0,
-        "s√©minaire": 2,
+        "sÈminaire": 0,
         "colloque": 0,
-        "conf√©rence": 2,
-        "lecture dirig√©e": 0,
-        "pr√©sentation": 0,
-        "groupe de discussion": 2,
-        "projet de recherche": 2,
-        "r√©daction professionnelle": 2,
+        "confÈrence": 0,
+        "lecture dirigÈe": 0,
+        "prÈsentation": 0,
+        "groupe de discussion": 0,
+        "projet de recherche": 0,
+        "rÈdaction professionnelle": 0,
         "formation continue": 0
     },
     "declarations_valides_et_completes_par_ordre_professionnelle":     {
         "architectes": 0,
         "psychologues": 0,
-        "g√©ologues": 0,
+        "gÈologues": 0,
         "podiatres": 0
     },
     "declarations_valides_et_incompletes_par_ordre_professionnelle":     {
         "architectes": 0,
         "psychologues": 0,
-        "g√©ologues": 0,
-        "podiatres": 2
+        "gÈologues": 0,
+        "podiatres": 0
     }
 }

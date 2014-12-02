@@ -2,13 +2,10 @@
 
 package tests;
 
-import java.util.ArrayList;
-import model.Activite;
+
 import model.Declaration;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,152 +14,103 @@ import static org.junit.Assert.*;
  * @author giresseho
  */
 public class DeclarationTest {
-    
-    public DeclarationTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+    private  Declaration declaration;
+   
     @Before
-    public void setUp() {
+    public void setUp () throws Exception {
+        
+        declaration = new Declaration("json/declaration.json");
     }
     
     @After
-    public void tearDown() {
+    public void tearDown () {
+        
+        declaration = null;
     }
 
     /**
      * Test of getSexe method, of class Declaration.
      */
     @Test
-    public void testGetSexe() {
-        System.out.println("getSexe");
-        Declaration instance = null;
-        int expResult = 0;
-        int result = instance.getSexe();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testGetSexe () {
+        
+        int resultat = 2;
+        assertEquals("resultat incorrect",declaration.getSexe(),resultat);
     }
 
     /**
      * Test of getNom method, of class Declaration.
      */
     @Test
-    public void testGetNom() {
-        System.out.println("getNom");
-        Declaration instance = null;
-        String expResult = "";
-        String result = instance.getNom();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testGetNom () {
+      
+      
+      assertEquals(declaration.getNom(),"Kant");
     }
 
     /**
      * Test of getPrenom method, of class Declaration.
      */
     @Test
-    public void testGetPrenom() {
-        System.out.println("getPrenom");
-        Declaration instance = null;
-        String expResult = "";
-        String result = instance.getPrenom();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testGetPrenom () {
+        
+      assertEquals(declaration.getPrenom(),"Emmanuel");  
     }
 
     /**
      * Test of getOrdre method, of class Declaration.
      */
     @Test
-    public void testGetOrdre() {
-        System.out.println("getOrdre");
-        Declaration instance = null;
-        String expResult = "";
-        String result = instance.getOrdre();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testGetOrdre () {
+       
+        assertEquals(declaration.getOrdre(),"podiatres"); 
     }
 
     /**
      * Test of getCycle method, of class Declaration.
      */
     @Test
-    public void testGetCycle() {
-        System.out.println("getCycle");
-        Declaration instance = null;
-        String expResult = "";
-        String result = instance.getCycle();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testGetCycle () {
+       
+        assertEquals(declaration.getCycle(),"2013-2016");
     }
 
     /**
      * Test of getNumeroPermis method, of class Declaration.
      */
     @Test
-    public void testGetNumeroPermis() {
-        System.out.println("getNumeroPermis");
-        Declaration instance = null;
-        String expResult = "";
-        String result = instance.getNumeroPermis();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testGetNumeroPermis () {
+        
+        assertEquals(declaration.getNumeroPermis(),"56789");
     }
 
     /**
      * Test of getHeuresCyclePrecedent method, of class Declaration.
      */
     @Test
-    public void testGetHeuresCyclePrecedent() {
-        System.out.println("getHeuresCyclePrecedent");
-        Declaration instance = null;
-        int expResult = 0;
-        int result = instance.getHeuresCyclePrecedent();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testGetHeuresCyclePrecedent () {
+        
+       assertEquals(declaration.getHeuresCyclePrecedent(),0);
     }
 
     /**
      * Test of getActivites method, of class Declaration.
      */
     @Test
-    public void testGetActivites() {
-        System.out.println("getActivites");
-        Declaration instance = null;
-        ArrayList<Activite> expResult = null;
-        ArrayList<Activite> result = instance.getActivites();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testGetActivites () {
+       
+      assertEquals(declaration.getActivites().get(0).getCategorie(),"cours");
     }
 
     /**
      * Test of isValide method, of class Declaration.
      */
     @Test
-    public void testIsValide() {
-        System.out.println("isValide");
-        Declaration instance = null;
-        boolean expResult = false;
-        boolean result = instance.isValide();
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+    public void testIsValide () {
+        
+       assertEquals(declaration.isValide(),false);
     }
 
-    /**
-     * Test of setInvalide method, of class Declaration.
-     */
-    @Test
-    public void testSetInvalide() {
-        System.out.println("setInvalide");
-        Declaration instance = null;
-        instance.setInvalide();
-        fail("The test case is a prototype.");
-    }
+  
     
 }
