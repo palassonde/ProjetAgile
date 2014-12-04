@@ -107,7 +107,7 @@ public class DeclarationTest {
     @Test
     public void testIsValide () {
         
-       assertEquals(declaration.isValide(),false);
+       assertEquals(declaration.isValide(),true);
     }
 
   

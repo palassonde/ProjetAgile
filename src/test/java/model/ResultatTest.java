@@ -62,7 +62,7 @@ public class ResultatTest {
     @Test
     public void testIsValidite () {
        
-        assertEquals(leresultat.isValidite(),false);
+        assertEquals(leresultat.isValidite(),true);
     }
     
 }
