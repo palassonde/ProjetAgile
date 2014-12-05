@@ -59,7 +59,7 @@ public class Traitement {
         if (!Validation.validerCycle(exigences.getCyclesSupportes(), declaration.getCycle())) {
             
             resultat.setIncomplet();
-            resultat.ajoutErreur("Le cycle ne correspond à aucun des cycles supportés");
+            resultat.ajoutErreur("Le cycle ne correspond à aucun des cycles supportes");
         }      
     }
 
@@ -127,14 +127,11 @@ public class Traitement {
     private void verifierHeuresSousCategories(){
         
         int heures = 0;
+        heures += exigences.getHeuresCyclePrecedent();
+        heures += heuresParCategories.getInt("sous-categories");
         
-        Iterator<String> keys = heuresParCategories.keys();
-        while(keys.hasNext()){
-            String key = keys.next();
-            if(exigences.getSousCategories().contains(key))
-                heures += heuresParCategories.getInt(key);
-        }
-        if(heures < 17){
+        
+        if(heures < exigences.getHeuresMinParCategories().getInt("sous-categories")){
             resultat.setIncomplet();
             resultat.ajoutErreur("Il y a moins de 17 heures effectuées dans les sous-catégories");
         }
@@ -143,13 +140,20 @@ public class Traitement {
     private void caclulerHeures() {
         
         int heures;
+        int heuresSousCategories;
         
         for(Activite activite : declaration.getActivites()){
             
             if(activite.isValidite()){
                 
                 heures = heuresParCategories.getInt(activite.getCategorie());
-                heuresParCategories.put(activite.getCategorie(), activite.getHeures());
+                heures += activite.getHeures();
+                heuresParCategories.put(activite.getCategorie(), heures);
+                if(exigences.getSousCategories().contains(activite.getCategorie())){
+                    heures = heuresParCategories.getInt("sous-categories");
+                    heures += activite.getHeures();
+                    heuresParCategories.put("sous-categories", heures);
+                }
             }
         }  
     }
@@ -160,32 +164,35 @@ public class Traitement {
 
    public void compilerStatistique() throws Exception {
         
-        statistique.incrementerStat("déclarations_traitées");
+        statistique.incrementerStat("declarations_traitees");
         
         if ( resultat.isComplet() && declaration.isValide()) {
             
-            statistique.incrementerStat("déclarations_complètes");
+            statistique.incrementerStat("declarations_completes");
         
         }else{
-             statistique.incrementerStat("déclarations_invalides");
+             statistique.incrementerStat("declarations_invalides");
         }
         
         if (declaration.getSexe()==0) {
             
-           statistique.incrementerStat("déclarations_homme"); 
+           statistique.incrementerStat("declarations_homme"); 
         }else if (declaration.getSexe()==1){
-            statistique.incrementerStat("déclarations_femmes");  
+            statistique.incrementerStat("declarations_femmes");  
         }else if (declaration.getSexe()==2){
             
-            statistique.incrementerStat("déclarations_sexe_inconnu");  
+            statistique.incrementerStat("declarations_sexe_inconnu");  
         }
         
-        for (Activite activite:declaration.getActivites()){
+        for (Activite activite: declaration.getActivites()){
+            
             
             if (activite.isValidite()){
-                statistique.incrementerStat("activités_valides"); 
+                statistique.incrementerStat("activites_valides"); 
                 statistique.incrementerCategorie(activite.getCategorie());
              }
+            System.out.println(activite);
+            
         }
         
         if (!Validation.validerPermis(exigences.getNormePermis(), declaration.getNumeroPermis()))
