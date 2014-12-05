@@ -21,23 +21,17 @@ import static org.junit.Assert.*;
  */
 public class ValidationTest {
     
-    public ValidationTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+  private Validation valide;
     @Before
     public void setUp() {
+        
+        valide = new Validation();
     }
     
     @After
     public void tearDown() {
+        
+        valide = null;
     }
 
     /**
@@ -45,13 +39,12 @@ public class ValidationTest {
      */
     @Test
     public void testValiderSexe() throws Exception {
-        System.out.println("validerSexe");
+        
         int sexe = 0;
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = Validation.validerSexe(sexe);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -64,8 +57,7 @@ public class ValidationTest {
         boolean expResult = false;
         boolean result = Validation.validerHeuresActivite(activite);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -78,8 +70,7 @@ public class ValidationTest {
         boolean expResult = false;
         boolean result = Validation.validerDescriptionActivite(activite);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -87,14 +78,13 @@ public class ValidationTest {
      */
     @Test
     public void testValiderPermis() throws Exception {
-        System.out.println("validerPermis");
-        String norme = "";
-        String permis = "";
+        
+        String norme = "uft-8";
+        String permis = "45676";
         boolean expResult = false;
         boolean result = Validation.validerPermis(norme, permis);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -102,14 +92,13 @@ public class ValidationTest {
      */
     @Test
     public void testValiderCycle() {
-        System.out.println("validerCycle");
+        
         JSONArray cyclesSupportes = null;
         String cycle = "";
         boolean expResult = false;
         boolean result = Validation.validerCycle(cyclesSupportes, cycle);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -117,13 +106,12 @@ public class ValidationTest {
      */
     @Test
     public void testValiderFormatDate() {
-        System.out.println("validerFormatDate");
+        
         String date = "";
         boolean expResult = false;
         boolean result = Validation.validerFormatDate(date);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -131,14 +119,13 @@ public class ValidationTest {
      */
     @Test
     public void testValiderDateActivite() throws Exception {
-        System.out.println("validerDateActivite");
+       
         JSONArray cyclesSupportes = null;
         Date date = null;
         boolean expResult = false;
         boolean result = Validation.validerDateActivite(cyclesSupportes, date);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
     
 }

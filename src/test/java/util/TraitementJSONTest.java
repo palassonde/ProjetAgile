@@ -21,23 +21,19 @@ import static org.junit.Assert.*;
  */
 public class TraitementJSONTest {
     
-    public TraitementJSONTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
+   private TraitementJSON traite;
+    private Object tarite;
     
     @Before
     public void setUp() {
+        
+        traite = new TraitementJSON();
     }
     
     @After
     public void tearDown() {
+        
+        traite = null;
     }
 
     /**
@@ -45,13 +41,11 @@ public class TraitementJSONTest {
      */
     @Test
     public void testObtenirJSONObject() throws Exception {
-        System.out.println("obtenirJSONObject");
+       
         String emplacement = "";
-        JSONObject expResult = null;
         JSONObject result = TraitementJSON.obtenirJSONObject(emplacement);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(traite, result);
+        
     }
 
     /**
@@ -59,13 +53,11 @@ public class TraitementJSONTest {
      */
     @Test
     public void testObtenirJSONArray() throws Exception {
-        System.out.println("obtenirJSONArray");
+       
         String emplacement = "";
-        JSONArray expResult = null;
         JSONArray result = TraitementJSON.obtenirJSONArray(emplacement);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(tarite, result);
+        
     }
 
     /**

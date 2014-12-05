@@ -3,7 +3,6 @@
 package model;
 
 
-import model.Declaration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -108,7 +107,7 @@ public class DeclarationTest {
     @Test
     public void testIsValide () {
         
-       assertEquals(declaration.isValide(),false);
+       assertEquals(declaration.isValide(),true);
     }
 
   
