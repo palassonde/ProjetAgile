@@ -25,8 +25,8 @@ public class Statistique {
         
         statistique = TraitementJSON.obtenirJSONObject("json/statistiques.json");
         activitesValidesParCategories = statistique.getJSONObject("activités_valides_par_catégories");
-        activitesValidesEtCompletesParOrdre = statistique.getJSONObject("declarations_valides_et_completes_par_ordre_professionnelle");
-        activitesValidesEtIncompletesParOrdre = statistique.getJSONObject("declarations_valides_et_incompletes_par_ordre_professionnelle");
+        activitesValidesEtCompletesParOrdre = statistique.getJSONObject("déclarations_valides_et_complètes_par_ordre_professionnelle");
+        activitesValidesEtIncompletesParOrdre = statistique.getJSONObject("déclarations_valides_et_incomplètes_par_ordre_professionnelle");
     }
     
     public static void afficher() throws IOException{
@@ -54,9 +54,12 @@ public class Statistique {
             String key = keys.next();
             stat.put(key, 0);
         }
-        stat.accumulate("activités_valides_par_catégories", TraitementJSON.obtenirTabCategories());
-        stat.accumulate("declarations_valides_et_completes_par_ordre_professionnelle", TraitementJSON.obtenirTabOrdre());
-        stat.accumulate("declarations_valides_et_incompletes_par_ordre_professionnelle", TraitementJSON.obtenirTabOrdre());
+        
+        JSONObject cat = TraitementJSON.obtenirTabCategories();
+        cat.remove("sous-catégories");
+        stat.accumulate("activités_valides_par_catégories", cat);
+        stat.accumulate("déclarations_valides_et_complètes_par_ordre_professionnelle", TraitementJSON.obtenirTabOrdre());
+        stat.accumulate("déclarations_valides_et_incomplètes_par_ordre_professionnelle", TraitementJSON.obtenirTabOrdre());
         
         TraitementJSON.ecritureDeSortie(stat, "json/statistiques.json");
     }
@@ -100,11 +103,11 @@ public class Statistique {
         stat.put("déclarations_femmes", statistique.getInt("déclarations_femmes"));
         stat.put("déclarations_sexe_inconnu", statistique.getInt("déclarations_sexe_inconnu"));
         stat.put("activités_valides", statistique.getInt("activités_valides"));
-        stat.put("declaration_permis_invalides", statistique.getInt("declaration_permis_invalides"));
-        
+        stat.put("déclaration_permis_invalides", statistique.getInt("déclaration_permis_invalides"));
+        activitesValidesParCategories.remove("sous-catégories");
         stat.accumulate("activités_valides_par_catégories", activitesValidesParCategories);
-        stat.accumulate("declarations_valides_et_completes_par_ordre_professionnelle", activitesValidesEtCompletesParOrdre);
-        stat.accumulate("declarations_valides_et_incompletes_par_ordre_professionnelle", activitesValidesEtIncompletesParOrdre);
+        stat.accumulate("déclarations_valides_et_complètes_par_ordre_professionnelle", activitesValidesEtCompletesParOrdre);
+        stat.accumulate("déclarations_valides_et_incomplètes_par_ordre_professionnelle", activitesValidesEtIncompletesParOrdre);
         
         return stat;
     }

@@ -29,7 +29,7 @@ public class ExigencesOrdre {
     ExigencesOrdre(Declaration declaration) throws IOException {
         
         this.ordre = declaration.getOrdre();
-        sousCategories = TraitementJSON.obtenirJSONObject("json/categories.json").getJSONArray("sous-categories");
+        sousCategories = TraitementJSON.obtenirJSONObject("json/categories.json").getJSONArray("sous-catégories");
         categories = TraitementJSON.obtenirTabCategories();
         cyclesSupportes = TraitementJSON.obtenirJSONObject(emplacementCycles).getJSONArray(ordre);
         heuresMinParCategories = TraitementJSON.obtenirTabCategories();

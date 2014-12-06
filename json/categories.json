@@ -6,7 +6,7 @@
         "podiatres": 0      
   },
   
-    "categories":{
+    "catégories":{
         "cours": 0,
         "atelier": 0,
         "séminaire": 0,
@@ -17,10 +17,11 @@
         "groupe de discussion": 0,
         "projet de recherche": 0,
         "rédaction professionnelle": 0,
-        "formation continue": 0
+        "formation continue": 0,
+        "sous-catégories": 0
     },
     
-    "sous-categories":[
+    "sous-catégories":[
         "cours",
         "atelier",
         "séminaire",
@@ -37,6 +38,6 @@
         "déclarations_femmes": 0,
         "déclarations_sexe_inconnu": 0,
         "activités_valides": 0,
-        "declaration_permis_invalides": 0
+        "déclaration_permis_invalides": 0
     }
 }

@@ -124,10 +124,10 @@ public class Traitement {
         
         int heures = 0;
         heures += exigences.getHeuresCyclePrecedent();
-        heures += heuresParCategories.getInt("sous-categories");
+        heures += heuresParCategories.getInt("sous-catégories");
         
         
-        if(heures < exigences.getHeuresMinParCategories().getInt("sous-categories")){
+        if(heures < exigences.getHeuresMinParCategories().getInt("sous-catégories")){
             resultat.setIncomplet();
             resultat.ajoutErreur("Il y a moins de 17 heures effectuées dans les sous-catégories");
         }
@@ -140,15 +140,15 @@ public class Traitement {
         
         for(Activite activite : declaration.getActivites()){
             
-            if(activite.isValidite()){
+            if(activite.isValide()){
                 
                 heures = heuresParCategories.getInt(activite.getCategorie());
                 heures += activite.getHeures();
                 heuresParCategories.put(activite.getCategorie(), heures);
                 if(exigences.getSousCategories().contains(activite.getCategorie())){
-                    heures = heuresParCategories.getInt("sous-categories");
+                    heures = heuresParCategories.getInt("sous-catégories");
                     heures += activite.getHeures();
-                    heuresParCategories.put("sous-categories", heures);
+                    heuresParCategories.put("sous-catégories", heures);
                 }
             }
         }  
@@ -160,47 +160,53 @@ public class Traitement {
 
    public void compilerStatistique() throws Exception {
         
-        statistique.incrementerStat("declarations_traitees");
+        statistique.incrementerStat("déclarations_traitées");
         
         if ( resultat.isComplet() && declaration.isValide()) {
             
-            statistique.incrementerStat("declarations_completes");
+            statistique.incrementerStat("déclarations_complètes");
         
         }else{
-             statistique.incrementerStat("declarations_invalides");
+             statistique.incrementerStat("déclarations_invalides");
         }
+        
+        
         
         if (declaration.getSexe()==0) {
             
-           statistique.incrementerStat("declarations_homme"); 
+           statistique.incrementerStat("déclarations_homme"); 
         }else if (declaration.getSexe()==1){
-            statistique.incrementerStat("declarations_femmes");  
+            statistique.incrementerStat("déclarations_femmes");  
         }else if (declaration.getSexe()==2){
             
-            statistique.incrementerStat("declarations_sexe_inconnu");  
+            statistique.incrementerStat("déclarations_sexe_inconnu");  
         }
         
         for (Activite activite: declaration.getActivites()){
             
             
-            if (activite.isValidite()){
-                statistique.incrementerStat("activites_valides"); 
+            if (activite.isValide()){
+                statistique.incrementerStat("activités_valides"); 
                 statistique.incrementerCategorie(activite.getCategorie());
              }
-            System.out.println(activite);
-            
         }
         
-        if (!Validation.validerPermis(exigences.getNormePermis(), declaration.getNumeroPermis()))
-            statistique.incrementerStat("declaration_permis_invalides"); 
         
-        System.out.println(resultat.isComplet());
+        
+        if (!Validation.validerPermis(exigences.getNormePermis(), declaration.getNumeroPermis()))
+            statistique.incrementerStat("déclaration_permis_invalides"); 
+        
+        
         
         if(declaration.isValide() && resultat.isComplet())
             statistique.incrementerDeclarationComplete(declaration.getOrdre());
         
-        if(declaration.isValide() && !resultat.isComplet())
+        
+        
+        if(declaration.isValide() && !(resultat.isComplet()))
             statistique.incrementerDeclarationIncomplete(declaration.getOrdre());
+        
+        
     }
 
 }

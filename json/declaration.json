@@ -1,9 +1,9 @@
 {
     "nom": "Kant",
     "prenom": "Emmanuel",
-    "sexe": 2,
+    "sexe": 1,
     "ordre": "podiatres",
-    "numero_de_permis": "56789",
+    "numero_de_permis": "o",
     "cycle": "2013-2016",
     
     "activites": [

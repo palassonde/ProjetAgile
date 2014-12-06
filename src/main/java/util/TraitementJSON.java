@@ -49,7 +49,7 @@ public class TraitementJSON {
     }
 
     public static JSONObject obtenirTabCategories() throws IOException {
-        return TraitementJSON.obtenirJSONObject("json/categories.json").getJSONObject("categories");
+        return TraitementJSON.obtenirJSONObject("json/categories.json").getJSONObject("catégories");
     }
     
     public static JSONObject obtenirTabOrdre() throws IOException {

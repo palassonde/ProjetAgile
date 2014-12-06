@@ -1,8 +1,7 @@
 {
     "complet": false,
     "erreurs":     [
-        "La catégorie Visite d'�tablissements architecturaux n'est pas supporté",
-        "Il y a moins de 22 heures effectuées dans la catégorie cours",
-        "Il y a moins de 17 heures effectuées dans les sous-catégories"
+        "La catégorie Visite d'établissements architecturaux n'est pas supporté",
+        "Il y a moins de 22 heures effectuées dans la catégorie cours"
     ]
 }

@@ -36,6 +36,7 @@ public class FormationContinue {
             try{
                 traitement.produireResultat();
                 traitement.compilerStatistique();
+                
             } catch(Exception e){
                 
                 System.out.println(e);

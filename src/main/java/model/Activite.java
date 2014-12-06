@@ -47,7 +47,7 @@ public class Activite {
         return activite.getString("date");
     }
 
-    public boolean isValidite() {
+    public boolean isValide() {
         return valide;
     }
     
