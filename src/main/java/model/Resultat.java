@@ -20,17 +20,17 @@ public class Resultat {
         validite = true;
     }
     
-    public void ajoutErreur(String msg){
+    public void ajoutErreur (String msg) {
         
         getErreurs().add(msg);
     }
     
-    public void setIncomplet(){
+    public void setIncomplet () {
         
         this.complet = false;
     }
     
-    public void setInvalide(){
+    public void setInvalide () {
         
         this.validite = false;
     }
@@ -38,21 +38,21 @@ public class Resultat {
     /**
      * @return the erreurs
      */
-    public JSONArray getErreurs() {
+    public JSONArray getErreurs () {
         return erreurs;
     }
 
     /**
      * @return the complet
      */
-    public boolean isComplet() {
+    public boolean isComplet () {
         return complet;
     }
 
     /**
      * @return the validite
      */
-    public boolean isValidite() {
+    public boolean isValidite () {
         return validite;
     }
     

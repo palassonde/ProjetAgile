@@ -13,7 +13,7 @@ public class FormationContinue {
 
     public static void main (String[] args) throws IOException, Exception{
         
-        switch(args[0]){
+        switch (args[0]) {
         
         case "-S":
             
@@ -37,7 +37,7 @@ public class FormationContinue {
                 traitement.produireResultat();
                 traitement.compilerStatistique();
                 
-            } catch(Exception e){
+            } catch (Exception e) {
                 
                 System.out.println(e);
             }

@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * @author Achille
  * @author giresseho
  */
 public class DeclarationTest {
@@ -18,7 +18,7 @@ public class DeclarationTest {
     @Before
     public void setUp () throws Exception {
         
-        declaration = new Declaration("json/declaration.json");
+        declaration = new Declaration("json/declarationTest.json");
     }
     
     @After
@@ -33,7 +33,7 @@ public class DeclarationTest {
     @Test
     public void testGetSexe () {
         
-        int resultat = 2;
+        int resultat = 1;
         assertEquals("resultat incorrect",declaration.getSexe(),resultat);
     }
 
@@ -80,7 +80,7 @@ public class DeclarationTest {
     @Test
     public void testGetNumeroPermis () {
         
-        assertEquals(declaration.getNumeroPermis(),"56789");
+        assertEquals(declaration.getNumeroPermis(),"o");
     }
 
     /**

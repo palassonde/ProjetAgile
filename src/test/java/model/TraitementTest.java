@@ -39,11 +39,7 @@ public class TraitementTest {
      */
     @Test
     public void testEcrireResultat() throws Exception {
-        System.out.println("ecrireResultat");
-        String fichierSortie = "";
-        Traitement instance = null;
-        instance.ecrireResultat(fichierSortie);
-        fail("The test case is a prototype.");
+       
     }
 
     /**
@@ -51,10 +47,7 @@ public class TraitementTest {
      */
     @Test
     public void testProduireResultat() throws Exception {
-        System.out.println("produireResultat");
-        Traitement instance = null;
-        instance.produireResultat();
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -62,10 +55,7 @@ public class TraitementTest {
      */
     @Test
     public void testEcrireStatistique() throws Exception {
-        System.out.println("ecrireStatistique");
-        Traitement instance = null;
-        instance.ecrireStatistique();
-        fail("The test case is a prototype.");
+       
     }
 
     /**
@@ -73,10 +63,7 @@ public class TraitementTest {
      */
     @Test
     public void testCompilerStatistique() throws Exception {
-        System.out.println("compilerStatistique");
-        Traitement instance = null;
-        instance.compilerStatistique();
-        fail("The test case is a prototype.");
+       
     }
     
 }

@@ -21,7 +21,7 @@ public class Traitement {
     
     int nbrHeuresTotal;
     
-    public Traitement(Declaration declaration) throws IOException{
+    public Traitement (Declaration declaration) throws IOException{
         
         this.declaration = declaration;
         exigences = new ExigencesOrdre(declaration);
@@ -30,7 +30,7 @@ public class Traitement {
         heuresParCategories = TraitementJSON.obtenirTabCategories();
     }
     
-    private void verifierHeuresTotal() {
+    private void verifierHeuresTotal () {
         
         if (nbrHeuresTotal < exigences.getHeuresMinimum()) {
             
@@ -39,11 +39,12 @@ public class Traitement {
         }
     }
     
-    private void calculerHeuresTotal() {
+    private void calculerHeuresTotal () {
         
         Iterator<String> keys = heuresParCategories.keys();
         
-        while(keys.hasNext()){
+        while (keys.hasNext()) {
+            
             String key = keys.next();
             nbrHeuresTotal += heuresParCategories.getInt(key);
         }
@@ -59,11 +60,11 @@ public class Traitement {
         }      
     }
 
-   public void ecrireResultat(String fichierSortie) throws IOException {
+   public void ecrireResultat (String fichierSortie) throws IOException {
         TraitementJSON.ecritureDeSortie(TraitementJSON.resultatToJSONObject(resultat), fichierSortie);
     }
 
-  public  void produireResultat() throws Exception {
+  public  void produireResultat () throws Exception {
         
         verifierActivites();
         caclulerHeures();
@@ -72,35 +73,35 @@ public class Traitement {
         verifierHeuresSousCategories();
     }
     
-    private void verifierActivites() throws Exception{
+    private void verifierActivites () throws Exception{
          
-        for(Activite activite : declaration.getActivites()){
+        for (Activite activite : declaration.getActivites()) {
             
-            if(!Validation.validerDateActivite(exigences.getCyclesSupportes(), activite.getParsedDate())){
+            if (!Validation.validerDateActivite(exigences.getCyclesSupportes(), activite.getParsedDate())) {
                 activite.setInvalide();
                 resultat.ajoutErreur("L'activité "+ activite.getDescription() +" a été effectué à l'extérieur de l'intervalle demandé");
             }
-            else if(!Validation.validerFormatDate(activite.getDate())){
+            else if (!Validation.validerFormatDate(activite.getDate())) {
                 activite.setInvalide();
                 resultat.setInvalide();
             }
-            else if(!exigences.getCategories().has(activite.getCategorie())){
+            else if (!exigences.getCategories().has(activite.getCategorie())) {
                 activite.setInvalide();
                 resultat.ajoutErreur("La catégorie "+ activite.getDescription() +" n'est pas supporté");
             }
-            else if(!Validation.validerDescriptionActivite(activite)){
+            else if (!Validation.validerDescriptionActivite(activite)) {
                 activite.setInvalide();
             }
         }   
     }
     
-    private void verifierHeuresMinimales(){
+    private void verifierHeuresMinimales () {
         
         Iterator<String> keys = heuresParCategories.keys();
         
-        while(keys.hasNext()){
+        while (keys.hasNext()) {
             String key = keys.next();
-            if(heuresParCategories.getInt(key) < exigences.getHeuresMinParCategories().getInt(key)){
+            if (heuresParCategories.getInt(key) < exigences.getHeuresMinParCategories().getInt(key)) {
                 resultat.setIncomplet();
                 resultat.ajoutErreur("Il y a moins de "+ exigences.getHeuresMinParCategories().getInt(key) +
                                      " heures effectuées dans la catégorie " + key);
@@ -108,44 +109,44 @@ public class Traitement {
         }
     }
     
-    private void verifierHeuresMaximales(){
+    private void verifierHeuresMaximales () {
         
         Iterator<String> keys = heuresParCategories.keys();
         
-        while(keys.hasNext()){
+        while (keys.hasNext()) {
             String key = keys.next();
-            if(heuresParCategories.getInt(key) > exigences.getHeuresMaxParCategories().getInt(key))
+            if (heuresParCategories.getInt(key) > exigences.getHeuresMaxParCategories().getInt(key))
                 heuresParCategories.put(key, exigences.getHeuresMaxParCategories().getInt(key));
         }
         
     }
     
-    private void verifierHeuresSousCategories(){
+    private void verifierHeuresSousCategories () {
         
         int heures = 0;
         heures += exigences.getHeuresCyclePrecedent();
         heures += heuresParCategories.getInt("sous-catégories");
         
         
-        if(heures < exigences.getHeuresMinParCategories().getInt("sous-catégories")){
+        if (heures < exigences.getHeuresMinParCategories().getInt("sous-catégories")) {
             resultat.setIncomplet();
             resultat.ajoutErreur("Il y a moins de 17 heures effectuées dans les sous-catégories");
         }
     }
 
-    private void caclulerHeures() {
+    private void caclulerHeures () {
         
         int heures;
         int heuresSousCategories;
         
-        for(Activite activite : declaration.getActivites()){
+        for (Activite activite : declaration.getActivites()) {
             
-            if(activite.isValide()){
+            if (activite.isValide()) {
                 
                 heures = heuresParCategories.getInt(activite.getCategorie());
                 heures += activite.getHeures();
                 heuresParCategories.put(activite.getCategorie(), heures);
-                if(exigences.getSousCategories().contains(activite.getCategorie())){
+                if (exigences.getSousCategories().contains(activite.getCategorie())) {
                     heures = heuresParCategories.getInt("sous-catégories");
                     heures += activite.getHeures();
                     heuresParCategories.put("sous-catégories", heures);
@@ -154,11 +155,11 @@ public class Traitement {
         }  
     }
 
-   public void ecrireStatistique() throws IOException {
+   public void ecrireStatistique () throws IOException {
         statistique.ecrire();
     }
 
-   public void compilerStatistique() throws Exception {
+   public void compilerStatistique () throws Exception {
         
         statistique.incrementerStat("déclarations_traitées");
         
@@ -198,12 +199,12 @@ public class Traitement {
         
         
         
-        if(declaration.isValide() && resultat.isComplet())
+        if (declaration.isValide() && resultat.isComplet())
             statistique.incrementerDeclarationComplete(declaration.getOrdre());
         
         
         
-        if(declaration.isValide() && !(resultat.isComplet()))
+        if (declaration.isValide() && !(resultat.isComplet()))
             statistique.incrementerDeclarationIncomplete(declaration.getOrdre());
         
         

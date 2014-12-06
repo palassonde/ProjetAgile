@@ -16,42 +16,42 @@ public class Activite {
     private final JSONObject activite;
     private boolean valide;
     
-    public Activite (JSONObject activite){
+    public Activite (JSONObject activite) {
         
         this.activite = activite;
         valide = true;
     }
     
-    public int getHeures(){
+    public int getHeures () {
         
         return activite.getInt("heures");
     }
     
-    public String getDescription(){
+    public String getDescription () {
         
         return activite.getString("description");
     }
     
-    public String getCategorie(){
+    public String getCategorie () {
         
         return activite.getString("categorie");
     }
    
-    public Date getParsedDate() throws Exception {
+    public Date getParsedDate () throws Exception {
         
         return ISO8601DateParser.parse(getDate());
     }
     
-    public String getDate() throws Exception {
+    public String getDate () throws Exception {
         
         return activite.getString("date");
     }
 
-    public boolean isValide() {
+    public boolean isValide () {
         return valide;
     }
     
-    public void setInvalide(){
+    public void setInvalide (){
         valide = false;
     }
     

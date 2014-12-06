@@ -28,31 +28,31 @@ public class Declaration {
         valide = true;
     }
     
-    public int getSexe(){       
+    public int getSexe (){       
         return declaration.getInt("sexe");
     }
     
-    public String getNom(){
+    public String getNom (){
         return declaration.getString("nom");
     }
     
-    public String getPrenom(){
+    public String getPrenom (){
         return declaration.getString("prenom");
     }
     
-    public String getOrdre(){       
+    public String getOrdre (){       
         return declaration.getString("ordre");
     }
     
-    public String getCycle(){        
+    public String getCycle (){        
         return declaration.getString("cycle");
     }
     
-    public String getNumeroPermis(){        
+    public String getNumeroPermis (){        
         return declaration.getString("numero_de_permis");
     }
     
-    public int getHeuresCyclePrecedent() {
+    public int getHeuresCyclePrecedent () {
         
         if(declaration.has("heures_transfere_cycle_precedent"))
             return declaration.getInt("heures_transfere_cycle_precedent");
@@ -60,11 +60,11 @@ public class Declaration {
         return 0;
     }
     
-    public ArrayList<Activite> getActivites(){       
+    public ArrayList<Activite> getActivites (){       
         return listeActivites;
     }
     
-    private void creerListeActivites() throws Exception {
+    private void creerListeActivites () throws Exception {
         
         for (int i = 0; i < activites.size(); i++){
             
@@ -76,11 +76,11 @@ public class Declaration {
     /**
      * @return the valide
      */
-    public boolean isValide() {
+    public boolean isValide () {
         return valide;
     }
 
-    public void setInvalide() {
+    public void setInvalide () {
         this.valide = false;
     }
      

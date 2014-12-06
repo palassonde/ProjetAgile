@@ -26,7 +26,7 @@ public class ExigencesOrdre {
     private int heuresCyclePrecedent;
     private int heuresMinimum;
 
-    ExigencesOrdre(Declaration declaration) throws IOException {
+    ExigencesOrdre (Declaration declaration) throws IOException {
         
         this.ordre = declaration.getOrdre();
         sousCategories = TraitementJSON.obtenirJSONObject("json/categories.json").getJSONArray("sous-catégories");
@@ -42,9 +42,9 @@ public class ExigencesOrdre {
         heuresCyclePrecedent = 0;
     }
 
-    private void setNormePermis(String nom, String prenom) {
+    private void setNormePermis (String nom, String prenom) {
         
-         switch(ordre){
+         switch (ordre) {
             case "architectes":
                 normePermis = "[AT]\\d{4}";
                 break;
@@ -60,12 +60,12 @@ public class ExigencesOrdre {
         }
     }
     
-    private void setHeuresMinimum(String cycle) {
+    private void setHeuresMinimum (String cycle) {
         
-        switch(ordre){
+        switch (ordre) {
             case "architectes":
                 heuresMinimum = 42;
-                if(cycle.equals("2012-2014"))
+                if (cycle.equals("2012-2014"))
                     heuresMinimum = 40;
                 break;
             case "podiatres":
@@ -80,9 +80,9 @@ public class ExigencesOrdre {
         }
     }
     
-    private void setHeuresMinimumParCategorie() {
+    private void setHeuresMinimumParCategorie () {
         
-        switch(ordre){
+        switch (ordre) {
             case "architectes":
                 break;
             case "géologues":
@@ -97,9 +97,9 @@ public class ExigencesOrdre {
         }
     }
     
-    private void setHeuresMaximumParCategorie() {
+    private void setHeuresMaximumParCategorie () {
         
-        switch(ordre){
+        switch (ordre) {
             case "architectes":
                 getHeuresMaxParCategories().put("présentation", 23);
                 getHeuresMaxParCategories().put("groupe de discussion", 17);
@@ -116,43 +116,43 @@ public class ExigencesOrdre {
         }
     }
     
-    private void setHeuresCyclePrecedent(int heures) {
+    private void setHeuresCyclePrecedent (int heures) {
         heuresCyclePrecedent = heures;
     }
 
-    public JSONArray getCyclesSupportes() {
+    public JSONArray getCyclesSupportes () {
         return cyclesSupportes;
     }
 
-    public JSONObject getCategories() {
+    public JSONObject getCategories () {
         return categories;
     }
 
-    public JSONArray getSousCategories() {
+    public JSONArray getSousCategories () {
         return sousCategories;
     }
 
-    public String getNormePermis() {
+    public String getNormePermis () {
         return normePermis;
     }
 
-    public String getOrdre() {
+    public String getOrdre () {
         return ordre;
     }
     
-    public JSONObject getHeuresMinParCategories() {
+    public JSONObject getHeuresMinParCategories () {
         return heuresMinParCategories;
     }
 
-    public JSONObject getHeuresMaxParCategories() {
+    public JSONObject getHeuresMaxParCategories () {
         return heuresMaxParCategories;
     }
 
-    public int getHeuresCyclePrecedent() {
+    public int getHeuresCyclePrecedent () {
         return heuresCyclePrecedent;
     }
 
-    public int getHeuresMinimum() {
+    public int getHeuresMinimum () {
         return heuresMinimum;
     }
 

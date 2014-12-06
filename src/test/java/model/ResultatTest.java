@@ -13,18 +13,18 @@ import static org.junit.Assert.*;
  */
 public class ResultatTest {
     
-    private Resultat leresultat;
+    private Resultat leResultat;
     
     @Before
     public void setUp () {
         
-       leresultat = new Resultat(); 
+       leResultat = new Resultat(); 
     }
     
     @After
     public void tearDown () {
         
-        leresultat = null;
+        leResultat = null;
     }
 
     /**
@@ -32,8 +32,9 @@ public class ResultatTest {
      */
     @Test
     public void testAjoutErreur () {
-       
         
+        leResultat.ajoutErreur("invalide");
+        assertFalse(leResultat.getErreurs().isEmpty());
     }
 
   
@@ -43,8 +44,9 @@ public class ResultatTest {
      */
     @Test
     public void testGetErreurs () {
-       
         
+         leResultat.ajoutErreur("invalide");
+         assertEquals(leResultat.getErreurs().getString(0),"invalide");
     }
 
     /**
@@ -53,7 +55,7 @@ public class ResultatTest {
     @Test
     public void testIsComplet () {
         
-        assertEquals(leresultat.isComplet(),true);
+        assertEquals(leResultat.isComplet(),true);
     }
 
     /**
@@ -62,7 +64,7 @@ public class ResultatTest {
     @Test
     public void testIsValidite () {
        
-        assertEquals(leresultat.isValidite(),true);
+        assertEquals(leResultat.isValidite(),true);
     }
     
 }
