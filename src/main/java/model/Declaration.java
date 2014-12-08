@@ -54,8 +54,11 @@ public class Declaration {
     
     public int getHeuresCyclePrecedent () {
         
-        if(declaration.has("heures_transfere_cycle_precedent"))
-            return declaration.getInt("heures_transfere_cycle_precedent");
+        if(declaration.has("heures_transferees_du_cycle_precedent")){
+            if (declaration.getInt("heures_transferees_du_cycle_precedent")>7)
+                return 7;
+            else return declaration.getInt("heures_transferees_du_cycle_precedent");
+        }
         
         return 0;
     }

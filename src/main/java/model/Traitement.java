@@ -13,13 +13,13 @@ import util.Validation;
  */
 public class Traitement {
     
-    Statistique statistique;
-    Resultat resultat;
-    Declaration declaration;
-    ExigencesOrdre exigences;
-    JSONObject heuresParCategories;
+    private final Statistique statistique;
+    private final Resultat resultat;
+    private final Declaration declaration;
+    private final ExigencesOrdre exigences;
+    private final JSONObject heuresParCategories;
     
-    int nbrHeuresTotal;
+    private int nbrHeuresTotal;
     
     public Traitement (Declaration declaration) throws IOException{
         
@@ -37,11 +37,13 @@ public class Traitement {
             resultat.setIncomplet();
             resultat.ajoutErreur("Il y a moins de "+exigences.getHeuresMinimum()+" heures effectués dans la formation continue");
         }
+        
     }
     
     private void calculerHeuresTotal () {
         
         Iterator<String> keys = heuresParCategories.keys();
+        nbrHeuresTotal += declaration.getHeuresCyclePrecedent();
         
         while (keys.hasNext()) {
             
@@ -62,15 +64,22 @@ public class Traitement {
 
    public void ecrireResultat (String fichierSortie) throws IOException {
         TraitementJSON.ecritureDeSortie(TraitementJSON.resultatToJSONObject(resultat), fichierSortie);
+        ecrireStatistique();
     }
 
-  public  void produireResultat () throws Exception {
+  public void produireResultat () throws Exception {
         
         verifierActivites();
+        validerCycle();
         caclulerHeures();
+        verifierHeuresSousCategories();
+        heuresParCategories.remove("sous-catégories");
         verifierHeuresMinimales();
         verifierHeuresMaximales();
-        verifierHeuresSousCategories();
+        calculerHeuresTotal();
+        verifierHeuresTotal();
+        compilerStatistique();
+        verifierValidite();
     }
     
     private void verifierActivites () throws Exception{
@@ -91,6 +100,11 @@ public class Traitement {
             }
             else if (!Validation.validerDescriptionActivite(activite)) {
                 activite.setInvalide();
+                resultat.setInvalide();
+            }
+            else if (!Validation.validerHeuresActivite(activite)){
+                activite.setInvalide();
+                resultat.setInvalide();
             }
         }   
     }
@@ -115,18 +129,20 @@ public class Traitement {
         
         while (keys.hasNext()) {
             String key = keys.next();
-            if (heuresParCategories.getInt(key) > exigences.getHeuresMaxParCategories().getInt(key))
-                heuresParCategories.put(key, exigences.getHeuresMaxParCategories().getInt(key));
+            if (exigences.getHeuresMaxParCategories().getInt(key) > 0){
+                if (heuresParCategories.getInt(key) > exigences.getHeuresMaxParCategories().getInt(key))
+                    heuresParCategories.put(key, exigences.getHeuresMaxParCategories().getInt(key));
+            }
         }
-        
     }
     
     private void verifierHeuresSousCategories () {
         
         int heures = 0;
-        heures += exigences.getHeuresCyclePrecedent();
-        heures += heuresParCategories.getInt("sous-catégories");
+        heures += declaration.getHeuresCyclePrecedent();
         
+        
+        heures += heuresParCategories.getInt("sous-catégories");
         
         if (heures < exigences.getHeuresMinParCategories().getInt("sous-catégories")) {
             resultat.setIncomplet();
@@ -164,17 +180,12 @@ public class Traitement {
         statistique.incrementerStat("déclarations_traitées");
         
         if ( resultat.isComplet() && declaration.isValide()) {
-            
             statistique.incrementerStat("déclarations_complètes");
-        
         }else{
              statistique.incrementerStat("déclarations_invalides");
         }
         
-        
-        
         if (declaration.getSexe()==0) {
-            
            statistique.incrementerStat("déclarations_homme"); 
         }else if (declaration.getSexe()==1){
             statistique.incrementerStat("déclarations_femmes");  
@@ -183,31 +194,37 @@ public class Traitement {
             statistique.incrementerStat("déclarations_sexe_inconnu");  
         }
         
-        for (Activite activite: declaration.getActivites()){
-            
-            
+        for (Activite activite: declaration.getActivites()){  
             if (activite.isValide()){
                 statistique.incrementerStat("activités_valides"); 
                 statistique.incrementerCategorie(activite.getCategorie());
              }
         }
-        
-        
-        
-        if (!Validation.validerPermis(exigences.getNormePermis(), declaration.getNumeroPermis()))
+
+        if (!Validation.validerPermis(exigences.getNormePermis(), declaration.getNumeroPermis())){
+            resultat.setInvalide();
             statistique.incrementerStat("déclaration_permis_invalides"); 
-        
-        
-        
+        }
+
         if (declaration.isValide() && resultat.isComplet())
             statistique.incrementerDeclarationComplete(declaration.getOrdre());
         
-        
-        
         if (declaration.isValide() && !(resultat.isComplet()))
             statistique.incrementerDeclarationIncomplete(declaration.getOrdre());
+      
+    }
+
+    public void verifierValidite() throws Exception {
         
+        if(!resultat.isValidite())
+            throw new Exception("La déclaration est invalide");   
+    }
+    
+    public void gestionErreur(){
         
+        resultat.setIncomplet();
+        resultat.getErreurs().clear();
+        resultat.ajoutErreur("Le fichier d'entrée est invalide, le cycle est incomplet"); 
     }
 
 }

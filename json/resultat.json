@@ -1,7 +1,4 @@
 {
     "complet": false,
-    "erreurs":     [
-        "La catégorie Visite d'établissements architecturaux n'est pas supporté",
-        "Il y a moins de 22 heures effectuées dans la catégorie cours"
-    ]
+    "erreurs": ["Le fichier d'entrée est invalide, le cycle est incomplet"]
 }

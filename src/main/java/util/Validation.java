@@ -22,7 +22,7 @@ public class Validation {
     
     public static boolean validerHeuresActivite (Activite activite) throws Exception {
 
-        return activite.getHeures() >= 1;
+        return activite.getHeures() >= 0;
     }
     
     public static boolean validerDescriptionActivite (Activite activite){

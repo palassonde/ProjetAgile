@@ -1,0 +1,18 @@
+{
+    "nom": "Kant",
+    "prenom": "Emmanuel",
+    "sexe": 1,
+    "ordre": "architectes",
+    "numero_de_permis": "A000",
+    "cycle": "2012-2014",
+    "heures_transferees_du_cycle_precedent" : 9,
+    
+    "activites": [
+        {
+            "description": "cours histoire civilisation danger",
+            "categorie": "cours",
+            "heures": 10,
+            "date": "2013-10-20"
+        }
+    ]
+}

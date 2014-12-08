@@ -23,7 +23,6 @@ public class ExigencesOrdre {
     private final JSONObject heuresMinParCategories;
     private final JSONObject heuresMaxParCategories;
     
-    private int heuresCyclePrecedent;
     private int heuresMinimum;
 
     ExigencesOrdre (Declaration declaration) throws IOException {
@@ -38,8 +37,6 @@ public class ExigencesOrdre {
         setHeuresMinimumParCategorie();
         setHeuresMaximumParCategorie();
         setHeuresMinimum(declaration.getCycle());
-        setHeuresCyclePrecedent(declaration.getHeuresCyclePrecedent());
-        heuresCyclePrecedent = 0;
     }
 
     private void setNormePermis (String nom, String prenom) {
@@ -84,15 +81,16 @@ public class ExigencesOrdre {
         
         switch (ordre) {
             case "architectes":
+                heuresMinParCategories.put("sous-catégories", 17);
                 break;
             case "géologues":
             case "podiatres":
-                getHeuresMinParCategories().put("cours", 22);
-                getHeuresMinParCategories().put("projet de recherche", 3);
-                getHeuresMinParCategories().put("groupe de discussion", 1);
+                heuresMinParCategories.put("cours", 22);
+                heuresMinParCategories.put("projet de recherche", 3);
+                heuresMinParCategories.put("groupe de discussion", 1);
                 break;
             case "psychologues":
-                getHeuresMinParCategories().put("cours", 25);
+                heuresMinParCategories.put("cours", 25);
                 break;
         }
     }
@@ -101,25 +99,21 @@ public class ExigencesOrdre {
         
         switch (ordre) {
             case "architectes":
-                getHeuresMaxParCategories().put("présentation", 23);
-                getHeuresMaxParCategories().put("groupe de discussion", 17);
-                getHeuresMaxParCategories().put("projet de recherche", 23);
-                getHeuresMaxParCategories().put("rédaction professionnelle", 17);
+                heuresMaxParCategories.put("présentation", 23);
+                heuresMaxParCategories.put("groupe de discussion", 17);
+                heuresMaxParCategories.put("projet de recherche", 23);
+                heuresMaxParCategories.put("rédaction professionnelle", 17);
                 break;
             case "podiatres":
                 break;
             case "géologues":
                 break;
             case "psychologues":
-                getHeuresMaxParCategories().put("conférence", 15);
+                heuresMaxParCategories.put("conférence", 15);
                 break;
         }
     }
     
-    private void setHeuresCyclePrecedent (int heures) {
-        heuresCyclePrecedent = heures;
-    }
-
     public JSONArray getCyclesSupportes () {
         return cyclesSupportes;
     }
@@ -146,10 +140,6 @@ public class ExigencesOrdre {
 
     public JSONObject getHeuresMaxParCategories () {
         return heuresMaxParCategories;
-    }
-
-    public int getHeuresCyclePrecedent () {
-        return heuresCyclePrecedent;
     }
 
     public int getHeuresMinimum () {

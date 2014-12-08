@@ -33,6 +33,7 @@ public class Resultat {
     public void setInvalide () {
         
         this.validite = false;
+        setIncomplet();
     }
 
     /**
