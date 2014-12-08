@@ -64,7 +64,7 @@ public class ResultatTest {
     @Test
     public void testIsValidite () {
        
-        assertEquals(leResultat.isValidite(),true);
+        assertEquals(leResultat.isValide(),true);
     }
     
 }

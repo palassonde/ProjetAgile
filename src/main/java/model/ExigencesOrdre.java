@@ -23,7 +23,7 @@ public class ExigencesOrdre {
     private final JSONObject heuresMinParCategories;
     private final JSONObject heuresMaxParCategories;
     
-    private int heuresMinimum;
+    private int heuresMinimumRequis;
 
     ExigencesOrdre (Declaration declaration) throws IOException {
         
@@ -61,18 +61,18 @@ public class ExigencesOrdre {
         
         switch (ordre) {
             case "architectes":
-                heuresMinimum = 42;
+                heuresMinimumRequis = 42;
                 if (cycle.equals("2012-2014"))
-                    heuresMinimum = 40;
+                    heuresMinimumRequis = 40;
                 break;
             case "podiatres":
-                heuresMinimum = 60;
+                heuresMinimumRequis = 60;
                 break;
             case "géologues":
-                heuresMinimum = 55;
+                heuresMinimumRequis = 55;
                 break;
             case "psychologues":
-                heuresMinimum = 90;
+                heuresMinimumRequis = 90;
                 break;
         }
     }
@@ -143,7 +143,7 @@ public class ExigencesOrdre {
     }
 
     public int getHeuresMinimum () {
-        return heuresMinimum;
+        return heuresMinimumRequis;
     }
 
 }

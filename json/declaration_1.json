@@ -1,17 +1,29 @@
 {
     "nom": "Kant",
     "prenom": "Emmanuel",
-    "sexe": 1,
+    "sexe": 0,
     "ordre": "architectes",
-    "numero_de_permis": "A000",
-    "cycle": "2012-2014",
-    "heures_transferees_du_cycle_precedent" : 9,
+    "numero_de_permis": "A0001",
+    "cycle": "2010-2012",
+    "heures_transferees_du_cycle_precedent" : 1,
     
     "activites": [
         {
             "description": "cours histoire civilisation danger",
             "categorie": "cours",
-            "heures": 10,
+            "heures": 25,
+            "date": "2013-10-20"
+        },
+        {
+            "description": "cours histoire civilisation danger",
+            "categorie": "conférence",
+            "heures": 90,
+            "date": "2013-10-20"
+        },
+        {
+            "description": "cours histoire civilisation danger",
+            "categorie": "séminaire",
+            "heures": 90,
             "date": "2013-10-20"
         }
     ]

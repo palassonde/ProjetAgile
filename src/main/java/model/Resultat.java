@@ -11,13 +11,13 @@ public class Resultat {
     
     private final JSONArray erreurs;
     private boolean complet;
-    private boolean validite;
+    private boolean valide;
     
     public Resultat () {
         
         erreurs = new JSONArray();
         complet = true;
-        validite = true;
+        valide = true;
     }
     
     public void ajoutErreur (String msg) {
@@ -32,7 +32,7 @@ public class Resultat {
     
     public void setInvalide () {
         
-        this.validite = false;
+        this.valide = false;
         setIncomplet();
     }
 
@@ -53,8 +53,8 @@ public class Resultat {
     /**
      * @return the validite
      */
-    public boolean isValidite () {
-        return validite;
+    public boolean isValide () {
+        return valide;
     }
     
     

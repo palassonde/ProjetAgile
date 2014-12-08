@@ -17,7 +17,6 @@ public class Declaration {
     private final JSONObject declaration;
     private final JSONArray activites;
     private final ArrayList<Activite> listeActivites;
-    private boolean valide;
     
     public Declaration (String emplacement) throws IOException, Exception{
 
@@ -25,7 +24,6 @@ public class Declaration {
         activites = declaration.getJSONArray("activites");
         listeActivites = new ArrayList<>();
         creerListeActivites();
-        valide = true;
     }
     
     public int getSexe (){       
@@ -75,16 +73,5 @@ public class Declaration {
             listeActivites.add(activite);
         }
     }
-
-    /**
-     * @return the valide
-     */
-    public boolean isValide () {
-        return valide;
-    }
-
-    public void setInvalide () {
-        this.valide = false;
-    }
-     
+    
 }

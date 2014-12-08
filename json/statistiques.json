@@ -1,35 +1,35 @@
 {
-    "déclarations_traitées": 69,
-    "déclarations_complètes": 34,
-    "déclarations_invalides": 35,
-    "déclarations_hommes": 0,
-    "déclarations_femmes": 69,
+    "déclarations_traitées": 13,
+    "déclarations_complètes": 9,
+    "déclarations_invalides": 4,
+    "déclarations_hommes": 1,
+    "déclarations_femmes": 11,
     "déclarations_sexe_inconnu": 0,
-    "activités_valides": 316,
-    "déclaration_permis_invalides": 18,
+    "activités_valides": 34,
+    "déclaration_permis_invalides": 4,
     "activités_valides_par_catégories":     {
-        "cours": 61,
+        "cours": 12,
         "atelier": 0,
-        "séminaire": 63,
+        "séminaire": 9,
         "colloque": 0,
-        "conférence": 63,
+        "conférence": 11,
         "lecture dirigée": 0,
         "présentation": 0,
-        "groupe de discussion": 3,
-        "projet de recherche": 63,
-        "rédaction professionnelle": 63,
+        "groupe de discussion": 0,
+        "projet de recherche": 1,
+        "rédaction professionnelle": 1,
         "formation continue": 0
     },
     "déclarations_valides_et_complètes_par_ordre_professionnelle":     {
-        "architectes": 29,
-        "psychologues": 0,
+        "architectes": 3,
+        "psychologues": 1,
         "géologues": 0,
         "podiatres": 0
     },
     "déclarations_valides_et_incomplètes_par_ordre_professionnelle":     {
-        "architectes": 37,
-        "psychologues": 0,
+        "architectes": 1,
+        "psychologues": 4,
         "géologues": 0,
-        "podiatres": 3
+        "podiatres": 0
     }
 }

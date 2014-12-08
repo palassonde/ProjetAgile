@@ -100,16 +100,5 @@ public class DeclarationTest {
        
       assertEquals(declaration.getActivites().get(0).getCategorie(),"cours");
     }
-
-    /**
-     * Test of isValide method, of class Declaration.
-     */
-    @Test
-    public void testIsValide () {
-        
-       assertEquals(declaration.isValide(),true);
-    }
-
-  
     
 }

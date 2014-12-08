@@ -35,7 +35,7 @@ public class Traitement {
         if (nbrHeuresTotal < exigences.getHeuresMinimum()) {
             
             resultat.setIncomplet();
-            resultat.ajoutErreur("Il y a moins de "+exigences.getHeuresMinimum()+" heures effectués dans la formation continue");
+            resultat.ajoutErreur("Il y a moins de "+exigences.getHeuresMinimum()+" heures effectuées dans la formation continue");
         }
         
     }
@@ -58,7 +58,7 @@ public class Traitement {
         if (!Validation.validerCycle(exigences.getCyclesSupportes(), declaration.getCycle())) {
             
             resultat.setIncomplet();
-            resultat.ajoutErreur("Le cycle ne correspond à aucun des cycles supportes");
+            resultat.ajoutErreur("Le cycle ne correspond à aucun des cycles supportés");
         }      
     }
 
@@ -88,7 +88,7 @@ public class Traitement {
             
             if (!Validation.validerDateActivite(exigences.getCyclesSupportes(), activite.getParsedDate())) {
                 activite.setInvalide();
-                resultat.ajoutErreur("L'activité "+ activite.getDescription() +" a été effectué à l'extérieur de l'intervalle demandé");
+                resultat.ajoutErreur("L'activité "+ activite.getDescription() +" a été effectuée à l'extérieur de l'intervalle demandé");
             }
             else if (!Validation.validerFormatDate(activite.getDate())) {
                 activite.setInvalide();
@@ -96,7 +96,7 @@ public class Traitement {
             }
             else if (!exigences.getCategories().has(activite.getCategorie())) {
                 activite.setInvalide();
-                resultat.ajoutErreur("La catégorie "+ activite.getDescription() +" n'est pas supporté");
+                resultat.ajoutErreur("La catégorie "+ activite.getCategorie() +" n'est pas supportée");
             }
             else if (!Validation.validerDescriptionActivite(activite)) {
                 activite.setInvalide();
@@ -179,14 +179,14 @@ public class Traitement {
         
         statistique.incrementerStat("déclarations_traitées");
         
-        if ( resultat.isComplet() && declaration.isValide()) {
+        if ( resultat.isComplet() && resultat.isValide()) {
             statistique.incrementerStat("déclarations_complètes");
         }else{
              statistique.incrementerStat("déclarations_invalides");
         }
         
         if (declaration.getSexe()==0) {
-           statistique.incrementerStat("déclarations_homme"); 
+           statistique.incrementerStat("déclarations_hommes"); 
         }else if (declaration.getSexe()==1){
             statistique.incrementerStat("déclarations_femmes");  
         }else if (declaration.getSexe()==2){
@@ -206,17 +206,17 @@ public class Traitement {
             statistique.incrementerStat("déclaration_permis_invalides"); 
         }
 
-        if (declaration.isValide() && resultat.isComplet())
+        if (resultat.isValide() && resultat.isComplet())
             statistique.incrementerDeclarationComplete(declaration.getOrdre());
         
-        if (declaration.isValide() && !(resultat.isComplet()))
+        if (resultat.isValide() && !(resultat.isComplet()))
             statistique.incrementerDeclarationIncomplete(declaration.getOrdre());
       
     }
 
     public void verifierValidite() throws Exception {
         
-        if(!resultat.isValidite())
+        if(!resultat.isValide())
             throw new Exception("La déclaration est invalide");   
     }
     
@@ -224,7 +224,7 @@ public class Traitement {
         
         resultat.setIncomplet();
         resultat.getErreurs().clear();
-        resultat.ajoutErreur("Le fichier d'entrée est invalide, le cycle est incomplet"); 
+        resultat.ajoutErreur("Le fichier entré est invalide, le cycle est incomplet"); 
     }
 
 }
