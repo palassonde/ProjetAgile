@@ -86,7 +86,7 @@ public class Traitement {
          
         for (Activite activite : declaration.getActivites()) {
             
-            if (!Validation.validerDateActivite(exigences.getCyclesSupportes(), activite.getParsedDate())) {
+            if (!Validation.validerDateActivite(exigences.getCyclesSupportes(), activite.getParsedDate(), declaration.getCycle())) {
                 activite.setInvalide();
                 resultat.ajoutErreur("L'activité "+ activite.getDescription() +" a été effectuée à l'extérieur de l'intervalle demandé");
             }

@@ -53,17 +53,17 @@ public class Validation {
         return date.matches("\\d{4}-\\d{2}-\\d{2}");
     }
     
-    public static boolean validerDateActivite(JSONArray cyclesSupportes, Date date) throws Exception{
+    public static boolean validerDateActivite(JSONArray cyclesSupportes, Date date, String cycleActuel) throws Exception{
         
         Date dateMin;
         Date dateMax;
         
         for (int i = 0; i < cyclesSupportes.size(); i++){
             
-            dateMin = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMin"));
-            dateMax = ISO8601DateParser.parse(cyclesSupportes.getJSONObject(i).getString("dateMax"));
+            dateMin = LectureDateISO8601.lire(cyclesSupportes.getJSONObject(i).getString("dateMin"));
+            dateMax = LectureDateISO8601.lire(cyclesSupportes.getJSONObject(i).getString("dateMax"));
           
-            if(date.after(dateMin) && date.before(dateMax))
+            if(cyclesSupportes.getJSONObject(i).getString("cycle").equals(cycleActuel) && (date.after(dateMin) && date.before(dateMax)))
                 return true;
         }
  

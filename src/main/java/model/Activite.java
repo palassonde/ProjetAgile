@@ -1,9 +1,9 @@
 
 package model;
 
-import util.ISO8601DateParser;
 import java.util.Date;
 import net.sf.json.JSONObject;
+import util.LectureDateISO8601;
 
 /**
  *
@@ -39,7 +39,7 @@ public class Activite {
    
     public Date getParsedDate () throws Exception {
         
-        return ISO8601DateParser.parse(getDate());
+        return LectureDateISO8601.lire(getDate());
     }
     
     public String getDate () throws Exception {

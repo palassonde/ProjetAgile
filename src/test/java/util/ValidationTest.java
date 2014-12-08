@@ -122,8 +122,9 @@ public class ValidationTest {
        
         JSONArray cyclesSupportes = null;
         Date date = null;
+        String cycle = null;
         boolean expResult = false;
-        boolean result = Validation.validerDateActivite(cyclesSupportes, date);
+        boolean result = Validation.validerDateActivite(cyclesSupportes, date, cycle);
         assertEquals(expResult, result);
         
     }
